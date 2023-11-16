@@ -5,13 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="469d34e7-2add-4849-bd7c-1274aa448bfc" name="Changes" comment="a">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/game/rougeclans/model/beans/Civilizacion.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/game/rougeclans/model/beans/Guerra.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/game/rougeclans/model/beans/Jugador.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/game/rougeclans/model/beans/Persona.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../database/rojo.mwb" beforeDir="false" afterPath="$PROJECT_DIR$/../database/rojo.mwb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../database/rojo.sql" beforeDir="false" afterPath="$PROJECT_DIR$/../database/rojo.sql" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/game/rougeclans/model/beans/Persona.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/game/rougeclans/model/beans/Persona.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -164,7 +159,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1700098380790</updated>
-      <workItem from="1700141394064" duration="1848000" />
+      <workItem from="1700141394064" duration="3526000" />
     </task>
     <task id="LOCAL-00001" summary="a">
       <option name="closed" value="true" />
@@ -182,7 +177,15 @@
       <option name="project" value="LOCAL" />
       <updated>1700142507372</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="a">
+      <option name="closed" value="true" />
+      <created>1700143307752</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1700143307752</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
