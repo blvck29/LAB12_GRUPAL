@@ -18,14 +18,14 @@ USE `rojo` ;
 -- Table `rojo`.`jugadores`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `rojo`.`jugadores` (
-  `idjugadores` INT NOT NULL AUTO_INCREMENT,
+  `id_jugador` INT NOT NULL AUTO_INCREMENT,
   `nombre` VARCHAR(20) NOT NULL,
   `edad` INT NOT NULL,
   `correo` VARCHAR(36) NOT NULL,
   `usuario` VARCHAR(20) NOT NULL,
   `contrasena` VARCHAR(64) NOT NULL,
-  `ban` TINYINT NOT NULL DEFAULT 0,
-  PRIMARY KEY (`idjugadores`),
+  `lista_negra` TINYINT NOT NULL DEFAULT 0,
+  PRIMARY KEY (`id_jugador`),
   UNIQUE INDEX `usuario_UNIQUE` (`usuario` ASC) VISIBLE,
   UNIQUE INDEX `correo_UNIQUE` (`correo` ASC) VISIBLE)
 ENGINE = InnoDB;
@@ -35,9 +35,9 @@ ENGINE = InnoDB;
 -- Table `rojo`.`roles`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `rojo`.`roles` (
-  `id_roles` VARCHAR(6) NOT NULL,
+  `id_rol` VARCHAR(6) NOT NULL,
   `profesion` VARCHAR(12) NOT NULL,
-  PRIMARY KEY (`id_roles`),
+  PRIMARY KEY (`id_rol`),
   UNIQUE INDEX `profesion_UNIQUE` (`profesion` ASC) VISIBLE)
 ENGINE = InnoDB;
 
@@ -46,9 +46,9 @@ ENGINE = InnoDB;
 -- Table `rojo`.`nombres`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `rojo`.`nombres` (
-  `id_nombres` INT NOT NULL,
+  `id_nombre` INT NOT NULL,
   `nombre` VARCHAR(10) NOT NULL DEFAULT 'Alvaro',
-  PRIMARY KEY (`id_nombres`))
+  PRIMARY KEY (`id_nombre`))
 ENGINE = InnoDB;
 
 
@@ -57,7 +57,7 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `rojo`.`civilizaciones` (
   `id_civilizacion` INT NOT NULL AUTO_INCREMENT,
-  `id_jugadores` INT NOT NULL,
+  `id_jugador` INT NOT NULL,
   `estado` VARCHAR(8) NOT NULL DEFAULT 'PAZ',
   `time_elapsed` INT NOT NULL DEFAULT '0',
   `days_elapsed` INT NOT NULL DEFAULT '0',
@@ -65,10 +65,10 @@ CREATE TABLE IF NOT EXISTS `rojo`.`civilizaciones` (
   `poblacion_total` INT NOT NULL DEFAULT 0,
   `fuerza_total` INT NOT NULL DEFAULT 0,
   PRIMARY KEY (`id_civilizacion`),
-  INDEX `fk_civilizaciones_jugadores1_idx` (`id_jugadores` ASC) VISIBLE,
+  INDEX `fk_civilizaciones_jugadores1_idx` (`id_jugador` ASC) VISIBLE,
   CONSTRAINT `fk_civilizaciones_jugadores1`
-    FOREIGN KEY (`id_jugadores`)
-    REFERENCES `rojo`.`jugadores` (`idjugadores`)
+    FOREIGN KEY (`id_jugador`)
+    REFERENCES `rojo`.`jugadores` (`id_jugador`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
@@ -88,10 +88,10 @@ ENGINE = InnoDB;
 -- Table `rojo`.`personas`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `rojo`.`personas` (
-  `id_personas` INT NOT NULL AUTO_INCREMENT,
+  `id_persona` INT NOT NULL AUTO_INCREMENT,
   `id_civilizacion` INT NOT NULL,
-  `id_roles` VARCHAR(6) NOT NULL,
-  `id_nombres` INT NOT NULL,
+  `id_rol` VARCHAR(6) NOT NULL,
+  `id_nombre` INT NOT NULL,
   `genero` VARCHAR(1) NOT NULL,
   `alimento_dia` INT NOT NULL,
   `moral` INT NOT NULL,
@@ -100,20 +100,20 @@ CREATE TABLE IF NOT EXISTS `rojo`.`personas` (
   `exiliado` TINYINT NOT NULL DEFAULT 0,
   `alimentado` TINYINT NOT NULL DEFAULT 0,
   `days_alive` INT NOT NULL DEFAULT 0,
-  `idmuerte` VARCHAR(10) NOT NULL DEFAULT 'VIVO',
-  PRIMARY KEY (`id_personas`),
-  INDEX `fk_personas_roles_idx` (`id_roles` ASC) VISIBLE,
-  INDEX `fk_personas_nombres1_idx` (`id_nombres` ASC) VISIBLE,
+  `id_muerte` VARCHAR(10) NOT NULL DEFAULT 'VIVO',
+  PRIMARY KEY (`id_persona`),
+  INDEX `fk_personas_roles_idx` (`id_rol` ASC) VISIBLE,
+  INDEX `fk_personas_nombres1_idx` (`id_nombre` ASC) VISIBLE,
   INDEX `fk_personas_civilizaciones1_idx` (`id_civilizacion` ASC) VISIBLE,
-  INDEX `fk_personas_muerte1_idx` (`idmuerte` ASC) VISIBLE,
+  INDEX `fk_personas_muerte1_idx` (`id_muerte` ASC) VISIBLE,
   CONSTRAINT `fk_personas_roles`
-    FOREIGN KEY (`id_roles`)
-    REFERENCES `rojo`.`roles` (`id_roles`)
+    FOREIGN KEY (`id_rol`)
+    REFERENCES `rojo`.`roles` (`id_rol`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_personas_nombres1`
-    FOREIGN KEY (`id_nombres`)
-    REFERENCES `rojo`.`nombres` (`id_nombres`)
+    FOREIGN KEY (`id_nombre`)
+    REFERENCES `rojo`.`nombres` (`id_nombre`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_personas_civilizaciones1`
@@ -122,7 +122,7 @@ CREATE TABLE IF NOT EXISTS `rojo`.`personas` (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_personas_muerte1`
-    FOREIGN KEY (`idmuerte`)
+    FOREIGN KEY (`id_muerte`)
     REFERENCES `rojo`.`muerte` (`id_muerte`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
