@@ -19,9 +19,13 @@
 
   <div class="login text-light">
 
-    <div style="margin-top: 240px"></div>
+    <div style="margin-top: 20%;"></div>
+
+    <div class="logo">
+      <img src="media/logo.png" width="650px" height="auto" alt="logo">
+    </div>
     <div>
-      <h1 class="display-3">Bienvenido</h1>
+      <h1 class="display-3" style="margin-top: 5%">Bienvenido</h1>
     </div>
 
 
