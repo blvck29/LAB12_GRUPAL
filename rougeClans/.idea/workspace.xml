@@ -9,23 +9,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="469d34e7-2add-4849-bd7c-1274aa448bfc" name="Changes" comment="a">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/game/rougeclans/model/SHA256.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/game/rougeclans/model/daos/JugadorDao.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/css/login_styles.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/fonts/MedievalSharp/MedievalSharp-Regular.ttf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/fonts/MedievalSharp/OFL.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/login/confirmation.jsp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/login/register.jsp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/login/unvalid_session.jsp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/media/background.mp4" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/pages/guerra.jsp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/pages/inicio.jsp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/pages/leaderboard.jsp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/pages/personas.jsp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/pages/recursos.jsp" afterDir="false" />
+    <list default="true" id="469d34e7-2add-4849-bd7c-1274aa448bfc" name="Changes" comment="login design">
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/css/styles.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/index.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/index.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/game/rougeclans/servlets/LoginServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/game/rougeclans/servlets/LoginServlet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/game/rougeclans/servlets/LogoutServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/game/rougeclans/servlets/LogoutServlet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/pages/inicio.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/pages/inicio.jsp" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -186,7 +175,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1700098380790</updated>
-      <workItem from="1700141394064" duration="10271000" />
+      <workItem from="1700141394064" duration="13931000" />
     </task>
     <task id="LOCAL-00001" summary="a">
       <option name="closed" value="true" />
@@ -220,7 +209,15 @@
       <option name="project" value="LOCAL" />
       <updated>1700144936405</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="login design">
+      <option name="closed" value="true" />
+      <created>1700151694779</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1700151694779</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -240,6 +237,7 @@
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
     <MESSAGE value="a" />
-    <option name="LAST_COMMIT_MESSAGE" value="a" />
+    <MESSAGE value="login design" />
+    <option name="LAST_COMMIT_MESSAGE" value="login design" />
   </component>
 </project>
