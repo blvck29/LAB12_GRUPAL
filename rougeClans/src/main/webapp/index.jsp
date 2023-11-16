@@ -19,7 +19,7 @@
 
   <div class="login text-light">
 
-    <div style="margin-top: 240px"></div>
+    <div style="margin-top: 0"></div>
     <div>
       <h1 class="display-3">Bienvenido</h1>
     </div>
