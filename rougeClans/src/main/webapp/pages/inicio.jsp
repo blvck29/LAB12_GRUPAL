@@ -93,55 +93,64 @@
         </nav>
 
 
-        <main class="content px-3 py-2">
-            <div class="container-fluid">
-                <div class="mb-3">
-                    <h4>Menú de Inicio</h4>
+        <main class="content py-5 px-5">
+
+            <div class="card">
+                <div class="card-header">
+                    Datos de la Civilización
                 </div>
-                <div class="row">
-                    <div class="col-12 col-md-6 d-flex">
-                        <div class="card flex-fill border-0 illustration">
-                            <div class="card-body p-0 d-flex flex-fill">
-                                <div class="row g-0 w-100">
-                                    <div class="col-6">
-                                        <div class="p-3 m-1">
-                                            <h4>Hola</h4>
-                                            <p class="mb-0">uwu</p>
-                                        </div>
-                                    </div>
-                                    <div class="col-6 align-self-end text-end">
-                                        <img src="#" class="img-fluid illustration-img" alt="">
-                                    </div>
-                                </div>
-                            </div>
+                <div class="card-body">
+                    <blockquote class="blockquote mb-0">
+                        <p><display4>Nombre de la Civilización</display4></p>
+                        <footer class="blockquote-footer"><cite title="Source Title"></cite>Puesto #10023</footer>
+                        <div class="user_data">
+                            <p>Líder: @Usuario</p>
+                            <p>Tiempo: @Dias @Horas</p>
+                            <p>Estado: @Paz/Guerra</p>
                         </div>
-                    </div>
-                    <div class="col-12 col-md-6 d-flex">
-                        <div class="card flex-fill border-0">
-                            <div class="card-body py-4">
-                                <div class="d-flex align-items-start">
-                                    <div class="flex-grow-1">
-                                        <h4 class="mb-2">
-                                            sadfasdf
-                                        </h4>
-                                        <p class="mb-2">
-                                            afdadsfdsaf
-                                        </p>
-                                        <div class="mb-0">
-                                            <span class="badge text-succes me-2">
-                                                +0%
-                                            </span>
-                                            <span class="text-muted">
-                                                asdafd
-                                            </span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    </blockquote>
                 </div>
             </div>
+
+
+            <div class="card">
+                <div class="card-header">
+                    Datos de la Civilización
+                </div>
+                <div class="card-body">
+                    <blockquote class="blockquote mb-0">
+                        <p><display4>Nombre de la Civilización</display4></p>
+                        <footer class="blockquote-footer"><cite title="Source Title"></cite>Puesto #10023</footer>
+                    </blockquote>
+                </div>
+            </div>
+
+
+            <div class="card">
+                <div class="card-header">
+                    Datos de la Civilización
+                </div>
+                <div class="card-body">
+                    <blockquote class="blockquote mb-0">
+                        <p><display4>Nombre de la Civilización</display4></p>
+                        <footer class="blockquote-footer"><cite title="Source Title"></cite>Puesto #10023</footer>
+                    </blockquote>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    Datos de la Civilización
+                </div>
+                <div class="card-body">
+                    <blockquote class="blockquote mb-0">
+                        <p><display4>Nombre de la Civilización</display4></p>
+                        <footer class="blockquote-footer"><cite title="Source Title"></cite>Puesto #10023</footer>
+                    </blockquote>
+                </div>
+            </div>
+
+
         </main>
     </div>
 </div>
