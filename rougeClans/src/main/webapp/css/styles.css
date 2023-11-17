@@ -93,6 +93,18 @@ h4 {
     display: inline-block;
 }
 
+.subtitle_card {
+    color: #e1e1e1;
+    font-size: 1.5rem;
+    display: inline-block;
+}
+
+.subcard_title {
+    color: #e1e1e1;
+    font-size: 1.2rem;
+    display: inline-block;
+}
+
 .badge {
     color: #bdbdbd;
     font-size: 1.6rem;
@@ -122,7 +134,7 @@ h4 {
         display: grid;
         gap: 10px;
         grid-template-columns: repeat(4,25%);
-        grid-template-rows: 1.5fr 1fr 1.5fr 1fr;
+        grid-template-rows: 1.5fr 0.5fr 1.5fr 1.5fr;
     }
 
     .content > div:first-child {

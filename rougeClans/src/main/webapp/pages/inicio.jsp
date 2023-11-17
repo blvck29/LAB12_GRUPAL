@@ -101,8 +101,8 @@
 
             <div class="custom_card">
                 <div>
-                    <div class="title_card">Civilización Romana </div>
-                    <div class="badge">#1310</div>
+                    <div class="title_card" style="font-weight: bold">Civilización Romana </div>
+                    <div class="badge">Puesto #1310</div>
                     <hr style="margin-top: 0">
                 </div>
                     <div class="personal_statistics">
@@ -122,14 +122,70 @@
 
 
             <div class="custom_card">
+                <div>
+                    <div class="subtitle_card">Ultimo Conflicto</div>
+                    <hr style="margin-top: 0">
+                </div>
             </div>
 
-            <div class="custom_card">3</div>
-            <div class="custom_card">4</div>
-            <div class="custom_card">5</div>
-            <div class="custom_card">6</div>
 
-            <div class="custom_card">7</div>
+
+            <div class="custom_card">
+                <div>
+                    <div class="subcard_title">Gestión de Personas</div>
+                    <hr style="margin-top: 0">
+                    <div class="infos">
+                        Una civilización grande es más fuerte.
+                        <a href="#" class="access_subcard">
+                            <ion-icon name="arrow-forward-circle"></ion-icon>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="custom_card">
+                <div>
+                    <div class="subcard_title">Gestión de Recursos</div>
+                    <hr style="margin-top: 0">
+                    <div class="infos">
+                        Asegura y cuida el futuro del pueblo.
+                        <a href="#" class="access_subcard">
+                            <ion-icon name="arrow-forward-circle"></ion-icon>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="custom_card">
+                <div>
+                    <div class="subcard_title">Iniciar una Guerra</div>
+                    <hr style="margin-top: 0">
+                    <div class="infos">
+                        Conviertete en el más fuerte de todos.
+                        <a href="#" class="access_subcard">
+                            <ion-icon name="arrow-forward-circle"></ion-icon>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="custom_card">
+                <div>
+                    <div class="subcard_title">LeaderBoard</div>
+                    <hr style="margin-top: 0">
+                    <div class="infos">
+                        @USUARIO posee la civilización más poderosa.
+                        <a href="#" class="access_subcard">
+                            <ion-icon name="arrow-forward-circle"></ion-icon>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="custom_card">
+                <div>
+                    <div class="subtitle_card">Personas Creadas</div>
+                    <hr style="margin-top: 0">
+                </div>
+            </div>
 
 
         </main>
