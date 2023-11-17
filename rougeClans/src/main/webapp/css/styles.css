@@ -44,7 +44,7 @@ h4 {
 #sidebar {
     max-width: 264px;
     min-width: 264px;
-    background: #1c1c1c;
+    background-image: url("../media/background_perg.png");
     transition: all 0.35s ease-in-out;
 }
 

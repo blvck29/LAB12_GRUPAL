@@ -129,17 +129,17 @@
                                 <div class="d-flex align-items-start">
                                     <div class="flex-grow-1">
                                         <h4 class="mb-2">
-                                            gaa
+                                            sadfasdf
                                         </h4>
                                         <p class="mb-2">
-                                            el pepe
+                                            afdadsfdsaf
                                         </p>
                                         <div class="mb-0">
                                             <span class="badge text-succes me-2">
                                                 +0%
                                             </span>
                                             <span class="text-muted">
-                                                defakd
+                                                asdafd
                                             </span>
                                         </div>
                                     </div>
