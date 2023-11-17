@@ -53,6 +53,9 @@ public class PersonaDao extends DaoBase{
 
     public void crearPersona(int idCivilizacion,String genero,String nombre,String profesion){
 
+        //Importar Daos
+        CivilizacionDao civilizacionDao = new CivilizacionDao();
+
         String sql = "";
         //los parametros varían segun la profesion
 
@@ -82,7 +85,7 @@ public class PersonaDao extends DaoBase{
                 }
 
                 //actualizar + 8 horas
-                sumar8horas(idCivilizacion);
+                civilizacionDao.sumar8horas(idCivilizacion);
 
                 break;
             case "Constructor":
@@ -106,7 +109,7 @@ public class PersonaDao extends DaoBase{
                 }
 
                 //actualizar + 8 horas
-                sumar8horas(idCivilizacion);
+                civilizacionDao.sumar8horas(idCivilizacion);
                 break;
             case "Soldado":
 
@@ -132,7 +135,7 @@ public class PersonaDao extends DaoBase{
                 }
 
                 //actualizar + 8 horas
-                sumar8horas(idCivilizacion);
+                civilizacionDao.sumar8horas(idCivilizacion);
                 break;
             case "Ninguna":
                 alimentoDia = randomNum(30,50);
@@ -151,73 +154,22 @@ public class PersonaDao extends DaoBase{
                     throw new RuntimeException(e);
                 }
                 //actualizar + 2 horas
-                sumar2horas(idCivilizacion);
+                civilizacionDao.sumar2horas(idCivilizacion);
                 break;
 
         }
 
     }
 
-    public void sumar8horas(int idCivilizacion){
-        String sql = "";
-        sql = "select time_elapsed from civilizaciones where id_civilizacion = ?";
-        try(Connection conn=this.getConnection(); PreparedStatement pstmt= conn.prepareStatement(sql)){
-            pstmt.setInt(1,idCivilizacion);
-            try(ResultSet rs=pstmt.executeQuery()){
-                if(rs.next()){
-                    //Aquí se valida que time_elapsed sea menor o igual a 24 horas
-                    if(rs.getInt(1)<25){
-                        sql = "update civilizaciones set time_elapsed = time_elapsed + 8 where id_civilizacion = ? and time_elapsed<25";
-                        try(Connection conn1=this.getConnection(); PreparedStatement pstmt1= conn1.prepareStatement(sql)){
-                            pstmt1.setInt(1,idCivilizacion);
-                            pstmt1.executeUpdate();
-                        } catch (SQLException e) {
-                            throw new RuntimeException(e);
-                        }
-                    }
-                }else{
-                    //no se que poner si time_elapsed es mayor a 24
 
-                }
-            }
 
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
-    public void sumar2horas(int idCivilizacion){
-        String sql = "";
-        sql = "select time_elapsed from civilizaciones where id_civilizacion = ?";
-        try(Connection conn=this.getConnection(); PreparedStatement pstmt= conn.prepareStatement(sql)){
-            pstmt.setInt(1,idCivilizacion);
-            try(ResultSet rs=pstmt.executeQuery()){
-                if(rs.next()){
-                    //Aquí se valida que time_elapsed sea menor a 24 horas
-                    if(rs.getInt(1)<25){
-                        sql = "update civilizaciones set time_elapsed = time_elapsed + 2 where id_civilizacion = ? and time_elapsed<25";
-                        try(Connection conn1=this.getConnection(); PreparedStatement pstmt1= conn1.prepareStatement(sql)){
-                            pstmt1.setInt(1,idCivilizacion);
-                            pstmt1.executeUpdate();
-                        } catch (SQLException e) {
-                            throw new RuntimeException(e);
-                        }
-                    }
-                }else{
-                    //no se que poner si time_elapsed es mayor a 24
-
-                }
-            }
-
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
 
     public int randomNum(int min, int max){
         Random rd = new Random();
         int randNum = rd.nextInt(max - min + 1) + min;
         return randNum;
     }
+
 
     public void exiliarPersona(int idPersona, int idCivilizacion){ //
 
@@ -253,6 +205,10 @@ public class PersonaDao extends DaoBase{
             throw new RuntimeException(e);
         }
     }
+
+    //También creo que es redundate este método: Basta con:
+    //String moralExiliado = obtenerPersona(int idPersona).getMoral   (lo del parámetro del idCivilización creo que no es necesario)
+    //Nota: Si el campo 'moral' está vacío, el método 'obtenerPersona(int idPersona).getMoral' devuelve un 'null'
     public int obtenerMoralExiliado(int idPersona, int idCivilizacion){
 
         String sql = "select moral from personas where id_persona = ? and id_civilizacion = ?";
