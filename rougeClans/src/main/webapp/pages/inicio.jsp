@@ -82,10 +82,14 @@
                         <a href="#" data-bs-toggle="dropdown" class="nav-icon pe-md-0">
                             <ion-icon style="font-size: 2.4rem; color: #d2d2d2" name="person-circle"></ion-icon>
                         </a>
-                        <div class="dropdown-menu dropdown-menu-end">
-                            <a href="#" class="dropdown-item">Profile</a>
-                            <a href="#" class="dropdown-item">Details</a>
-                            <a href="#" class="dropdown-item">Logout</a>
+                        <div class="dropdown-menu dropdown-menu-end" style="padding: 5px">
+                            <p>Nombre de usuario</p>
+                            <p>Correo</p>
+                            <hr class="hr w-100"/>
+                            <a href="#" class="sidebar-link exit" style="font-size: 0.9rem !important; padding: 0 !important;">
+                                Cerrar Sesión
+                                <ion-icon name="exit"></ion-icon>
+                            </a>
                         </div>
                     </li>
                 </ul>
@@ -93,62 +97,39 @@
         </nav>
 
 
-        <main class="content py-5 px-5">
+        <main class="content">
 
-            <div class="card">
-                <div class="card-header">
-                    Datos de la Civilización
+            <div class="custom_card">
+                <div>
+                    <div class="title_card">Civilización Romana </div>
+                    <div class="badge">#1310</div>
+                    <hr style="margin-top: 0">
                 </div>
-                <div class="card-body">
-                    <blockquote class="blockquote mb-0">
-                        <p><display4>Nombre de la Civilización</display4></p>
-                        <footer class="blockquote-footer"><cite title="Source Title"></cite>Puesto #10023</footer>
-                        <div class="user_data">
-                            <p>Líder: @Usuario</p>
-                            <p>Tiempo: @Dias @Horas</p>
-                            <p>Estado: @Paz/Guerra</p>
-                        </div>
-                    </blockquote>
-                </div>
+                    <div class="personal_statistics">
+                        <div class="infos">Dias Jugados:</div>
+                        <div class="infos">Población Total:</div>
+                        <div class="infos">Moral Total:</div>
+                        <div class="infos">Guerras Ganadas:</div>
+
+                        <div class="infos">Win Rate:</div>
+                        <div class="infos">Fuerza Total:</div>
+                        <div class="infos">Anciano del Pueblo:</div>
+                        <div class="infos">Producción de Alimento:</div>
+                    </div>
             </div>
 
 
-            <div class="card">
-                <div class="card-header">
-                    Datos de la Civilización
-                </div>
-                <div class="card-body">
-                    <blockquote class="blockquote mb-0">
-                        <p><display4>Nombre de la Civilización</display4></p>
-                        <footer class="blockquote-footer"><cite title="Source Title"></cite>Puesto #10023</footer>
-                    </blockquote>
-                </div>
-            </div>
 
 
-            <div class="card">
-                <div class="card-header">
-                    Datos de la Civilización
-                </div>
-                <div class="card-body">
-                    <blockquote class="blockquote mb-0">
-                        <p><display4>Nombre de la Civilización</display4></p>
-                        <footer class="blockquote-footer"><cite title="Source Title"></cite>Puesto #10023</footer>
-                    </blockquote>
-                </div>
+            <div class="custom_card">
             </div>
 
-            <div class="card">
-                <div class="card-header">
-                    Datos de la Civilización
-                </div>
-                <div class="card-body">
-                    <blockquote class="blockquote mb-0">
-                        <p><display4>Nombre de la Civilización</display4></p>
-                        <footer class="blockquote-footer"><cite title="Source Title"></cite>Puesto #10023</footer>
-                    </blockquote>
-                </div>
-            </div>
+            <div class="custom_card">3</div>
+            <div class="custom_card">4</div>
+            <div class="custom_card">5</div>
+            <div class="custom_card">6</div>
+
+            <div class="custom_card">7</div>
 
 
         </main>
