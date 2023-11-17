@@ -4,7 +4,7 @@ public class Guerra {
 
     private int idGuerra;
     private Civilizacion civilizacion;
-    private Civilizacion oponente;
+    private Civilizacion oponenteCivilizacion;
     private String resultado;
     private String rolGuerra;
 
@@ -24,12 +24,12 @@ public class Guerra {
         this.civilizacion = civilizacion;
     }
 
-    public Civilizacion getOponente() {
-        return oponente;
+    public Civilizacion getOponenteCivilizacion() {
+        return oponenteCivilizacion;
     }
 
-    public void setOponente(Civilizacion oponente) {
-        this.oponente = oponente;
+    public void setOponenteCivilizacion(Civilizacion oponenteCivilizacion) {
+        this.oponenteCivilizacion = oponenteCivilizacion;
     }
 
     public String getResultado() {
