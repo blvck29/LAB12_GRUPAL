@@ -70,94 +70,111 @@ public class PersonaDao extends DaoBase{
         //Lo mismo pero no deja crear nada si el tiempo es de 23
         switch (profesion){
             case "Granjero":
-                alimentoDia = randomNum(10,30);
-                moral = randomNum(10,40);
-                produce = randomNum(100,200);
-                sql = "insert into personas(id_civilizacion,genero,alimento_dia,moral,produce,nombre,profesion) values(?,?,?,?,?,?,?)";
-                try(Connection conn=this.getConnection(); PreparedStatement pstmt= conn.prepareStatement(sql)){
-                    pstmt.setInt(1,idCivilizacion);
-                    pstmt.setString(2,genero);
-                    pstmt.setInt(3,alimentoDia);
-                    pstmt.setInt(4,moral);
-                    pstmt.setInt(5,produce);//produce alimento
-                    pstmt.setString(6,nombre);
-                    pstmt.setString(7,"Granjero");
-                    pstmt.executeUpdate();
-                } catch (SQLException e) {
-                    throw new RuntimeException(e);
+                if(civilizacionDao.obtenerCivilizacion(idCivilizacion).getTimeElapsed()<17){
+                    alimentoDia = randomNum(10,30);
+                    moral = randomNum(10,40);
+                    produce = randomNum(100,200);
+                    sql = "insert into personas(id_civilizacion,genero,alimento_dia,moral,produce,nombre,profesion) values(?,?,?,?,?,?,?)";
+                    try(Connection conn=this.getConnection(); PreparedStatement pstmt= conn.prepareStatement(sql)){
+                        pstmt.setInt(1,idCivilizacion);
+                        pstmt.setString(2,genero);
+                        pstmt.setInt(3,alimentoDia);
+                        pstmt.setInt(4,moral);
+                        pstmt.setInt(5,produce);//produce alimento
+                        pstmt.setString(6,nombre);
+                        pstmt.setString(7,"Granjero");
+                        pstmt.executeUpdate();
+                    } catch (SQLException e) {
+                        throw new RuntimeException(e);
+                    }
+
+                    //actualizar + 8 horas
+                    civilizacionDao.sumar8horas(idCivilizacion);
+                }else{
+                    //Se debe pasar las horas de manera manual
                 }
 
-                //actualizar + 8 horas
-                civilizacionDao.sumar8horas(idCivilizacion);
 
                 break;
             case "Constructor":
-                alimentoDia = randomNum(50,70);
-                moral = randomNum(10,40);
-                fuerza = randomNum(2,20);
-                produce = randomNum(10,20);
-                sql = "insert into personas(id_civilizacion,genero,alimento_dia,moral,fuerza,produce,nombre,profesion) values(?,?,?,?,?,?,?,?)";
-                try(Connection conn=this.getConnection(); PreparedStatement pstmt= conn.prepareStatement(sql)){
-                    pstmt.setInt(1,idCivilizacion);
-                    pstmt.setString(2,genero);
-                    pstmt.setInt(3,alimentoDia);
-                    pstmt.setInt(4,moral);
-                    pstmt.setInt(5,fuerza);
-                    pstmt.setInt(6,produce);//moral
-                    pstmt.setString(7,nombre);
-                    pstmt.setString(8,"Constructor");
-                    pstmt.executeUpdate();
-                } catch (SQLException e) {
-                    throw new RuntimeException(e);
+                if(civilizacionDao.obtenerCivilizacion(idCivilizacion).getTimeElapsed()<17){
+                    alimentoDia = randomNum(50,70);
+                    moral = randomNum(10,40);
+                    fuerza = randomNum(2,20);
+                    produce = randomNum(10,20);
+                    sql = "insert into personas(id_civilizacion,genero,alimento_dia,moral,fuerza,produce,nombre,profesion) values(?,?,?,?,?,?,?,?)";
+                    try(Connection conn=this.getConnection(); PreparedStatement pstmt= conn.prepareStatement(sql)){
+                        pstmt.setInt(1,idCivilizacion);
+                        pstmt.setString(2,genero);
+                        pstmt.setInt(3,alimentoDia);
+                        pstmt.setInt(4,moral);
+                        pstmt.setInt(5,fuerza);
+                        pstmt.setInt(6,produce);//moral
+                        pstmt.setString(7,nombre);
+                        pstmt.setString(8,"Constructor");
+                        pstmt.executeUpdate();
+                    } catch (SQLException e) {
+                        throw new RuntimeException(e);
+                    }
+                    //actualizar + 8 horas
+                    civilizacionDao.sumar8horas(idCivilizacion);
+                }else{
+                    //Se debe pasar las horas de manera manual con un boton
                 }
 
-                //actualizar + 8 horas
-                civilizacionDao.sumar8horas(idCivilizacion);
                 break;
             case "Soldado":
+                if(civilizacionDao.obtenerCivilizacion(idCivilizacion).getTimeElapsed()<17){
+                    alimentoDia = randomNum(70,100);
+                    moral = randomNum(30,50);
+                    fuerza = randomNum(15,50);
+                    produce = randomNum(0,20);
 
-                alimentoDia = randomNum(70,100);
-                moral = randomNum(30,50);
-                fuerza = randomNum(15,50);
-                produce = randomNum(0,20);
+                    sql = "insert into personas(id_civilizacion,genero,alimento_dia,moral,fuerza,produce,nombre,profesion) values(?,?,?,?,?,?,?,?)";
 
-                sql = "insert into personas(id_civilizacion,genero,alimento_dia,moral,fuerza,produce,nombre,profesion) values(?,?,?,?,?,?,?,?)";
+                    try(Connection conn=this.getConnection(); PreparedStatement pstmt= conn.prepareStatement(sql)){
+                        pstmt.setInt(1,idCivilizacion);
+                        pstmt.setString(2,genero);
+                        pstmt.setInt(3,alimentoDia);
+                        pstmt.setInt(4,moral);
+                        pstmt.setInt(5,fuerza);
+                        pstmt.setInt(6,produce);//moral
+                        pstmt.setString(7,nombre);
+                        pstmt.setString(8,"Soldado");
+                        pstmt.executeUpdate();
+                    } catch (SQLException e) {
+                        throw new RuntimeException(e);
+                    }
 
-                try(Connection conn=this.getConnection(); PreparedStatement pstmt= conn.prepareStatement(sql)){
-                    pstmt.setInt(1,idCivilizacion);
-                    pstmt.setString(2,genero);
-                    pstmt.setInt(3,alimentoDia);
-                    pstmt.setInt(4,moral);
-                    pstmt.setInt(5,fuerza);
-                    pstmt.setInt(6,produce);//moral
-                    pstmt.setString(7,nombre);
-                    pstmt.setString(8,"Soldado");
-                    pstmt.executeUpdate();
-                } catch (SQLException e) {
-                    throw new RuntimeException(e);
+                    //actualizar + 8 horas
+                    civilizacionDao.sumar8horas(idCivilizacion);
+                }else{
+                    //Se debe pasar las horas de manera manual
                 }
-
-                //actualizar + 8 horas
-                civilizacionDao.sumar8horas(idCivilizacion);
                 break;
             case "Ninguna":
-                alimentoDia = randomNum(30,50);
-                moral = randomNum(20,50);
-                sql = "insert into personas(id_civilizacion,genero,alimento_dia,moral,nombre,profesion) values(?,?,?,?,?,?)";
 
-                try(Connection conn=this.getConnection(); PreparedStatement pstmt= conn.prepareStatement(sql)){
-                    pstmt.setInt(1,idCivilizacion);
-                    pstmt.setString(2,genero);
-                    pstmt.setInt(3,alimentoDia);
-                    pstmt.setInt(4,moral);
-                    pstmt.setString(5,nombre);
-                    pstmt.setString(6,"Ninguna");
-                    pstmt.executeUpdate();
-                } catch (SQLException e) {
-                    throw new RuntimeException(e);
+                if(civilizacionDao.obtenerCivilizacion(idCivilizacion).getTimeElapsed()<23){
+                    alimentoDia = randomNum(30,50);
+                    moral = randomNum(20,50);
+                    sql = "insert into personas(id_civilizacion,genero,alimento_dia,moral,nombre,profesion) values(?,?,?,?,?,?)";
+
+                    try(Connection conn=this.getConnection(); PreparedStatement pstmt= conn.prepareStatement(sql)){
+                        pstmt.setInt(1,idCivilizacion);
+                        pstmt.setString(2,genero);
+                        pstmt.setInt(3,alimentoDia);
+                        pstmt.setInt(4,moral);
+                        pstmt.setString(5,nombre);
+                        pstmt.setString(6,"Ninguna");
+                        pstmt.executeUpdate();
+                    } catch (SQLException e) {
+                        throw new RuntimeException(e);
+                    }
+                    //actualizar + 2 horas
+                    civilizacionDao.sumar2horas(idCivilizacion);
+                }else{
+                    //se debe pasar el tiempo de manera manual
                 }
-                //actualizar + 2 horas
-                civilizacionDao.sumar2horas(idCivilizacion);
                 break;
 
         }
