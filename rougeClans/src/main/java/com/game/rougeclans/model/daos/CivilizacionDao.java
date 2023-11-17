@@ -58,4 +58,39 @@ public class CivilizacionDao extends DaoBase{
         }
     }
 
+    public void pasarLasHoras(int idCivilizacion){ //Hace que el tiempo de las civilizaciones vaya directamente a 24
+        String sql = "update civilizaciones set time_elapsed = 24 where id_civilizacion = ?";
+        try(Connection conn=this.getConnection(); PreparedStatement pstmt= conn.prepareStatement(sql)){
+            pstmt.setInt(1,idCivilizacion);
+            pstmt.executeUpdate();
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    public void pasarDia(int idCivilizacion){
+        String sqlver = "select time_elapsed from civilizaciones where id_civilizacion = ?";
+        try(Connection conn=this.getConnection(); PreparedStatement pstmt=conn.prepareStatement(sqlver)){
+            pstmt.setInt(1,idCivilizacion);
+            try(ResultSet rs = pstmt.executeQuery()){
+                if(rs.next()){
+                    if(rs.getInt(1)==24){
+                        String sql = "update civilizaciones set days_elapsed = days_elapsed+1 where id_civilizacion = ?";
+                        try(Connection conn1=this.getConnection(); PreparedStatement pstmt1= conn1.prepareStatement(sql)){
+
+                            pstmt1.setInt(1,idCivilizacion);
+                            pstmt1.executeUpdate();
+
+                        } catch (SQLException e) {
+                            throw new RuntimeException(e);
+                        }
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+
 }

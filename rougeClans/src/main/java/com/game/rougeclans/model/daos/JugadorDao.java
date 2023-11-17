@@ -55,4 +55,14 @@ public class JugadorDao extends DaoBase{
 
     }
 
+    public void banearJugador(int idUser){ //Aquí lo mete a la lista negra
+        String sql = "update jugadores set ban = 1 where idjugadores = ? ";
+        try(Connection conn=this.getConnection(); PreparedStatement pstmt= conn.prepareStatement(sql)){
+            pstmt.setInt(1,idUser);
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 }
