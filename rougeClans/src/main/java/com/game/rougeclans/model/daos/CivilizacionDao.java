@@ -2,12 +2,14 @@ package com.game.rougeclans.model.daos;
 
 import com.game.rougeclans.model.beans.Civilizacion;
 import com.game.rougeclans.model.beans.Jugador;
+import com.game.rougeclans.model.beans.Persona;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Random;
 
 public class CivilizacionDao extends DaoBase{
 
@@ -212,6 +214,42 @@ public class CivilizacionDao extends DaoBase{
             throw new RuntimeException(e);
         }
         return lista;
+    }
+
+    public void alimentarPoblacion(int idCivilizacion){
+
+        int alimentoTotal = obtenerCivilizacion(idCivilizacion).getAlimentoTotal();
+        while(alimentoTotal>=0){
+            PersonaDao personaDao = new PersonaDao();
+            ArrayList<Integer> idPersonas = personaDao.listaIdPersonasXCivilizacion(idCivilizacion);
+
+            Random rd = new Random();
+            while(!idPersonas.isEmpty()){
+                int idAleatorio = rd.nextInt(idPersonas.size());
+
+                int idPersonaAleatoria = idPersonas.get(idAleatorio);
+
+                PersonaDao personaDaoRd = new PersonaDao();
+                int alimentoPersonaRd =  personaDaoRd.obtenerPersona(idPersonaAleatoria).getAlimentoDia();
+
+                String sql = " ";
+
+
+                alimentoTotal = alimentoTotal - alimentoPersonaRd;
+                idPersonas.remove(idAleatorio);
+            }
+
+        }
+
+    }
+
+    public void randomPersonaCivilizacion(int idCivilizacion){
+
+
+
+
+
+
     }
 
 
