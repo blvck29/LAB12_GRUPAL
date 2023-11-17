@@ -170,7 +170,7 @@ public class CivilizacionDao extends DaoBase{
         Civilizacion civilizacion = obtenerCivilizacion(idCivilizacion); // Ahorrar código
 
         if(civilizacion.getTimeElapsed()>=24){
-            String sql = "update civilizaciones set time_elapsed = time_elapsed - 24, days_elapsed = days_elapsed + 1 where id_civilizacion = ? and time_elapsed<25";;
+            String sql = "update civilizaciones set time_elapsed = time_elapsed - 24, days_elapsed = days_elapsed + 1 where id_civilizacion = ?";;
             try(Connection conn=getConnection(); PreparedStatement pstmt= conn.prepareStatement(sql)){
                 pstmt.setInt(1,idCivilizacion);
             } catch (SQLException e) {
