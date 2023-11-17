@@ -3,6 +3,16 @@
     src: url('../fonts/MedievalSharp/MedievalSharp-Regular.ttf') format('truetype');
 }
 
+@font-face {
+    font-family: 'GlassAntiqua';
+    src: url('../fonts/GlassAntiqua/GlassAntiqua-Regular.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'GideonRoman';
+    src: url('../fonts/GideonRoman/GideonRoman-Regular.ttf') format('truetype');
+}
+
 *,
 ::after,
 ::before {
@@ -21,6 +31,7 @@ a {
     cursor: pointer;
     text-decoration: none;
     font-family: 'MedievalSharp', sans-serif !important;
+    font-weight: bolder;
 }
 
 li {
@@ -81,17 +92,33 @@ h4 {
 }
 
 .sidebar-header {
-    color: #e9ecef;
-    font-size: .75rem;
+    color: #100f0f;
+    font-size: 1.1rem;
+    font-weight: bolder;
     padding: 1.5rem 1.5rem .375rem;
 }
 
 a.sidebar-link {
     padding: .625rem 1.625rem;
-    color: #e9ecef;
+    color: #100f0f;
     position: relative;
-    display: block;
-    font-size: 0.875rem;
+    display: flex;
+    align-items: center;
+    font-size: 1.3rem;
+}
+
+.sidebar-link ion-icon {
+    margin-right: 10px;
+    margin-bottom: 4px;
+}
+
+.exit {
+    font-size: 1.2rem !important;
+}
+
+.exit ion-icon {
+    margin-left: 10px;
+    margin-bottom: 2px !important;
 }
 
 .sidebar-link[data-bs-toggle="collapse"]::after{

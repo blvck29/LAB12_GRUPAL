@@ -26,53 +26,45 @@
                 <li class="sidebar-header">
                     Menú de Juego
                 </li>
+                <hr class="hr w-100" style="margin-top: -5px"/>
                 <li class="sidebar-item">
                     <a href="#" class="sidebar-link">
-                        <i class="fa-duotone fa-swords"></i>
-                        Link 1
+                        <ion-icon name="apps"></ion-icon>
+                        Civilizacion
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="#" class="sidebar-link">
+                        <ion-icon name="body"></ion-icon>
+                        Personas
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="#" class="sidebar-link">
+                        <ion-icon name="archive"></ion-icon>
+                        Recursos
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="#" class="sidebar-link">
+                        <ion-icon name="eyedrop"></ion-icon>
+                        Guerra
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="#" class="sidebar-link">
+                        <ion-icon name="trophy"></ion-icon>
+                        LeaderBoard
                     </a>
                 </li>
 
-                <li class="sidebar-item">
-                    <a href="#" class="sidebar-link collapsed" data-bs-target="#pages" data-bs-toggle="collapse" aria-expanded="false">
-                        <i class="fa-solid fa-file-lines pe-2"></i>
-                        Link 2
-                    </a>
-                    <ul id="pages" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
-                        <li class="sidebar-item">
-                            <a href="#" class="sidebar-link">Page 1</a>
-                        </li>
-                        <li class="sidebar-item">
-                            <a href="#" class="sidebar-link">Page 2</a>
-                        </li>
-                        <li class="sidebar-item">
-                            <a href="#" class="sidebar-link">Page 3</a>
-                        </li>
-                        <li class="sidebar-item">
-                            <a href="#" class="sidebar-link">Page 4</a>
-                        </li>
-                    </ul>
-                </li>
+                <hr class="hr w-100"/>
 
                 <li class="sidebar-item">
-                    <a href="#" class="sidebar-link collapsed" data-bs-target="#posts" data-bs-toggle="collapse" aria-expanded="false">
-                        <i class="fa-solid fa-file-lines pe-2"></i>
-                        Posts
+                    <a href="#" class="sidebar-link exit">
+                        Cerrar Sesión
+                        <ion-icon name="exit"></ion-icon>
                     </a>
-                    <ul id="posts" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
-                        <li class="sidebar-item">
-                            <a href="#" class="sidebar-link">Page 1</a>
-                        </li>
-                        <li class="sidebar-item">
-                            <a href="#" class="sidebar-link">Page 2</a>
-                        </li>
-                        <li class="sidebar-item">
-                            <a href="#" class="sidebar-link">Page 3</a>
-                        </li>
-                        <li class="sidebar-item">
-                            <a href="#" class="sidebar-link">Page 4</a>
-                        </li>
-                    </ul>
                 </li>
             </ul>
 
@@ -153,6 +145,8 @@
         </main>
     </div>
 </div>
+<script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/js/bootstrap.bundle.min.js"></script>
 <script src="../js/script.js"></script>
 </body>
