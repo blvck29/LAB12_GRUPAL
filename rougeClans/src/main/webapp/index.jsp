@@ -19,23 +19,23 @@
 
   <div class="login text-light">
 
-    <div style="margin-top: 20%;"></div>
+    <div style="margin-top: 25%;"></div>
 
     <div class="logo">
       <img src="media/logo.png" width="650px" height="auto" alt="logo">
     </div>
     <div>
-      <h1 class="display-3" style="margin-top: 5%">Bienvenido</h1>
+      <h5 class="display-7" style="margin-top: -10px; margin-bottom: 5%">CONQUISTA EL MUNDO</h5>
     </div>
 
 
       <form action="#" method="POST">
         <div class="auth">
 
-          <label for="usuario" class="sr-only">Usuario</label>
+          <label for="usuario" class="sr-only"></label>
           <input type="text" id="usuario" class="form-control" placeholder="Usuario" required="" autofocus="">
           <div style="margin-top: 15px"></div>
-          <label for="contrasena" class="sr-only">Contraseña</label>
+          <label for="contrasena" class="sr-only"></label>
           <input type="password" id="contrasena" class="form-control" placeholder="Contraseña" required="">
          </div>
         <button type="submit" class="btn btn-outline-danger">Acceder</button>

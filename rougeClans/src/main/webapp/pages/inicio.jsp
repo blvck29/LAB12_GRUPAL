@@ -17,6 +17,7 @@
 <div class="wrapper">
     <aside id="sidebar" class="js-sidebar">
         <div class="h-100">
+            <div style="margin-top: 20px"></div>
             <div class="sidebar-logo">
                 <a href="#"><img src="../media/logo_text.png" width="220px" height="auto" alt="ROUGE CLANS"></a>
             </div>
