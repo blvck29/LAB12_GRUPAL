@@ -74,7 +74,7 @@
     <div class="main">
         <nav class="navbar navbar-expand px-3 border-bottom">
             <button class="btn" id="sidebar-toggle" type="button">
-                <span class="navbar-toggler-icon"></span>
+                <ion-icon style="color: #d2d2d2; font-size: 1.5rem;" name="apps"></ion-icon>
             </button>
             <div class="navbar-collapse navbar">
                 <ul class="navbar-nav">

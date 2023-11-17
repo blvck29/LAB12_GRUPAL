@@ -20,11 +20,12 @@
 }
 
 body {
-    font-family: 'MedievalSharp', sans-serif !important;
+    font-family: 'MedievalSharp', sans-serif;
     font-size: 0.875rem;
     opacity: 1;
-    overflow-y: scroll;
-    margin: 0;
+    margin: 0; /* Ajuste el margen a 0 */
+    height: 100vh;
+    overflow: hidden;
 }
 
 a {
@@ -53,6 +54,7 @@ h4 {
 }
 
 #sidebar {
+    height: 100vh;
     max-width: 264px;
     min-width: 264px;
     background-image: url("../media/background_perga.png");
@@ -63,13 +65,16 @@ h4 {
 .main {
     display: flex;
     flex-direction: column;
-    min-height: 100vh;
+    height: 100vh;
     min-width: 0;
     overflow: hidden;
     transition: all 0.35s ease-in-out;
     width: 100%;
-    background: #cecece;
+    background-image: url("../media/map.png");
+    background-size: cover;
+    background-repeat: no-repeat;
 }
+
 
 /* Sidebar Elements Style */
 
@@ -177,6 +182,17 @@ a.sidebar-link {
 }
 
 /* Sidebar Toggle */
+
+#sidebar-toggle .navbar-toggler-icon {
+    color: #ffffff; /* Cambia el color a tu preferencia */
+}
+
+#sidebar-toggle.btn:active,
+#sidebar-toggle.btn:focus {
+    border-color: #ffffff; /* Cambia el color del borde al hacer clic o al tener foco */
+    box-shadow: 0 0 0 0.2rem rgba(255, 255, 255, 0.25); /* Opcional: agrega una sombra al hacer clic o al tener foco */
+    /* Agrega más estilos según sea necesario */
+}
 
 #sidebar.collapsed {
     margin-left: -264px;
