@@ -4,17 +4,16 @@ public class Persona {
 
     private int idPersona;
     private Civilizacion civilizacion;
-    private String rol;
+    private Rol rol;
     private String nombre;
     private String genero;
     private int alimentoDia;
     private int moral;
     private int fuerza;
     private int produce;
-    private boolean exiliado;
     private boolean alimentado;
     private int daysAlive;
-    private String muerte;
+    private Muerte muerte;
 
     public int getIdPersona() {
         return idPersona;
@@ -30,14 +29,6 @@ public class Persona {
 
     public void setCivilizacion(Civilizacion civilizacion) {
         this.civilizacion = civilizacion;
-    }
-
-    public String getRol() {
-        return rol;
-    }
-
-    public void setRol(String rol) {
-        this.rol = rol;
     }
 
     public String getNombre() {
@@ -88,14 +79,6 @@ public class Persona {
         this.produce = produce;
     }
 
-    public boolean isExiliado() {
-        return exiliado;
-    }
-
-    public void setExiliado(boolean exiliado) {
-        this.exiliado = exiliado;
-    }
-
     public boolean isAlimentado() {
         return alimentado;
     }
@@ -112,11 +95,19 @@ public class Persona {
         this.daysAlive = daysAlive;
     }
 
-    public String getMuerte() {
+    public Rol getRol() {
+        return rol;
+    }
+
+    public void setRol(Rol rol) {
+        this.rol = rol;
+    }
+
+    public Muerte getMuerte() {
         return muerte;
     }
 
-    public void setMuerte(String muerte) {
+    public void setMuerte(Muerte muerte) {
         this.muerte = muerte;
     }
 }
