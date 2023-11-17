@@ -5,8 +5,13 @@ import com.game.rougeclans.model.beans.Persona;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Random;
+
 
 public class PersonaDao extends DaoBase{
+
+
+
 
     public Persona obtenerPersona(int idPersona){
 
@@ -49,12 +54,7 @@ public class PersonaDao extends DaoBase{
     public void crearPersona(int idCivilizacion,String genero,String nombre,String profesion){
 
         String sql = "";
-
         //los parametros varían segun la profesion
-        ArrayList<Integer> alimentoList = new ArrayList<>();
-        ArrayList<Integer> moralList = new ArrayList<>();
-        ArrayList<Integer> fuerzaList = new ArrayList<>();
-        ArrayList<Integer> produccionList = new ArrayList<>();
 
         int alimentoDia = 0;
         int moral = 0;
@@ -64,13 +64,16 @@ public class PersonaDao extends DaoBase{
 
         switch (profesion){
             case "Granjero":
+                alimentoDia = randomNum(10,30);
+                moral = randomNum(10,40);
+                produce = randomNum(100,200);
                 sql = "insert into personas(id_civilizacion,genero,alimento_dia,moral,produce,nombre,profesion) values(?,?,?,?,?,?,?)";
                 try(Connection conn=this.getConnection(); PreparedStatement pstmt= conn.prepareStatement(sql)){
                     pstmt.setInt(1,idCivilizacion);
                     pstmt.setString(2,genero);
                     pstmt.setInt(3,alimentoDia);
                     pstmt.setInt(4,moral);
-                    pstmt.setInt(5,produce);
+                    pstmt.setInt(5,produce);//produce alimento
                     pstmt.setString(6,nombre);
                     pstmt.setString(7,"Granjero");
                     pstmt.executeUpdate();
@@ -83,6 +86,10 @@ public class PersonaDao extends DaoBase{
 
                 break;
             case "Constructor":
+                alimentoDia = randomNum(50,70);
+                moral = randomNum(10,40);
+                fuerza = randomNum(2,20);
+                produce = randomNum(10,20);
                 sql = "insert into personas(id_civilizacion,genero,alimento_dia,moral,fuerza,produce,nombre,profesion) values(?,?,?,?,?,?,?,?)";
                 try(Connection conn=this.getConnection(); PreparedStatement pstmt= conn.prepareStatement(sql)){
                     pstmt.setInt(1,idCivilizacion);
@@ -90,7 +97,7 @@ public class PersonaDao extends DaoBase{
                     pstmt.setInt(3,alimentoDia);
                     pstmt.setInt(4,moral);
                     pstmt.setInt(5,fuerza);
-                    pstmt.setInt(6,produce);
+                    pstmt.setInt(6,produce);//moral
                     pstmt.setString(7,nombre);
                     pstmt.setString(8,"Constructor");
                     pstmt.executeUpdate();
@@ -102,6 +109,12 @@ public class PersonaDao extends DaoBase{
                 sumar8horas(idCivilizacion);
                 break;
             case "Soldado":
+
+                alimentoDia = randomNum(70,100);
+                moral = randomNum(30,50);
+                fuerza = randomNum(15,50);
+                produce = randomNum(0,20);
+
                 sql = "insert into personas(id_civilizacion,genero,alimento_dia,moral,fuerza,produce,nombre,profesion) values(?,?,?,?,?,?,?,?)";
 
                 try(Connection conn=this.getConnection(); PreparedStatement pstmt= conn.prepareStatement(sql)){
@@ -110,7 +123,7 @@ public class PersonaDao extends DaoBase{
                     pstmt.setInt(3,alimentoDia);
                     pstmt.setInt(4,moral);
                     pstmt.setInt(5,fuerza);
-                    pstmt.setInt(6,produce);
+                    pstmt.setInt(6,produce);//moral
                     pstmt.setString(7,nombre);
                     pstmt.setString(8,"Soldado");
                     pstmt.executeUpdate();
@@ -122,6 +135,8 @@ public class PersonaDao extends DaoBase{
                 sumar8horas(idCivilizacion);
                 break;
             case "Ninguna":
+                alimentoDia = randomNum(30,50);
+                moral = randomNum(20,50);
                 sql = "insert into personas(id_civilizacion,genero,alimento_dia,moral,nombre,profesion) values(?,?,?,?,?,?)";
 
                 try(Connection conn=this.getConnection(); PreparedStatement pstmt= conn.prepareStatement(sql)){
@@ -150,7 +165,7 @@ public class PersonaDao extends DaoBase{
             pstmt.setInt(1,idCivilizacion);
             try(ResultSet rs=pstmt.executeQuery()){
                 if(rs.next()){
-                    //Aquí se valida que time_elapsed sea menor a 24 horas
+                    //Aquí se valida que time_elapsed sea menor o igual a 24 horas
                     if(rs.getInt(1)<25){
                         sql = "update civilizaciones set time_elapsed = time_elapsed + 8 where id_civilizacion = ? and time_elapsed<25";
                         try(Connection conn1=this.getConnection(); PreparedStatement pstmt1= conn1.prepareStatement(sql)){
@@ -161,7 +176,7 @@ public class PersonaDao extends DaoBase{
                         }
                     }
                 }else{
-                    //no se que poner
+                    //no se que poner si time_elapsed es mayor a 24
 
                 }
             }
@@ -188,7 +203,7 @@ public class PersonaDao extends DaoBase{
                         }
                     }
                 }else{
-                    //no se que poner
+                    //no se que poner si time_elapsed es mayor a 24
 
                 }
             }
@@ -198,17 +213,63 @@ public class PersonaDao extends DaoBase{
         }
     }
 
+    public int randomNum(int min, int max){
+        Random rd = new Random();
+        int randNum = rd.nextInt(max - min + 1) + min;
+        return randNum;
+    }
+
     public void exiliarPersona(int idPersona, int idCivilizacion){ //
 
-        String sql = "update personas set exiliado = 1 where id_personas= ? and id_civilizacion =?";
+        //Se obtiene el moral de la persona a exiliar
+        int moralExiliado = obtenerMoralExiliado(idPersona, idCivilizacion);
+
+        String sql = "";
+        //Aquí se exilia a la persona (elimina)
+        sql = "DELETE FROM personas WHERE id_persona = ? and id_civilizacion = ?";
         try(Connection conn=this.getConnection(); PreparedStatement pstmt = conn.prepareStatement(sql)){
 
             pstmt.setInt(1,idPersona);
+            pstmt.setInt(2,idCivilizacion);
+            pstmt.executeUpdate();
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        //Un update de moral a todas las personas que son de la misma civilizacion que el exiliado
+
+        sql = "update personas set moral = moral - ? where id_civilizacion = ?";
+
+        //Se obtiene un rango aleatorio entre 0 y moralExiliado/2
+        int reducMoral = randomNum(0,moralExiliado/2);
+        try(Connection conn=this.getConnection(); PreparedStatement pstmt = conn.prepareStatement(sql)){
+
+            pstmt.setInt(1,reducMoral);
+            pstmt.setInt(2,idCivilizacion);
             pstmt.executeUpdate();
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
+    public int obtenerMoralExiliado(int idPersona, int idCivilizacion){
+
+        String sql = "select moral from personas where id_persona = ? and id_civilizacion = ?";
+        try(Connection conn=this.getConnection(); PreparedStatement pstmt= conn.prepareStatement(sql)){
+            pstmt.setInt(1,idPersona);
+            pstmt.setInt(2,idCivilizacion);
+            try(ResultSet rs=pstmt.executeQuery()){
+                if(rs.next()){
+                    return rs.getInt(1);
+                }else{
+                    return 0;
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 
 }
