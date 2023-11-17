@@ -65,6 +65,9 @@ public class PersonaDao extends DaoBase{
         int produce = 0;
         //crear funciones random
 
+
+        //Falta validar que no deje crear persona si el tiempo está en 17 (GRanjero, Constructor y soldado)
+        //Lo mismo pero no deja crear nada si el tiempo es de 23
         switch (profesion){
             case "Granjero":
                 alimentoDia = randomNum(10,30);
@@ -178,7 +181,7 @@ public class PersonaDao extends DaoBase{
 
         String sql = "";
         //Aquí se exilia a la persona (elimina)
-        sql = "DELETE FROM personas WHERE id_persona = ? and id_civilizacion = ?";
+        sql = "DELETE FROM personas WHERE id_personas = ? and id_civilizacion = ?";
         try(Connection conn=this.getConnection(); PreparedStatement pstmt = conn.prepareStatement(sql)){
 
             pstmt.setInt(1,idPersona);
@@ -211,7 +214,7 @@ public class PersonaDao extends DaoBase{
     //Nota: Si el campo 'moral' está vacío, el método 'obtenerPersona(int idPersona).getMoral' devuelve un 'null'
     public int obtenerMoralExiliado(int idPersona, int idCivilizacion){
 
-        String sql = "select moral from personas where id_persona = ? and id_civilizacion = ?";
+        String sql = "select moral from personas where id_personas = ? and id_civilizacion = ?";
         try(Connection conn=this.getConnection(); PreparedStatement pstmt= conn.prepareStatement(sql)){
             pstmt.setInt(1,idPersona);
             pstmt.setInt(2,idCivilizacion);
@@ -224,6 +227,66 @@ public class PersonaDao extends DaoBase{
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
+        }
+    }
+    public void muertePorDepresion(int idPersona){
+        Persona persona = obtenerPersona(idPersona); //se obtiene una persona en base al id
+        if(persona.getMoral()<=0){
+            //falta update del campo "vivo o muerto"
+            String sql = "update personas set moral = 0, motivoMuerte = ? where id_personas = ?"; //puede que se de el caso de que la moral llega a negativo
+            try(Connection conn=this.getConnection(); PreparedStatement pstmt = conn.prepareStatement(sql)){
+
+                pstmt.setString(1,"Muerte por depresion");
+                pstmt.setInt(2,idPersona);
+                pstmt.executeUpdate();
+
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+
+            int tiempoDelQueMurio = obtenerPersona(idPersona).getDaysAlive();//tiempo del muerto
+            int randomRed = 0;//Inicializo la variable reduccion
+            int idCivilPersonaMuerta = obtenerPersona(idPersona).getCivilizacion().getIdCivilizacion();//idCivilizacion a la que pertenece el muerto
+
+            ArrayList<Integer> listaIdPersonas = listaIdPersonasXCivilizacion(idCivilPersonaMuerta);
+            for(int idP:listaIdPersonas){
+
+                //Falta validar que se considere las Id de las personas que estan vivas
+                //Se debe a que falta el campo de "vivo o muerto"
+                int tiempoDelVivo = obtenerPersona(idP).getDaysAlive(); //Se obtiene el tiempoDeVida de la persona
+                randomRed = randomNum(0,tiempoDelQueMurio+tiempoDelVivo); //Random de (0 , X)
+
+                //Aca actualiza de manera aleatoria para cada persona
+                String sqlUpd = "update personas set moral = moral - ? where id_personas = ?";
+
+                try(Connection conn=this.getConnection(); PreparedStatement pstmt = conn.prepareStatement(sqlUpd)){
+
+                    pstmt.setInt(1,randomRed);
+                    pstmt.setInt(2,idP);
+                    pstmt.executeUpdate();
+
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+
+        }
+    }
+
+    public ArrayList<Integer> listaIdPersonasXCivilizacion(int idCivilizacion){
+        ArrayList<Integer> listaIdsPersonas = new ArrayList<>();
+
+        String sql = "select p.id_personas from personas p inner join civilizacion c on p.id_civilizacion = c.id_civilizacion where c.id_civilizacion = ?";
+        try (Connection conn=this.getConnection(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, idCivilizacion);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                while (rs.next()) {
+                    listaIdsPersonas.add(rs.getInt(1));
+                }
+            }
+            return listaIdsPersonas;
+        } catch (SQLException ex) {
+            throw new RuntimeException(ex);
         }
     }
 
