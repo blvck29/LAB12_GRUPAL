@@ -1,5 +1,6 @@
 package com.game.rougeclans.servlets;
 
+import com.game.rougeclans.model.daos.JugadorDao;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
@@ -8,6 +9,9 @@ import java.io.IOException;
 
 @WebServlet(name = "LoginServlet", value = "/login")
 public class LoginServlet extends HttpServlet {
+
+    JugadorDao jugadorDao = new JugadorDao();
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
@@ -50,7 +54,8 @@ public class LoginServlet extends HttpServlet {
                 String correo = request.getParameter("correo");
                 String usuario = request.getParameter("usuario");
                 String contrasena = request.getParameter("contrasena");
-                String confirm_contra = request.getParameter("confirm_contra");
+
+                jugadorDao.crearJugador(nombre, edad, correo, usuario, contrasena);
 
                 response.sendRedirect("login?action=confirmation");
                 break;
