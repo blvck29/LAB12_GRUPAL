@@ -39,6 +39,36 @@ public class JugadorDao extends DaoBase{
         return jugador;
     }
 
+    public Jugador obtenerJugadorUsuario(String usuario){
+
+        Jugador jugador = new Jugador();
+        String sql = "select * from jugadores where usuario = ?;";
+
+        try (Connection conn = getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1,usuario);
+
+            try(ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    jugador.setIdJugador(rs.getInt("idJugadores"));
+                    jugador.setNombre(rs.getString("nombre"));
+                    jugador.setEdad(rs.getInt("edad"));
+                    jugador.setCorreo(rs.getString("correo"));
+                    jugador.setUsuario(rs.getString("usuario"));
+                    jugador.setContrasena(rs.getString("contrasena"));
+                    jugador.setListaNegra(rs.getBoolean("ban"));
+                }
+                else {
+                    jugador = null;
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return jugador;
+    }
+
+
     public void crearJugador(String nombre,String edad,String correo,String usuario,String contrasena){
 
         contrasena = SHA256.cipherPassword(contrasena);
