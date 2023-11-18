@@ -15,8 +15,6 @@ public class PersonaDao extends DaoBase{
 
         Persona persona = new Persona();
         CivilizacionDao civilizacionDao = new CivilizacionDao(); //Para ahorrar código
-        MuerteDao muerteDao = new MuerteDao();
-        RolDao rolDao = new RolDao();
 
         String sql = "select * from personas where id_personas = ?;";
 
@@ -35,9 +33,10 @@ public class PersonaDao extends DaoBase{
                     persona.setProduce(rs.getInt("produce"));
                     persona.setAlimentado(rs.getBoolean("alimentado"));
                     persona.setDaysAlive(rs.getInt("days_alive"));
-                    persona.setMuerte(muerteDao.obtenerMuerte(rs.getString("id_muerte")));
+                    persona.setProfesion(rs.getString("profesion"));
+                    persona.setMuerto(rs.getBoolean("muerto"));
+                    persona.setMotivoMuerte(rs.getString("motivoMuerte"));
                     persona.setNombre(rs.getString("nombre"));
-                    persona.setRol(rolDao.obtenerRol(rs.getString("id_rol")));
                 }
                 else {
                     persona = null;
@@ -73,7 +72,7 @@ public class PersonaDao extends DaoBase{
                     alimentoDia = randomNum(10,30);
                     moral = randomNum(10,40);
                     produce = randomNum(100,200);
-                    sql = "insert into personas(id_civilizacion,genero,alimento_dia,moral,produce,nombre,id_rol) values(?,?,?,?,?,?,?)";
+                    sql = "insert into personas(id_civilizacion,genero,alimento_dia,moral,produce,nombre,profesion) values(?,?,?,?,?,?,?)";
                     try(Connection conn=this.getConnection(); PreparedStatement pstmt= conn.prepareStatement(sql)){
                         pstmt.setInt(1,idCivilizacion);
                         pstmt.setString(2,genero);
@@ -81,7 +80,7 @@ public class PersonaDao extends DaoBase{
                         pstmt.setInt(4,moral);
                         pstmt.setInt(5,produce);//produce alimento
                         pstmt.setString(6,nombre);
-                        pstmt.setString(7,"G");
+                        pstmt.setString(7,"Granjero");
                         pstmt.executeUpdate();
                     } catch (SQLException e) {
                         throw new RuntimeException(e);
@@ -101,7 +100,7 @@ public class PersonaDao extends DaoBase{
                     moral = randomNum(10,40);
                     fuerza = randomNum(2,20);
                     produce = randomNum(10,20);
-                    sql = "insert into personas(id_civilizacion,genero,alimento_dia,moral,fuerza,produce,nombre,id_rol) values(?,?,?,?,?,?,?,?)";
+                    sql = "insert into personas(id_civilizacion,genero,alimento_dia,moral,fuerza,produce,nombre,profesion) values(?,?,?,?,?,?,?,?)";
                     try(Connection conn=this.getConnection(); PreparedStatement pstmt= conn.prepareStatement(sql)){
                         pstmt.setInt(1,idCivilizacion);
                         pstmt.setString(2,genero);
@@ -110,7 +109,7 @@ public class PersonaDao extends DaoBase{
                         pstmt.setInt(5,fuerza);
                         pstmt.setInt(6,produce);//moral
                         pstmt.setString(7,nombre);
-                        pstmt.setString(8,"C");
+                        pstmt.setString(8,"Constructor");
                         pstmt.executeUpdate();
                     } catch (SQLException e) {
                         throw new RuntimeException(e);
@@ -129,7 +128,7 @@ public class PersonaDao extends DaoBase{
                     fuerza = randomNum(15,50);
                     produce = randomNum(0,20);
 
-                    sql = "insert into personas(id_civilizacion,genero,alimento_dia,moral,fuerza,produce,nombre,id_rol) values(?,?,?,?,?,?,?,?)";
+                    sql = "insert into personas(id_civilizacion,genero,alimento_dia,moral,fuerza,produce,nombre,profesion) values(?,?,?,?,?,?,?,?)";
 
                     try(Connection conn=this.getConnection(); PreparedStatement pstmt= conn.prepareStatement(sql)){
                         pstmt.setInt(1,idCivilizacion);
@@ -139,7 +138,7 @@ public class PersonaDao extends DaoBase{
                         pstmt.setInt(5,fuerza);
                         pstmt.setInt(6,produce);//moral
                         pstmt.setString(7,nombre);
-                        pstmt.setString(8,"S");
+                        pstmt.setString(8,"Soldado");
                         pstmt.executeUpdate();
                     } catch (SQLException e) {
                         throw new RuntimeException(e);
@@ -156,7 +155,7 @@ public class PersonaDao extends DaoBase{
                 if(civilizacionDao.obtenerCivilizacion(idCivilizacion).getTimeElapsed()<23){
                     alimentoDia = randomNum(30,50);
                     moral = randomNum(20,50);
-                    sql = "insert into personas(id_civilizacion,genero,alimento_dia,moral,nombre,id_rol) values(?,?,?,?,?,?)";
+                    sql = "insert into personas(id_civilizacion,genero,alimento_dia,moral,nombre,profesion) values(?,?,?,?,?,?)";
 
                     try(Connection conn=this.getConnection(); PreparedStatement pstmt= conn.prepareStatement(sql)){
                         pstmt.setInt(1,idCivilizacion);
@@ -164,7 +163,7 @@ public class PersonaDao extends DaoBase{
                         pstmt.setInt(3,alimentoDia);
                         pstmt.setInt(4,moral);
                         pstmt.setString(5,nombre);
-                        pstmt.setString(6,"N");
+                        pstmt.setString(6,"Ninguna");
                         pstmt.executeUpdate();
                     } catch (SQLException e) {
                         throw new RuntimeException(e);
@@ -289,5 +288,20 @@ public class PersonaDao extends DaoBase{
         }
     }
 
+    public void muertePorHambre(int idPersona, int idCivilizacion){
+        PersonaDao personaDao = new PersonaDao();
+
+        String sql = "update personas set muerto = 1,motivoMuerte = ? where id_personas = ? ";
+        try(Connection conn=this.getConnection(); PreparedStatement pstmt= conn.prepareStatement(sql)){
+            pstmt.setString(1,"Muerte por hambre");
+            pstmt.setInt(2,idPersona);
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        String sql1 = " ";
+
+
+    }
 
 }
