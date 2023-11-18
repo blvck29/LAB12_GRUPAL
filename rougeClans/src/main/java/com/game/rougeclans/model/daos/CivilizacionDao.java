@@ -47,6 +47,27 @@ public class CivilizacionDao extends DaoBase{
     }
 
 
+    public int obtenerId(int idJugador){
+        int idCivilizacion = 0;
+
+        String sql = "select id_civilizacion from civilizaciones where id_jugadores = ?;";
+
+        try (Connection conn = getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1,idJugador);
+
+            try(ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    idCivilizacion = rs.getInt(1);
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return idCivilizacion;
+    }
+
     public void crearCivilizacion(int idJugador, String nombre){
 
         String sql = "insert into civilizaciones(id_jugadores,nombre) values (?,?)";

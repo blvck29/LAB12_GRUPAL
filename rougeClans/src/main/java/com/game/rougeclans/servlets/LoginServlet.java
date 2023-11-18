@@ -1,5 +1,6 @@
 package com.game.rougeclans.servlets;
 
+import com.game.rougeclans.model.beans.Civilizacion;
 import com.game.rougeclans.model.beans.Jugador;
 import com.game.rougeclans.model.daos.CivilizacionDao;
 import com.game.rougeclans.model.daos.JugadorDao;
@@ -51,9 +52,12 @@ public class LoginServlet extends HttpServlet {
                 if (jugadorDao.login(usuarioInput, contrasenaInput)){
 
                     Jugador jugador = jugadorDao.obtenerJugadorUsuario(usuarioInput);
+                    int idCivilizacion = civilizacionDao.obtenerId(jugador.getIdJugador());
+                    Civilizacion civilizacion = civilizacionDao.obtenerCivilizacion(idCivilizacion);
                     HttpSession session = request.getSession();
 
                     session.setAttribute("jugador", jugador);
+                    session.setAttribute("civilizacion", civilizacion);
 
                     session.setMaxInactiveInterval(1800); // 1800 segundos = 30 minutos
 
@@ -72,8 +76,6 @@ public class LoginServlet extends HttpServlet {
                 String nombreCivilizacion = request.getParameter("nombre_civ");
                 String usuario = request.getParameter("usuario");
                 String contrasena = request.getParameter("contrasena");
-
-
 
                 jugadorDao.crearJugador(nombre, edad, correo, usuario, contrasena);
 

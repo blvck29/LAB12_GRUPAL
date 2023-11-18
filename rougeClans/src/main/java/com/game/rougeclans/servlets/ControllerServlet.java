@@ -14,6 +14,23 @@ public class ControllerServlet extends HttpServlet {
         String action = request.getParameter("action") == null? "home" : request.getParameter("action");
 
         switch (action){
+
+            case "personas":
+                request.getRequestDispatcher("pages/usuario/gestion_personas/personas.jsp").forward(request, response);
+                break;
+
+            case "recursos":
+                request.getRequestDispatcher("pages/usuario/gestion_recursos/recursos.jsp").forward(request, response);
+                break;
+
+            case "guerra":
+                request.getRequestDispatcher("pages/usuario/gestion_guerra/guerra.jsp").forward(request, response);
+                break;
+
+            case "leaderboard":
+                request.getRequestDispatcher("pages/usuario/leaderboard/leaderboard.jsp").forward(request, response);
+                break;
+
             case "home":
                 request.getRequestDispatcher("pages/usuario/inicio/civilizacion.jsp").forward(request, response);
                 break;

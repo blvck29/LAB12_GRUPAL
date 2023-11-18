@@ -1,4 +1,49 @@
+<%@ page import="com.game.rougeclans.model.beans.Jugador" %>
+<%@ page import="com.game.rougeclans.model.beans.Civilizacion" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+
+
+<% if (session.getAttribute("jugador") == null){ %>
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/login_styles.css">
+    <link rel="icon" type="image/jpg" href="favicon.png"/>
+    <title>Login | Rouge Clans</title>
+</head>
+<body>
+<section class="login_form">
+    <div class="login text-light">
+        <div>
+            <img src="media/loco_image.png" width="650px" height="auto" alt="logo">
+        </div>
+        <div>
+            <h5 class="display-7" style="margin-top: -10px; margin-bottom: 5%">CONQUISTA EL MUNDO</h5>
+        </div>
+        <p class="register">
+            La sesión ha caducado! Vuelve a iniciar sesión para poder jugar.
+            <a href="login" class="red"><p>Regresar</p></a>
+        </p>
+    </div>
+    <video muted autoplay loop>
+        <source src="media/background.mp4" type="video/mp4">
+    </video>
+    <div class="color_layer"></div>
+    <div class="overlay_layer"></div>
+</section>
+</body>
+</html>
+
+<% } else { %>
+
+
+<% Jugador jugador = (Jugador) session.getAttribute("jugador"); %>
+<% Civilizacion civilizacion = (Civilizacion) session.getAttribute("civilizacion"); %>
+
 
 <!DOCTYPE html>
 <html lang="es">
@@ -6,7 +51,7 @@
 <head>
     <title>Guerra | Rouge Clans</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
-    <link rel="stylesheet" href="../../../css/styles.css">
+    <link rel="stylesheet" href="css/styles.css">
     <link rel="icon" type="image/jpg" href="favicon.png"/>
 </head>
 
@@ -19,7 +64,7 @@
         <div class="h-100">
             <div style="margin-top: 20px"></div>
             <div class="sidebar-logo">
-                <a href="#"><img src="../../../media/logo_text.png" width="220px" height="auto" alt="ROUGE CLANS"></a>
+                <a href="#"><img src="media/logo_text.png" width="220px" height="auto" alt="ROUGE CLANS"></a>
             </div>
 
             <ul class="sidebar-nav">
@@ -28,31 +73,31 @@
                 </li>
                 <hr class="hr w-100" style="margin-top: -5px"/>
                 <li class="sidebar-item">
-                    <a href="#" class="sidebar-link">
+                    <a href="game?action=home" class="sidebar-link">
                         <ion-icon name="apps"></ion-icon>
                         Civilizacion
                     </a>
                 </li>
                 <li class="sidebar-item">
-                    <a href="#" class="sidebar-link">
+                    <a href="game?action=personas" class="sidebar-link">
                         <ion-icon name="body"></ion-icon>
                         Personas
                     </a>
                 </li>
                 <li class="sidebar-item">
-                    <a href="#" class="sidebar-link">
+                    <a href="game?action=recursos" class="sidebar-link">
                         <ion-icon name="archive"></ion-icon>
                         Recursos
                     </a>
                 </li>
                 <li class="sidebar-item">
-                    <a href="#" class="sidebar-link active">
+                    <a href="game?action=guerra" class="sidebar-link active">
                         <ion-icon name="eyedrop"></ion-icon>
                         Guerra
                     </a>
                 </li>
                 <li class="sidebar-item">
-                    <a href="#" class="sidebar-link">
+                    <a href="game?action=leaderboard" class="sidebar-link">
                         <ion-icon name="trophy"></ion-icon>
                         LeaderBoard
                     </a>
@@ -61,7 +106,7 @@
                 <hr class="hr w-100"/>
 
                 <li class="sidebar-item">
-                    <a href="#" class="sidebar-link exit">
+                    <a href="logout" class="sidebar-link exit">
                         Cerrar Sesión
                         <ion-icon name="exit"></ion-icon>
                     </a>
@@ -241,7 +286,9 @@
 <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
 <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/js/bootstrap.bundle.min.js"></script>
-<script src="../../../js/script.js"></script>
+<script src="js/script.js"></script>
 </body>
 
 </html>
+
+<%}%>
