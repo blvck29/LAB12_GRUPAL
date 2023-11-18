@@ -4,6 +4,7 @@ import com.game.rougeclans.model.SHA256;
 import com.game.rougeclans.model.beans.Civilizacion;
 import com.game.rougeclans.model.beans.Jugador;
 import com.game.rougeclans.model.beans.Persona;
+import com.game.rougeclans.model.beans.Guerra;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -188,8 +189,7 @@ public class CivilizacionDao extends DaoBase{
         if(civilizacion.getTimeElapsed()>=24){
 
             //dar de comer a todos
-            if(civilizacion.getEstado().equalsIgnoreCase("En guerra"))
-                alimentarPoblacion(idCivilizacion);
+            alimentarPoblacion(idCivilizacion);
 
             //seguimiento de poblacion
             crecimientoPoblacion(idCivilizacion);
@@ -247,7 +247,6 @@ public class CivilizacionDao extends DaoBase{
                     civilizacion.setDaysElapsed(rs.getInt("days_elapsed"));
                     lista.add(civilizacion);
                 }
-
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -432,17 +431,42 @@ public class CivilizacionDao extends DaoBase{
     }
 
     public int obtenerAlimentoTotal(int idCivilizacion){
-        String sql = "select sum(produce) from personas where profesion = ? and id_civilizacion = ?";
 
-        try (Connection conn=this.getConnection(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setString(1, "Granjero");
-            pstmt.setInt(2, idCivilizacion);
-            try (ResultSet rs = pstmt.executeQuery()) {
-                return rs.getInt(1);
+        if(obtenerCivilizacion(idCivilizacion).getEstado().equalsIgnoreCase("En paz")){
+            return produccionAlimento(idCivilizacion);
+        }else{
+            int A = 0;
+            int B = 0;
+            GuerraDao guerraDao = new GuerraDao();
+            for(Integer idG:guerraDao.listaIdGuerra()){
+                boolean validarGuerraActual = guerraDao.obtenerGuerra(idG).getDiaAtacante() == obtenerCivilizacion(idCivilizacion).getDaysElapsed();
+                boolean validarQueEsAtacante = guerraDao.obtenerGuerra(idG).getCivilizacionAtacante().getIdCivilizacion()==idCivilizacion;
+                if( validarQueEsAtacante && validarGuerraActual){
+                    if(guerraDao.obtenerGuerra(idG).getEstadoGuerra().equalsIgnoreCase("victoria")){//se compara el estado de guerram
+
+                        A = produccionAlimento(idCivilizacion);
+
+                        String sql = "select sum(produce) from personas where profesion = ? and id_civilizacion = ?";
+                        try (Connection conn=this.getConnection(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
+                            pstmt.setString(1, "Granjero");
+                            pstmt.setInt(2, guerraDao.obtenerGuerra(idG).getCivilizacionDefensora().getIdCivilizacion());
+                            try (ResultSet rs = pstmt.executeQuery()) {
+                                B =  rs.getInt(1);
+                            }
+                        } catch (SQLException ex) {
+                            throw new RuntimeException(ex);
+                        }
+                        return A+B;//devuelve lo que el produce mas quien derrotó
+                    }else{
+                        return produccionAlimento(idCivilizacion);
+                    }
+                }else{
+                    return produccionAlimento(idCivilizacion);
+                }
             }
-        } catch (SQLException ex) {
-            throw new RuntimeException(ex);
+            return 0;//nunca se va a dar, pero es para que no me salga error
         }
+
     }
 
     public Integer obtenerMoralTotalCivilizacion(int idCivilizacion){
@@ -450,6 +474,70 @@ public class CivilizacionDao extends DaoBase{
         String sql = "select sum(moral) from personas where id_civilizacion = ?";
         try (Connection conn=this.getConnection(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setInt(1, idCivilizacion);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                return rs.getInt(1);
+            }
+        } catch (SQLException ex) {
+            throw new RuntimeException(ex);
+        }
+    }
+    public Integer fuerzaCivilizacion(int idCivilizacion){//para Leaderboard
+            return fuerzaTotalConstructor(idCivilizacion)+fuerzaTotalSoldado(idCivilizacion);
+    }
+    public Integer fuerzaTotalConstructor(int idCivilizacion){
+        String sql = "select sum(fuerza) from personas where profesion ='Constructor' and id_civilizacion = ?";
+        try (Connection conn=this.getConnection(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, idCivilizacion);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                return rs.getInt(1);
+            }
+        } catch (SQLException ex) {
+            throw new RuntimeException(ex);
+        }
+    }
+    public Integer fuerzaTotalSoldado(int idCivilizacion){
+        String sql = "select sum(fuerza) from personas where profesion ='Soldado' and id_civilizacion = ?";
+        try (Connection conn=this.getConnection(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, idCivilizacion);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                return rs.getInt(1);
+            }
+        } catch (SQLException ex) {
+            throw new RuntimeException(ex);
+        }
+    }
+    public Integer maximoDiasCiudadano(int idCivilizacion){
+        ArrayList<Integer> listaDiasVivo = new ArrayList<>();
+        String sql = "select days_alive, muerto from personas where id_civilizacion = ?";
+        try (Connection conn = getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1,idCivilizacion);
+
+            try(ResultSet rs = pstmt.executeQuery()) {
+                while (rs.next()) {
+                    if(!rs.getBoolean(2)){
+                        listaDiasVivo.add(rs.getInt(1));
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        //obtener el mayor día dentro de la lista de días
+        int diaMax = 0;
+        for(Integer dia:listaDiasVivo){
+            if(diaMax<dia){
+                diaMax = dia;
+            }
+        }
+        return diaMax;
+    }
+    public Integer produccionAlimento(int idCivilizacion){
+        String sql = "select sum(produce) from personas where profesion = ? and id_civilizacion = ?";
+
+        try (Connection conn=this.getConnection(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, "Granjero");
+            pstmt.setInt(2, idCivilizacion);
             try (ResultSet rs = pstmt.executeQuery()) {
                 return rs.getInt(1);
             }
