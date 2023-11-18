@@ -186,6 +186,17 @@ public class CivilizacionDao extends DaoBase{
         Civilizacion civilizacion = obtenerCivilizacion(idCivilizacion); // Ahorrar código
 
         if(civilizacion.getTimeElapsed()>=24){
+
+            //dar de comer a todos
+            if(civilizacion.getEstado().equalsIgnoreCase("En guerra"))
+                alimentarPoblacion(idCivilizacion);
+
+            //seguimiento de poblacion
+            crecimientoPoblacion(idCivilizacion);
+
+            //subir moral a todos
+            subirMoral(idCivilizacion);
+
             //String sql = "update civilizaciones set time_elapsed = time_elapsed - 24, days_elapsed = days_elapsed + 1 where id_civilizacion = ?";
             String sql = "update civilizaciones set time_elapsed = 0, days_elapsed = days_elapsed + 1 where id_civilizacion = ?";
 
@@ -206,12 +217,7 @@ public class CivilizacionDao extends DaoBase{
                 throw new RuntimeException(e);
             }
 
-            //subir moral a todos
-            subirMoral(idCivilizacion);
-
-            //dar de comer a todos
-            alimentarPoblacion(idCivilizacion);
-
+            //En el pdf dice que se debe listar la muerte de las personas muertas en el dia anterior
         }
 
     }
@@ -382,6 +388,76 @@ public class CivilizacionDao extends DaoBase{
             throw new RuntimeException(e);
         }
 
+    }
+    public void crecimientoPoblacion(int idCivilizacion){
+        PersonaDao personaDao = new PersonaDao();
+        int diasCivil = obtenerCivilizacion(idCivilizacion).getDaysElapsed();
+        int cantPoblacion = obtenerPoblacionTotal(idCivilizacion);
+        if(!(cantPoblacion>4*diasCivil)){//si población no es  mayor a cuatro veces los días
+            //reducir moral
+            ArrayList<Integer> idsPersonas = personaDao.listaIdPersonasXCivilizacion(idCivilizacion);
+            ArrayList<Integer> idsVivos = new ArrayList<>();
+            for(Integer id:idsPersonas){
+                if(!(personaDao.obtenerPersona(id).isMuerto())){
+                    idsVivos.add(id);
+                }
+            }
+            for(Integer idP:idsVivos){
+                Integer moralP = personaDao.obtenerPersona(idP).getMoral();
+                String sql = "update personas set moral = moral - ? where id_personas = ?";
+                try(Connection conn=this.getConnection(); PreparedStatement pstmt= conn.prepareStatement(sql)){
+                    pstmt.setInt(1, (int) Math.ceil((moralP*0.5)));//reduce en 50% la moral a cada uno
+                    pstmt.setInt(2,idCivilizacion);
+                    pstmt.executeUpdate();
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
+                //si moral llega a 0 aplicar la funcion muerte por depresión
+                if(personaDao.obtenerPersona(idP).getMoral()<=0){
+                    personaDao.muertePorDepresion(idP);
+                }
+            }
+        }
+
+    }
+    public int obtenerPoblacionTotal(int idCivilizacion){
+        String sql = "select count(id_personas) as cantPoblacion from personas where id_civilizacion = ?";
+
+        try (Connection conn=this.getConnection(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, idCivilizacion);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                return rs.getInt(1);
+            }
+        } catch (SQLException ex) {
+            throw new RuntimeException(ex);
+        }
+    }
+
+    public int obtenerAlimentoTotal(int idCivilizacion){
+        String sql = "select sum(produce) from personas where profesion = ? and id_civilizacion = ?";
+
+        try (Connection conn=this.getConnection(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, "Granjero");
+            pstmt.setInt(2, idCivilizacion);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                return rs.getInt(1);
+            }
+        } catch (SQLException ex) {
+            throw new RuntimeException(ex);
+        }
+    }
+
+    public Integer obtenerMoralTotalCivilizacion(int idCivilizacion){
+
+        String sql = "select sum(moral) from personas where id_civilizacion = ?";
+        try (Connection conn=this.getConnection(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, idCivilizacion);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                return rs.getInt(1);
+            }
+        } catch (SQLException ex) {
+            throw new RuntimeException(ex);
+        }
     }
 
 }

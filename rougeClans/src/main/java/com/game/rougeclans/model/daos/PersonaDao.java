@@ -345,18 +345,18 @@ public class PersonaDao extends DaoBase{
     }
 
 
-    public void exiliarPersona(int idPersona, int idCivilizacion){ //
+    public void exiliarPersona(int idPersona, int idCivilizacion) { //
 
         //Se obtiene el moral de la persona a exiliar
-        int moralExiliado = obtenerMoral(idPersona);
+        int moralExiliado = obtenerPersona(idPersona).getMoral();
 
         String sql = "";
         //Aquí se exilia a la persona (elimina)
         sql = "DELETE FROM personas WHERE id_personas = ? and id_civilizacion = ?";
-        try(Connection conn=this.getConnection(); PreparedStatement pstmt = conn.prepareStatement(sql)){
+        try (Connection conn = this.getConnection(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
-            pstmt.setInt(1,idPersona);
-            pstmt.setInt(2,idCivilizacion);
+            pstmt.setInt(1, idPersona);
+            pstmt.setInt(2, idCivilizacion);
             pstmt.executeUpdate();
 
         } catch (SQLException e) {
@@ -368,11 +368,23 @@ public class PersonaDao extends DaoBase{
         sql = "update personas set moral = moral - ? where id_civilizacion = ?";
 
         //Se obtiene un rango aleatorio entre 0 y moralExiliado/2
-        int reducMoral = randomNum(0,moralExiliado/2);
-        try(Connection conn=this.getConnection(); PreparedStatement pstmt = conn.prepareStatement(sql)){
+        int reducMoral = randomNum(0, moralExiliado / 2);
+        try (Connection conn = this.getConnection(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
-            pstmt.setInt(1,reducMoral);
-            pstmt.setInt(2,idCivilizacion);
+            pstmt.setInt(1, reducMoral);
+            pstmt.setInt(2, idCivilizacion);
+            pstmt.executeUpdate();
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        //cambiar el estado a muerte de la persona si su moral llega a 0
+        int diaCivil = obtenerPersona(idPersona).getCivilizacion().getDaysElapsed();
+        sql = "update personas set muerto=1, motivoMuerte='Muerte por depresion', dia_muerte = ? where moral = 0 and id_civilizacion = ?";
+        try (Connection conn = this.getConnection(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setInt(1,diaCivil);
+            pstmt.setInt(2, idCivilizacion);
             pstmt.executeUpdate();
 
         } catch (SQLException e) {
@@ -386,11 +398,12 @@ public class PersonaDao extends DaoBase{
         Persona persona = obtenerPersona(idPersona); //se obtiene una persona en base al id
         if(obtenerMoral(idPersona)<=0){
             //falta update del campo "vivo o muerto"
-            String sql = "update personas set moral = 0,muerto = 1, motivoMuerte = ? where id_personas = ?"; //puede que se de el caso de que la moral llega a negativo
+            String sql = "update personas set moral = 0,muerto = 1, motivoMuerte = ?, dia_muerte = ? where id_personas = ?"; //puede que se de el caso de que la moral llega a negativo
             try(Connection conn=this.getConnection(); PreparedStatement pstmt = conn.prepareStatement(sql)){
 
                 pstmt.setString(1,"Muerte por depresion");
-                pstmt.setInt(2,idPersona);
+                pstmt.setInt(2, obtenerPersona(idPersona).getCivilizacion().getDaysElapsed());
+                pstmt.setInt(3,idPersona);
                 pstmt.executeUpdate();
 
             } catch (SQLException e) {
@@ -450,11 +463,12 @@ public class PersonaDao extends DaoBase{
         Persona persona = obtenerPersona(idPersona); //se obtiene una persona en base al id
         if(obtenerMoral(idPersona)<=0){
 
-            String sql = "update personas set moral = 0,muerto = 1, motivoMuerte = ? where id_personas = ?"; //puede que se de el caso de que la moral llega a negativo
+            String sql = "update personas set moral = 0,muerto = 1, motivoMuerte = ?, dia_muerte = ? where id_personas = ?"; //puede que se de el caso de que la moral llega a negativo
             try(Connection conn=this.getConnection(); PreparedStatement pstmt = conn.prepareStatement(sql)){
 
                 pstmt.setString(1,"Muerte por hambre");
-                pstmt.setInt(2,idPersona);
+                pstmt.setInt(2, obtenerPersona(idPersona).getCivilizacion().getDaysElapsed());
+                pstmt.setInt(3,idPersona);
                 pstmt.executeUpdate();
 
             } catch (SQLException e) {
@@ -513,6 +527,39 @@ public class PersonaDao extends DaoBase{
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
+        }
+
+        public ArrayList<Persona> listarPersonasMuertasPorCivilizacion(int idCivilizacion) {
+            CivilizacionDao civilizacionDao = new CivilizacionDao();
+            ArrayList<Persona> muertos = new ArrayList<>();
+            String sql = "select * personas where muerto = 1 and id_civilizacion = ? and (? - dia_muerte == 1)";
+            try (Connection conn = this.getConnection(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
+                pstmt.setInt(1, idCivilizacion);
+                pstmt.setInt(2,civilizacionDao.obtenerCivilizacion(idCivilizacion).getDaysElapsed());
+                try (ResultSet rs = pstmt.executeQuery()) {
+                    while (rs.next()) {
+                        Persona p = new Persona();
+                        p.setIdPersona(rs.getInt("id_personas"));
+                        p.setCivilizacion(civilizacionDao.obtenerCivilizacion(rs.getInt("id_civilizacion")));
+                        p.setGenero(rs.getString("genero")); //Hacer flujo de transformar los caracteres 'M' o 'F' a 'masculino' y 'femenino' si es necesario
+                        p.setAlimentoDia(rs.getInt("alimento_dia"));
+                        p.setMoral(rs.getInt("moral"));
+                        p.setFuerza(rs.getInt("fuerza"));
+                        p.setProduce(rs.getInt("produce"));
+                        p.setAlimentado(rs.getBoolean("alimentado"));
+                        p.setDaysAlive(rs.getInt("days_alive"));
+                        p.setProfesion(rs.getString("profesion"));
+                        p.setMuerto(rs.getBoolean("muerto"));
+                        p.setMotivoMuerte(rs.getString("motivoMuerte"));
+                        p.setNombre(rs.getString("nombre"));
+                        muertos.add(p);
+                    }
+                }
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+
+            return muertos;
         }
     }
 
