@@ -485,10 +485,15 @@ html[data-bs-theme="light"] .theme-toggle .fa-sun {
     background-color: rgba(28, 28, 28, 0.4) !important;}
 
 .table.table-dark.table-hover thead th {
-    background-color: rgba(28, 28, 28, 0.4) !important;}
+    background-color: rgba(28, 28, 28, 0.7) !important;}
 
 .table.table-dark.table-hover tbody td {
     background-color: rgba(28, 28, 28, 0.4) !important;}
+
+.table-dark {
+    --bs-table-hover-bg: rgba(0, 0, 0, 0.47) !important; /* Nuevo valor para la variable --bs-table-hover-bg */
+}
+
 
 /* Gestión de Recursos */
 
@@ -607,4 +612,40 @@ html[data-bs-theme="light"] .theme-toggle .fa-sun {
     gap: 10px;
     grid-template-columns: 100%;
     grid-template-rows: repeat(4, 1fr);
+}
+
+
+/* LeaderBoard */
+
+
+
+.content-board {
+    width: 100%;
+    padding: 20px 50px 20px 30px;
+    display: grid;
+    gap: 10px;
+    grid-template-columns: repeat(1, 1fr);
+    grid-template-rows: 2fr 1fr;
+}
+
+.content-board > div:first-child {
+    grid-column-start: span 1;
+}
+
+
+.red-table.table.table-dark.table-hover {
+    background-color: rgba(87, 6, 6, 0.6) !important;}
+
+.red-table.table.table-dark.table-hover thead th {
+    background-color: rgba(87, 6, 6, 0.6) !important;}
+
+.red-table.table.table-dark.table-hover tbody td {
+    background-color: rgba(87, 6, 6, 0.6) !important;}
+
+.red-table.table.table-dark{
+    border-color: #d2d2d2 !important;
+}
+.red-table.table-dark {
+    font-size: 1rem;
+    --bs-table-hover-bg: rgba(128, 0, 0, 0.6) !important; /* Nuevo valor para la variable --bs-table-hover-bg */
 }

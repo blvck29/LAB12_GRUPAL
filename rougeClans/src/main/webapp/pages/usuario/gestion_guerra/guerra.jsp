@@ -161,16 +161,17 @@
             <div class="custom_card">
                 <div>
                     <div class="d-flex justify-content-between">
-                        <div class="subcard_title">Guerra Actual</div>
+                        <div class="subcard_title">Última Guerra</div>
                     </div>
 
                     <hr style="margin-top: 0">
 
                     <div class="war-statistics">
-                        <div class="infos">Alimento: 30-50</div>
-                        <div class="infos">Moral: 20-50</div>
-                        <div class="infos">Fuerza: Nada</div>
-                        <div class="infos">Produce: Nada</div>
+                        <div class="infos">Oponente: Stuardo</div>
+                        <div class="infos">Puesto: #1</div>
+                        <div class="infos">Civilización: Grecia</div>
+                        <div class="infos">Fecha: Hoy</div>
+                        <div class="infos">Resultado: ?</div>
                     </div>
 
                 </div>
