@@ -19,10 +19,8 @@
 
   <div class="login text-light">
 
-    <div style="margin-top: 25%;"></div>
-
-    <div class="logo">
-      <img src="media/logo.png" width="650px" height="auto" alt="logo">
+    <div>
+      <img src="media/loco_image.png" width="650px" height="auto" alt="logo">
     </div>
     <div>
       <h5 class="display-7" style="margin-top: -10px; margin-bottom: 5%">CONQUISTA EL MUNDO</h5>
@@ -33,7 +31,7 @@
         <div class="auth">
 
           <label for="usuario" class="sr-only"></label>
-          <input type="text" id="usuario" class="form-control" placeholder="Usuario" required="" autofocus="">
+          <input type="text" id="usuario" class="form-control" placeholder="Usuario" required="">
           <div style="margin-top: 15px"></div>
           <label for="contrasena" class="sr-only"></label>
           <input type="password" id="contrasena" class="form-control" placeholder="Contraseña" required="">

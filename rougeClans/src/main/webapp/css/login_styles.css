@@ -27,11 +27,14 @@ video {
 }
 
 .logo img{
-    width: 650px;
+    width: 400px;
     height: auto;
 }
 
 .login_form {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     min-height: 100vh;
     align-self: center;
     align-content: center;
@@ -107,6 +110,11 @@ button {
 
 .register a {
     color: #dc3545;
+    font-weight: bolder;
+}
+
+.red{
+    color: #dc3545 !important;
     font-weight: bolder;
 }
 
