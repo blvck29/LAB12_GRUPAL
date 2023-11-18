@@ -3,10 +3,11 @@ package com.game.rougeclans.model.beans;
 public class Guerra {
 
     private int idGuerra;
-    private Civilizacion civilizacion;
-    private Civilizacion oponenteCivilizacion;
-    private String resultado;
-    private String rolGuerra;
+    private Civilizacion civilizacionAtacante;
+    private Civilizacion civilizacionDefensora;
+    private String estadoGuerra;
+    private int diaAtacante;
+    private int diaDefensor;
 
     public int getIdGuerra() {
         return idGuerra;
@@ -16,35 +17,43 @@ public class Guerra {
         this.idGuerra = idGuerra;
     }
 
-    public Civilizacion getCivilizacion() {
-        return civilizacion;
+    public Civilizacion getCivilizacionAtacante() {
+        return civilizacionAtacante;
     }
 
-    public void setCivilizacion(Civilizacion civilizacion) {
-        this.civilizacion = civilizacion;
+    public void setCivilizacionAtacante(Civilizacion civilizacionAtacante) {
+        this.civilizacionAtacante = civilizacionAtacante;
     }
 
-    public Civilizacion getOponenteCivilizacion() {
-        return oponenteCivilizacion;
+    public Civilizacion getCivilizacionDefensora() {
+        return civilizacionDefensora;
     }
 
-    public void setOponenteCivilizacion(Civilizacion oponenteCivilizacion) {
-        this.oponenteCivilizacion = oponenteCivilizacion;
+    public void setCivilizacionDefensora(Civilizacion civilizacionDefensora) {
+        this.civilizacionDefensora = civilizacionDefensora;
     }
 
-    public String getResultado() {
-        return resultado;
+    public String getEstadoGuerra() {
+        return estadoGuerra;
     }
 
-    public void setResultado(String resultado) {
-        this.resultado = resultado;
+    public void setEstadoGuerra(String estadoGuerra) {
+        this.estadoGuerra = estadoGuerra;
     }
 
-    public String getRolGuerra() {
-        return rolGuerra;
+    public int getDiaAtacante() {
+        return diaAtacante;
     }
 
-    public void setRolGuerra(String rolGuerra) {
-        this.rolGuerra = rolGuerra;
+    public void setDiaAtacante(int diaAtacante) {
+        this.diaAtacante = diaAtacante;
+    }
+
+    public int getDiaDefensor() {
+        return diaDefensor;
+    }
+
+    public void setDiaDefensor(int diaDefensor) {
+        this.diaDefensor = diaDefensor;
     }
 }

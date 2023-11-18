@@ -8,9 +8,6 @@ public class Civilizacion {
     private String estado;
     private int timeElapsed;
     private int daysElapsed;
-    private int alimentoTotal;
-    private int poblacionTotal;
-    private int fuerzaTotal;
 
     public int getIdCivilizacion() {
         return idCivilizacion;

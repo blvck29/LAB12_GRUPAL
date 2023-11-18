@@ -6,17 +6,12 @@ public class Persona {
     private Civilizacion civilizacion;
     private String nombre;
     private String genero;
-    private int alimentoDia;
-    private int moral;
-    private int fuerza;
-    private int produce;
     private boolean alimentado;
     private int daysAlive;
-
     private String profesion;
-
     private boolean muerto;
     private String motivoMuerte;
+    private int diaMuerte;
 
 
     public int getIdPersona() {
@@ -51,37 +46,6 @@ public class Persona {
         this.genero = genero;
     }
 
-    public int getAlimentoDia() {
-        return alimentoDia;
-    }
-
-    public void setAlimentoDia(int alimentoDia) {
-        this.alimentoDia = alimentoDia;
-    }
-
-    public int getMoral() {
-        return moral;
-    }
-
-    public void setMoral(int moral) {
-        this.moral = moral;
-    }
-
-    public int getFuerza() {
-        return fuerza;
-    }
-
-    public void setFuerza(int fuerza) {
-        this.fuerza = fuerza;
-    }
-
-    public int getProduce() {
-        return produce;
-    }
-
-    public void setProduce(int produce) {
-        this.produce = produce;
-    }
 
     public boolean isAlimentado() {
         return alimentado;
@@ -122,4 +86,13 @@ public class Persona {
     public void setMotivoMuerte(String motivoMuerte) {
         this.motivoMuerte = motivoMuerte;
     }
+
+    public int getDiaMuerte() {
+        return diaMuerte;
+    }
+
+    public void setDiaMuerte(int diaMuerte) {
+        this.diaMuerte = diaMuerte;
+    }
 }
+

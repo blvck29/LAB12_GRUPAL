@@ -33,8 +33,6 @@ public class CivilizacionDao extends DaoBase{
                     civilizacion.setNombre(rs.getString("nombre"));
                     civilizacion.setTimeElapsed(rs.getInt("time_elapsed"));
                     civilizacion.setDaysElapsed(rs.getInt("days_elapsed"));
-                    civilizacion.setAlimentoTotal(rs.getInt("alimento_total"));
-                    civilizacion.setPoblacionTotal(rs.getInt("poblacion_total"));
                 }
                 else {
                     civilizacion = null;
@@ -83,29 +81,6 @@ public class CivilizacionDao extends DaoBase{
 
     }
 
-
-    //creo que este método es redundante, pues con obtenerCivilización se obtienen todos los parámetros, entonces lo que ...
-    //se haría (en este caso) para obtener el estado de una civilización es:
-    //String estadoCivilización = obtenerCivilización(idCivilización).getEstado()
-    //Además solo con ese método hasta se podría obtener parámetros del usuario (superbean)
-    //Por ejemplo, si necesitamos el usuario del jugador relacionado con una civilización basta con:
-    // obtenerCivilización(idCivilización).getJugador().getUsuario()
-
-    public String estadoCivilizacion(int idCivilizacion){
-        String estado = "";
-        String sql = "select estado from civilizaciones where id_civilizacion = ? ";
-        try(Connection conn=this.getConnection(); PreparedStatement pstmt=conn.prepareStatement(sql)){
-            pstmt.setInt(1,idCivilizacion);
-            try(ResultSet rs = pstmt.executeQuery()){
-                if(rs.next()){
-                    estado = rs.getString(1);
-                }
-                return estado;
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
 
     //--------------------Métodos asociados a las horas y días transcurridos----------------------------------
 
@@ -293,8 +268,7 @@ public class CivilizacionDao extends DaoBase{
 
             if(!personaDao.obtenerPersona(idPersonaAleatoria).isMuerto()){
                 //se obtiene el alimento de la persona aleatoria
-                PersonaDao personaDaoRd = new PersonaDao();
-                int alimentoPersonaRd =  personaDaoRd.obtenerPersona(idPersonaAleatoria).getAlimentoDia();
+                int alimentoPersonaRd =  personaDao.obtenerAlimentoDia(idPersonaAleatoria);
 
                 //se valida que el alimento sea lo suficiente
                 if(alimentoPersonaRd>alimentoTotal){
