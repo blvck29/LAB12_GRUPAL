@@ -172,12 +172,26 @@ public class CivilizacionDao extends DaoBase{
         Civilizacion civilizacion = obtenerCivilizacion(idCivilizacion); // Ahorrar código
 
         if(civilizacion.getTimeElapsed()>=24){
-            String sql = "update civilizaciones set time_elapsed = time_elapsed - 24, days_elapsed = days_elapsed + 1 where id_civilizacion = ?";;
+            //String sql = "update civilizaciones set time_elapsed = time_elapsed - 24, days_elapsed = days_elapsed + 1 where id_civilizacion = ?";
+            String sql = "update civilizaciones set time_elapsed = 0, days_elapsed = days_elapsed + 1 where id_civilizacion = ?";
+
             try(Connection conn=getConnection(); PreparedStatement pstmt= conn.prepareStatement(sql)){
                 pstmt.setInt(1,idCivilizacion);
+                pstmt.executeUpdate();
+
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }
+
+            //falta actualizar alimentado a 0
+            String sql1 = "update personas set alimentado = 0 where id_civilizacion = ?";
+            try(Connection conn=getConnection(); PreparedStatement pstmt= conn.prepareStatement(sql1)){
+                pstmt.setInt(1,idCivilizacion);
+                pstmt.executeUpdate();
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+
         }
 
     }
@@ -238,25 +252,18 @@ public class CivilizacionDao extends DaoBase{
 
                 //se valida que el alimento sea lo suficiente
                 if(alimentoPersonaRd>alimentoTotal){
-                    //si no es suficiente ocurre que se reduce
-
-
-
+                    //si no es suficiente ocurre que se reduce la moral en base a lo que le faltó comer
+                    for(Integer idPersonaRestante:idPersonas){
+                        personaDao.restarMoralPorFaltaComida(idPersonaRestante);
+                    }
                     break;
                 }else{
                     //se resta lo alimentado
                     alimentoTotal = alimentoTotal - alimentoPersonaRd;
                 }
 
-                //se hace un update a alimentado
-                String sql = "update personas set alimentado = 1 where id_personas = ?";
-                try(Connection conn=this.getConnection(); PreparedStatement pstmt= conn.prepareStatement(sql)){
-                    pstmt.setInt(1,idPersonaAleatoria);
-                    pstmt.executeUpdate();
-
-                } catch (SQLException e) {
-                    throw new RuntimeException(e);
-                }
+                //se actualiza en base de datos a la persona alimentada
+                personaDao.personaAlimentada(idPersonaAleatoria);
 
                 //se remueve el indice(id) ligado al idPersona de la lista para no volver a escoger a la persona que ha sido alimentada
                 idPersonas.remove(idAleatorio);
