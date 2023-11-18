@@ -9,13 +9,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="469d34e7-2add-4849-bd7c-1274aa448bfc" name="Changes" comment="login design">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/game/rougeclans/model/daos/CivilizacionDao.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/game/rougeclans/model/daos/GuerraDao.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/game/rougeclans/model/daos/PersonaDao.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+    <list default="true" id="469d34e7-2add-4849-bd7c-1274aa448bfc" name="Changes" comment="alimentar población 50%">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/game/rougeclans/model/beans/Guerra.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/game/rougeclans/model/beans/Guerra.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/game/rougeclans/model/daos/CivilizacionDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/game/rougeclans/model/daos/CivilizacionDao.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -36,6 +32,20 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
+  "lastFilter": {
+    "state": "OPEN",
+    "assignee": "J3anP"
+  }
+}]]></component>
+  <component name="GithubPullRequestsUISettings">
+    <option name="selectedUrlAndAccountId">
+      <UrlAndAccount>
+        <option name="accountId" value="c2e1b8bb-60f2-4a99-82c7-b5482baa5389" />
+        <option name="url" value="https://github.com/blvck29/LAB12_GRUPAL.git" />
+      </UrlAndAccount>
+    </option>
   </component>
   <component name="LogFilters">
     <option name="FILTER_ERRORS" value="false" />
@@ -182,7 +192,8 @@
       <option name="presentableId" value="Default" />
       <updated>1700098380790</updated>
       <workItem from="1700141394064" duration="13931000" />
-      <workItem from="1700159566703" duration="1792000" />
+      <workItem from="1700159566703" duration="32539000" />
+      <workItem from="1700247475377" duration="6567000" />
     </task>
     <task id="LOCAL-00001" summary="a">
       <option name="closed" value="true" />
@@ -224,7 +235,63 @@
       <option name="project" value="LOCAL" />
       <updated>1700151694779</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="daos :D">
+      <option name="closed" value="true" />
+      <created>1700161409477</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1700161409478</updated>
+    </task>
+    <task id="LOCAL-00007" summary="metodos dentro de los daos">
+      <option name="closed" value="true" />
+      <created>1700171730129</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1700171730129</updated>
+    </task>
+    <task id="LOCAL-00008" summary="Crear persona, pasar hora, pasar día, listaNegra jugador">
+      <option name="closed" value="true" />
+      <created>1700187426313</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1700187426314</updated>
+    </task>
+    <task id="LOCAL-00009" summary="método de exiliar con todas sus validaciones y explicado en comentarios">
+      <option name="closed" value="true" />
+      <created>1700192946997</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1700192946998</updated>
+    </task>
+    <task id="LOCAL-00010" summary="DTO de los más deprimidos y muertePorDepresion (Falta corregir añadir datos debido a la base de datos)">
+      <option name="closed" value="true" />
+      <created>1700202171479</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1700202171479</updated>
+    </task>
+    <task id="LOCAL-00011" summary="refinación del método crearPersona">
+      <option name="closed" value="true" />
+      <created>1700202905633</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1700202905633</updated>
+    </task>
+    <task id="LOCAL-00012" summary="alimentar población 50%">
+      <option name="closed" value="true" />
+      <created>1700251933215</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1700251933215</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -245,6 +312,13 @@
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
     <MESSAGE value="a" />
     <MESSAGE value="login design" />
-    <option name="LAST_COMMIT_MESSAGE" value="login design" />
+    <MESSAGE value="daos :D" />
+    <MESSAGE value="metodos dentro de los daos" />
+    <MESSAGE value="Crear persona, pasar hora, pasar día, listaNegra jugador" />
+    <MESSAGE value="método de exiliar con todas sus validaciones y explicado en comentarios" />
+    <MESSAGE value="DTO de los más deprimidos y muertePorDepresion (Falta corregir añadir datos debido a la base de datos)" />
+    <MESSAGE value="refinación del método crearPersona" />
+    <MESSAGE value="alimentar población 50%" />
+    <option name="LAST_COMMIT_MESSAGE" value="alimentar población 50%" />
   </component>
 </project>

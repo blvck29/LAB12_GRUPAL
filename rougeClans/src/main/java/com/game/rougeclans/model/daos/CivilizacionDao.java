@@ -2,12 +2,14 @@ package com.game.rougeclans.model.daos;
 
 import com.game.rougeclans.model.beans.Civilizacion;
 import com.game.rougeclans.model.beans.Jugador;
+import com.game.rougeclans.model.beans.Persona;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Random;
 
 public class CivilizacionDao extends DaoBase{
 
@@ -213,6 +215,52 @@ public class CivilizacionDao extends DaoBase{
         }
         return lista;
     }
+
+    public void alimentarPoblacion(int idCivilizacion){
+
+        int alimentoTotal = obtenerCivilizacion(idCivilizacion).getAlimentoTotal();
+
+        PersonaDao personaDao = new PersonaDao();
+        //se obtiene una lista de ids de personas
+        ArrayList<Integer> idPersonas = personaDao.listaIdPersonasXCivilizacion(idCivilizacion);
+
+        Random rd = new Random();
+        while(!idPersonas.isEmpty() && alimentoTotal>=0){
+            //un id aleatorio con la cantidad de idsPersonas
+            int idAleatorio = rd.nextInt(idPersonas.size());
+            //se obtiene el idPersona en base al id(numero aleatorio)
+            int idPersonaAleatoria = idPersonas.get(idAleatorio);
+
+            //se obtiene el alimento de la persona aleatoria
+            PersonaDao personaDaoRd = new PersonaDao();
+            int alimentoPersonaRd =  personaDaoRd.obtenerPersona(idPersonaAleatoria).getAlimentoDia();
+
+            //se valida que el alimento sea lo suficiente
+            if(alimentoPersonaRd>alimentoTotal){
+                break;
+            }else{
+                //se resta lo alimentado
+                alimentoTotal = alimentoTotal - alimentoPersonaRd;
+            }
+
+            //se hace un update a alimentado +
+            String sql = "update personas set alimentado = 1 where id_personas = ?";
+            try(Connection conn=this.getConnection(); PreparedStatement pstmt= conn.prepareStatement(sql)){
+                pstmt.setInt(1,idPersonaAleatoria);
+                pstmt.executeUpdate();
+
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+
+            //se remueve el id para no volver a escoger a la persona que ha sido alimentada
+            idPersonas.remove(idAleatorio);
+            }
+
+
+
+    }
+
 
 
 }
