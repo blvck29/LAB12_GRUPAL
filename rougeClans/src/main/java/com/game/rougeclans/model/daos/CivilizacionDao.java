@@ -119,7 +119,7 @@ public class CivilizacionDao extends DaoBase{
             throw new RuntimeException(e);
         }
     }
-    public void pasarDia(int idCivilizacion){
+    /*public void pasarDia(int idCivilizacion){
         String sqlver = "select time_elapsed from civilizaciones where id_civilizacion = ?";
         try(Connection conn=this.getConnection(); PreparedStatement pstmt=conn.prepareStatement(sqlver)){
             pstmt.setInt(1,idCivilizacion);
@@ -141,7 +141,7 @@ public class CivilizacionDao extends DaoBase{
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-    }
+    }*/
 
     public void sumar8horas(int idCivilizacion){
 
@@ -222,7 +222,7 @@ public class CivilizacionDao extends DaoBase{
                 throw new RuntimeException(e);
             }
 
-            //falta actualizar alimentado a 0
+            //actualizar alimentado a 0
             String sql1 = "update personas set alimentado = 0 where id_civilizacion = ?";
             try(Connection conn=getConnection(); PreparedStatement pstmt= conn.prepareStatement(sql1)){
                 pstmt.setInt(1,idCivilizacion);
@@ -230,6 +230,12 @@ public class CivilizacionDao extends DaoBase{
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }
+
+            //subir moral a todos
+            subirMoral(idCivilizacion);
+
+            //dar de comer a todos
+            alimentarPoblacion(idCivilizacion);
 
         }
 
@@ -344,39 +350,22 @@ public class CivilizacionDao extends DaoBase{
         int moralTotal = obtenerProduccionMoralCivilizacion(idCivilizacion);
         PersonaDao personaDao = new PersonaDao();
         //se obtiene una lista de ids de personas
-        ArrayList<Integer> idPersonas = personaDao.listaIdPersonasXCivilizacion(idCivilizacion);
-
-        Random rd = new Random();
-        while(!idPersonas.isEmpty()){
-
-            int idAleatorio = rd.nextInt(idPersonas.size());//un id aleatorio con la cantidad de idsPersonas
-            int idPersonaAleatoria = idPersonas.get(idAleatorio); //se obtiene el idPersona en base al id(numero aleatorio)
-
-
-            if(!personaDao.obtenerPersona(idPersonaAleatoria).isMuerto()){
-                PersonaDao personaDaoRd = new PersonaDao();
-                switch(personaDaoRd.obtenerPersona(idPersonaAleatoria).getProfesion()){
-                    case "Granjero":
-
-                        break;
-                    case "Constructor":
-
-                        break;
-                    case "Soldado":
-
-                        break;
-                    case "Ninguna":
-
-                        break;
-                }
-
-
-                //se remueve el indice(id) ligado al idPersona de la lista para no volver a escoger a la persona que ha sido alimentada
-                idPersonas.remove(idAleatorio);
-            }else{
-                //se remueve el indice(id) asociado de esa persona muerta
-                idPersonas.remove(idAleatorio);
+        ArrayList<Integer> idPersonasT = personaDao.listaIdPersonasXCivilizacion(idCivilizacion);
+        ArrayList<Integer> idPersonasVivas = new ArrayList<>();
+        for(Integer id:idPersonasT){
+            if(!personaDao.obtenerPersona(id).isMuerto()){
+                idPersonasVivas.add(id);
             }
+        }
+        int moralParcial = moralTotal/idPersonasVivas.size();
+        String sql = "update personas set moral = moral + ? where id_civilizacion = ?";
+        try(Connection conn=this.getConnection(); PreparedStatement pstmt= conn.prepareStatement(sql)){
+            pstmt.setInt(1, moralParcial);
+            pstmt.setInt(2,idCivilizacion);
+
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
 
     }

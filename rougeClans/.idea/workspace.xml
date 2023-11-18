@@ -9,7 +9,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="469d34e7-2add-4849-bd7c-1274aa448bfc" name="Changes" comment="alimentar población 50%">
+    <list default="true" id="469d34e7-2add-4849-bd7c-1274aa448bfc" name="Changes" comment="subir Moral a poblacion">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/game/rougeclans/model/daos/CivilizacionDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/game/rougeclans/model/daos/CivilizacionDao.java" afterDir="false" />
     </list>
@@ -33,12 +33,12 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
-  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
-  "lastFilter": {
-    "state": "OPEN",
-    "assignee": "J3anP"
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;J3anP&quot;
   }
-}]]></component>
+}</component>
   <component name="GithubPullRequestsUISettings">
     <option name="selectedUrlAndAccountId">
       <UrlAndAccount>
@@ -193,7 +193,8 @@
       <updated>1700098380790</updated>
       <workItem from="1700141394064" duration="13931000" />
       <workItem from="1700159566703" duration="32539000" />
-      <workItem from="1700247475377" duration="6567000" />
+      <workItem from="1700247475377" duration="18084000" />
+      <workItem from="1700291722224" duration="1689000" />
     </task>
     <task id="LOCAL-00001" summary="a">
       <option name="closed" value="true" />
@@ -291,7 +292,47 @@
       <option name="project" value="LOCAL" />
       <updated>1700251933215</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="alimentacion poblacion 100%">
+      <option name="closed" value="true" />
+      <created>1700278666913</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1700278666913</updated>
+    </task>
+    <task id="LOCAL-00014" summary="corrección de los beans y daos">
+      <option name="closed" value="true" />
+      <created>1700285666059</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1700285666059</updated>
+    </task>
+    <task id="LOCAL-00015" summary="corrección de algunos métodos">
+      <option name="closed" value="true" />
+      <created>1700288218475</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1700288218475</updated>
+    </task>
+    <task id="LOCAL-00016" summary="calculo de fuerzas para la guerra de atacante y defensor">
+      <option name="closed" value="true" />
+      <created>1700289467078</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1700289467079</updated>
+    </task>
+    <task id="LOCAL-00017" summary="subir Moral a poblacion">
+      <option name="closed" value="true" />
+      <created>1700291520394</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1700291520394</updated>
+    </task>
+    <option name="localTasksCounter" value="18" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -319,6 +360,11 @@
     <MESSAGE value="DTO de los más deprimidos y muertePorDepresion (Falta corregir añadir datos debido a la base de datos)" />
     <MESSAGE value="refinación del método crearPersona" />
     <MESSAGE value="alimentar población 50%" />
-    <option name="LAST_COMMIT_MESSAGE" value="alimentar población 50%" />
+    <MESSAGE value="alimentacion poblacion 100%" />
+    <MESSAGE value="corrección de los beans y daos" />
+    <MESSAGE value="corrección de algunos métodos" />
+    <MESSAGE value="calculo de fuerzas para la guerra de atacante y defensor" />
+    <MESSAGE value="subir Moral a poblacion" />
+    <option name="LAST_COMMIT_MESSAGE" value="subir Moral a poblacion" />
   </component>
 </project>
