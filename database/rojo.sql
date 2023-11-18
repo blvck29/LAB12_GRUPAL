@@ -37,12 +37,10 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `rojo`.`civilizaciones` (
   `id_civilizacion` INT NOT NULL AUTO_INCREMENT,
   `id_jugadores` INT NOT NULL,
-  `nombre` VARCHAR(30) NOT NULL,
+  `nombre` VARCHAR(45) NOT NULL,
   `estado` VARCHAR(8) NOT NULL DEFAULT 'PAZ',
   `time_elapsed` INT NOT NULL DEFAULT '0',
   `days_elapsed` INT NOT NULL DEFAULT '0',
-  `alimento_total` VARCHAR(45) NOT NULL DEFAULT '0',
-  `poblacion_total` VARCHAR(45) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id_civilizacion`),
   INDEX `fk_civilizaciones_jugadores1_idx` (`id_jugadores` ASC) VISIBLE,
   CONSTRAINT `fk_civilizaciones_jugadores1`
@@ -70,6 +68,7 @@ CREATE TABLE IF NOT EXISTS `rojo`.`personas` (
   `profesion` VARCHAR(12) NOT NULL,
   `muerto` TINYINT NOT NULL DEFAULT 0,
   `motivoMuerte` VARCHAR(45) NULL,
+  `dia_muerte` INT NULL,
   PRIMARY KEY (`id_personas`),
   INDEX `fk_personas_civilizaciones1_idx` (`id_civilizacion` ASC) VISIBLE,
   CONSTRAINT `fk_personas_civilizaciones1`

@@ -301,27 +301,39 @@ public class CivilizacionDao extends DaoBase{
     }
 
     public int fuerzaTotalAtacante(int idCivilizacion){
+
+        int fuerza = 0;
+
         String sql = "select sum(fuerza) from personas where id_civilizacion = ? and profesion = ?";
         try (Connection conn=this.getConnection(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setInt(1, idCivilizacion);
             pstmt.setString(2,"Soldado");
             try (ResultSet rs = pstmt.executeQuery()) {
-                return rs.getInt(1);
+                if(rs.next()){
+                    fuerza = rs.getInt(1);
+                }
             }
         } catch (SQLException ex) {
             throw new RuntimeException(ex);
         }
+        return fuerza;
     }
     public int fuerzaTotalDefensor(int idCivilizacion){
+
+        int fuerza = 0;
+
         String sql = "select sum(fuerza) from personas where id_civilizacion = ?";
         try (Connection conn=this.getConnection(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setInt(1, idCivilizacion);
             try (ResultSet rs = pstmt.executeQuery()) {
-                return rs.getInt(1);
+                if(rs.next()){
+                    fuerza = rs.getInt(1);
+                }
             }
         } catch (SQLException ex) {
             throw new RuntimeException(ex);
         }
+        return fuerza;
     }
 
     public void subirMoral(int idCivilizacion){
@@ -419,43 +431,79 @@ public class CivilizacionDao extends DaoBase{
 
     }
     public int obtenerPoblacionTotal(int idCivilizacion){
+
+        int cant = 0;
+
         String sql = "select count(id_personas) as cantPoblacion from personas where id_civilizacion = ?";
 
         try (Connection conn=this.getConnection(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setInt(1, idCivilizacion);
+
             try (ResultSet rs = pstmt.executeQuery()) {
-                return rs.getInt(1);
+                if(rs.next()) {
+                    cant = rs.getInt(1);
+                }
             }
         } catch (SQLException ex) {
             throw new RuntimeException(ex);
         }
+
+        return cant;
     }
 
     public int obtenerAlimentoTotal(int idCivilizacion){
+
+        int cant = 0;
+
         String sql = "select sum(produce) from personas where profesion = ? and id_civilizacion = ?";
 
         try (Connection conn=this.getConnection(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, "Granjero");
             pstmt.setInt(2, idCivilizacion);
             try (ResultSet rs = pstmt.executeQuery()) {
-                return rs.getInt(1);
+                if(rs.next()){
+                    cant = rs.getInt(1);
+                }
             }
         } catch (SQLException ex) {
             throw new RuntimeException(ex);
         }
+        return cant;
     }
 
     public Integer obtenerMoralTotalCivilizacion(int idCivilizacion){
+
+        int cant = 0;
 
         String sql = "select sum(moral) from personas where id_civilizacion = ?";
         try (Connection conn=this.getConnection(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setInt(1, idCivilizacion);
             try (ResultSet rs = pstmt.executeQuery()) {
-                return rs.getInt(1);
+                if(rs.next()){
+                    cant = rs.getInt(1);
+                }
             }
         } catch (SQLException ex) {
             throw new RuntimeException(ex);
         }
+        return cant;
     }
 
+    public int obtenerAncianoDelPueblo (Civilizacion civilizacion) {
+
+        int cant = 0;
+
+        String sql = "select * from personas where id_civilizacion = ? order by days_alive desc limit 1;";
+        try (Connection conn=this.getConnection(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, civilizacion.getIdCivilizacion());
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if(rs.next()){
+                    cant = rs.getInt(9);
+                }
+            }
+        } catch (SQLException ex) {
+            throw new RuntimeException(ex);
+        }
+        return cant;
+    }
 }

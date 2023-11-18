@@ -65,7 +65,7 @@ public class GuerraDao extends DaoBase {
         return rol;
     }
 
-    public ArrayList<Guerra> listarGuerras(Civilizacion civilizacion){
+    public ArrayList<Guerra> listarGuerras(int idCivilizacion){
 
         ArrayList<Guerra> lista= new ArrayList<>();
         CivilizacionDao civilizacionDao = new CivilizacionDao();
@@ -73,8 +73,8 @@ public class GuerraDao extends DaoBase {
         String sql = "select * from guerra where id_civilizacion_atacante = ? or id_civilizacion_defensora = ?;";
         try (Connection conn = getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setInt(1,civilizacion.getIdCivilizacion());
-            pstmt.setInt(2,civilizacion.getIdCivilizacion());
+            pstmt.setInt(1,idCivilizacion); // atacamos
+            pstmt.setInt(2,idCivilizacion); // fuimos atacados
 
             try(ResultSet rs = pstmt.executeQuery()) {
                 if (rs.next()) {
@@ -93,45 +93,72 @@ public class GuerraDao extends DaoBase {
             throw new RuntimeException(e);
         }
         return lista;
-
     }
 
-    public int calcularGuerrasGanadas(Civilizacion civilizacion, ArrayList<Guerra> lista){
-        int guerrasGanadas = 0;
-        for (Guerra guerra: lista){
-            int rol = obtenerRolGuerra(guerra.getIdGuerra(),civilizacion);
+    public int calcularGuerrasGanadas(Civilizacion civilizacion){
 
-            if (rol ==1){
-                if(guerra.getEstadoGuerra().equalsIgnoreCase("VA")){
-                    guerrasGanadas++;
+        ArrayList<Guerra> lista = listarGuerras(civilizacion.getIdCivilizacion());
+        int guerrasGanadas = 0;
+
+        if(!(lista.isEmpty())){
+            for (Guerra guerra: lista){
+                int rol = obtenerRolGuerra(guerra.getIdGuerra(),civilizacion);
+
+                if (rol ==1){
+                    if(guerra.getEstadoGuerra().equalsIgnoreCase("VA")){
+                        guerrasGanadas++;
+                    }
                 }
-            }
-            if (rol == 2){
-                if(guerra.getEstadoGuerra().equalsIgnoreCase("VD")){
-                    guerrasGanadas++;
+                if (rol == 2){
+                    if(guerra.getEstadoGuerra().equalsIgnoreCase("VD")){
+                        guerrasGanadas++;
+                    }
                 }
             }
         }
+
         return guerrasGanadas;
     }
-    public int calcularGuerrasPerdidas(Civilizacion civilizacion, ArrayList<Guerra> lista){
-        int guerrasPerdidas = 0;
-        for (Guerra guerra: lista){
-            int rol = obtenerRolGuerra(guerra.getIdGuerra(),civilizacion);
+    public int calcularGuerrasPerdidas(Civilizacion civilizacion){
 
-            if (rol ==1){
-                if(guerra.getEstadoGuerra().equalsIgnoreCase("VD")){
-                    guerrasPerdidas++;
+        ArrayList<Guerra> lista = listarGuerras(civilizacion.getIdCivilizacion());
+        int guerrasPerdidas = 0;
+
+        if(!(lista.isEmpty())){
+            for (Guerra guerra: lista){
+                int rol = obtenerRolGuerra(guerra.getIdGuerra(),civilizacion);
+
+                if (rol ==1){
+                    if(guerra.getEstadoGuerra().equalsIgnoreCase("VD")){
+                        guerrasPerdidas++;
+                    }
                 }
-            }
-            if (rol == 2){
-                if(guerra.getEstadoGuerra().equalsIgnoreCase("VA")){
-                    guerrasPerdidas++;
+                if (rol == 2){
+                    if(guerra.getEstadoGuerra().equalsIgnoreCase("VA")){
+                        guerrasPerdidas++;
+                    }
                 }
             }
         }
+
         return guerrasPerdidas;
     }
+
+
+    public double obtenerWinRate(Civilizacion civilizacion){
+
+        double winRate = 0;
+
+        double perdidas = calcularGuerrasPerdidas(civilizacion);
+        double ganadas = calcularGuerrasGanadas(civilizacion);
+
+        if(perdidas != 0 && ganadas != 0){
+            winRate = (ganadas/(ganadas+perdidas))*100;
+        }
+
+        return winRate;
+    }
+
 
     public void civilizacionAtacanteGana(int idCivilizacion){
         String sql = " ";
