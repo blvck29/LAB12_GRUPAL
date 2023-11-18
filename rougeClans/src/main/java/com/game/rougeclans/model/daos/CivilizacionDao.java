@@ -1,5 +1,6 @@
 package com.game.rougeclans.model.daos;
 
+import com.game.rougeclans.model.SHA256;
 import com.game.rougeclans.model.beans.Civilizacion;
 import com.game.rougeclans.model.beans.Jugador;
 import com.game.rougeclans.model.beans.Persona;
@@ -43,6 +44,22 @@ public class CivilizacionDao extends DaoBase{
             throw new RuntimeException(e);
         }
         return civilizacion;
+    }
+
+
+    public void crearCivilizacion(int idJugador, String nombre){
+
+        String sql = "insert into civilizaciones(id_jugadores,nombre) values (?,?)";
+
+        try(Connection conn=this.getConnection(); PreparedStatement pstmt= conn.prepareStatement(sql)){
+            pstmt.setInt(1, idJugador);
+            pstmt.setString(2,nombre);
+
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
     }
 
 

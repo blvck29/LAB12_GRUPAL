@@ -46,6 +46,11 @@
 
                 <div style="margin-top: 5px"></div>
 
+                <label for="nombre_civ" class="sr-only"></label>
+                <input type="text" id="nombre_civ" name="nombre_civ" class="form-control" placeholder="Nombre de la Civilización" required="">
+
+                <div style="margin-top: 5px"></div>
+
                 <label for="usuario" class="sr-only">Ingrese su usuario:</label>
                 <input type="text" id="usuario" name="usuario" class="form-control" placeholder="Usuario" required="">
 
