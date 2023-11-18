@@ -6,7 +6,7 @@
 <head>
     <title>Inicio | Rouge Clans</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
-    <link rel="stylesheet" href="../../../css/styles.css">
+    <link rel="stylesheet" href="css/styles.css">
     <link rel="icon" type="image/jpg" href="favicon.png"/>
 </head>
 
@@ -19,7 +19,7 @@
         <div class="h-100">
             <div style="margin-top: 20px"></div>
             <div class="sidebar-logo">
-                <a href="#"><img src="../../../media/logo_text.png" width="220px" height="auto" alt="ROUGE CLANS"></a>
+                <a href="#"><img src="media/logo_text.png" width="220px" height="auto" alt="ROUGE CLANS"></a>
             </div>
 
             <ul class="sidebar-nav">
@@ -194,7 +194,7 @@
 <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
 <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/js/bootstrap.bundle.min.js"></script>
-<script src="../../../js/script.js"></script>
+<script src="js/script.js"></script>
 </body>
 
 </html>

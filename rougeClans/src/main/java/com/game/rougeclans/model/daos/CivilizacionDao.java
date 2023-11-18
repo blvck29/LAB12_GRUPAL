@@ -29,6 +29,7 @@ public class CivilizacionDao extends DaoBase{
                     civilizacion.setIdCivilizacion(rs.getInt("id_civilizacion"));
                     civilizacion.setJugador(jugadorDao.obtenerJugador(rs.getInt("id_jugadores")));
                     civilizacion.setEstado(rs.getString("estado"));
+                    civilizacion.setNombre(rs.getString("nombre"));
                     civilizacion.setTimeElapsed(rs.getInt("time_elapsed"));
                     civilizacion.setDaysElapsed(rs.getInt("days_elapsed"));
                     civilizacion.setAlimentoTotal(rs.getInt("alimento_total"));
@@ -216,6 +217,7 @@ public class CivilizacionDao extends DaoBase{
                     civilizacion.setIdCivilizacion(rs.getInt("id_civilizacion"));
                     civilizacion.setJugador(jugadorDao.obtenerJugador(rs.getInt("id_jugadores")));
                     civilizacion.setEstado(rs.getString("estado"));
+                    civilizacion.setNombre(rs.getString("nombre"));
                     civilizacion.setTimeElapsed(rs.getInt("time_elapsed"));
                     civilizacion.setDaysElapsed(rs.getInt("days_elapsed"));
                     civilizacion.setAlimentoTotal(rs.getInt("alimento_total"));

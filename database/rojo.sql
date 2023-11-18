@@ -37,6 +37,7 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `rojo`.`civilizaciones` (
   `id_civilizacion` INT NOT NULL AUTO_INCREMENT,
   `id_jugadores` INT NOT NULL,
+  `nombre` VARCHAR(30) NOT NULL,
   `estado` VARCHAR(8) NOT NULL DEFAULT 'PAZ',
   `time_elapsed` INT NOT NULL DEFAULT '0',
   `days_elapsed` INT NOT NULL DEFAULT '0',

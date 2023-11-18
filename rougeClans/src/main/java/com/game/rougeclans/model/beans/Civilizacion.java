@@ -4,6 +4,7 @@ public class Civilizacion {
 
     private int idCivilizacion;
     private Jugador jugador;
+    private String nombre;
     private String estado;
     private int timeElapsed;
     private int daysElapsed;
@@ -33,6 +34,14 @@ public class Civilizacion {
 
     public void setEstado(String estado) {
         this.estado = estado;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
     }
 
     public int getTimeElapsed() {
