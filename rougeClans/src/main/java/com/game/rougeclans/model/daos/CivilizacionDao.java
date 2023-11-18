@@ -231,36 +231,42 @@ public class CivilizacionDao extends DaoBase{
             //se obtiene el idPersona en base al id(numero aleatorio)
             int idPersonaAleatoria = idPersonas.get(idAleatorio);
 
-            //se obtiene el alimento de la persona aleatoria
-            PersonaDao personaDaoRd = new PersonaDao();
-            int alimentoPersonaRd =  personaDaoRd.obtenerPersona(idPersonaAleatoria).getAlimentoDia();
+            if(!personaDao.obtenerPersona(idPersonaAleatoria).isMuerto()){
+                //se obtiene el alimento de la persona aleatoria
+                PersonaDao personaDaoRd = new PersonaDao();
+                int alimentoPersonaRd =  personaDaoRd.obtenerPersona(idPersonaAleatoria).getAlimentoDia();
 
-            //se valida que el alimento sea lo suficiente
-            if(alimentoPersonaRd>alimentoTotal){
-                break;
+                //se valida que el alimento sea lo suficiente
+                if(alimentoPersonaRd>alimentoTotal){
+                    //si no es suficiente ocurre que se reduce
+
+
+
+                    break;
+                }else{
+                    //se resta lo alimentado
+                    alimentoTotal = alimentoTotal - alimentoPersonaRd;
+                }
+
+                //se hace un update a alimentado
+                String sql = "update personas set alimentado = 1 where id_personas = ?";
+                try(Connection conn=this.getConnection(); PreparedStatement pstmt= conn.prepareStatement(sql)){
+                    pstmt.setInt(1,idPersonaAleatoria);
+                    pstmt.executeUpdate();
+
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
+
+                //se remueve el indice(id) ligado al idPersona de la lista para no volver a escoger a la persona que ha sido alimentada
+                idPersonas.remove(idAleatorio);
             }else{
-                //se resta lo alimentado
-                alimentoTotal = alimentoTotal - alimentoPersonaRd;
+                //se remueve el indice(id) asociado de esa persona muerta
+                idPersonas.remove(idAleatorio);
             }
-
-            //se hace un update a alimentado +
-            String sql = "update personas set alimentado = 1 where id_personas = ?";
-            try(Connection conn=this.getConnection(); PreparedStatement pstmt= conn.prepareStatement(sql)){
-                pstmt.setInt(1,idPersonaAleatoria);
-                pstmt.executeUpdate();
-
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
-            }
-
-            //se remueve el id para no volver a escoger a la persona que ha sido alimentada
-            idPersonas.remove(idAleatorio);
-            }
-
+        }
 
 
     }
-
-
 
 }

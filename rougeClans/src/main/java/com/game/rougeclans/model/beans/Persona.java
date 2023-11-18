@@ -4,7 +4,6 @@ public class Persona {
 
     private int idPersona;
     private Civilizacion civilizacion;
-    private Rol rol;
     private String nombre;
     private String genero;
     private int alimentoDia;
@@ -13,7 +12,12 @@ public class Persona {
     private int produce;
     private boolean alimentado;
     private int daysAlive;
-    private Muerte muerte;
+
+    private String profesion;
+
+    private boolean muerto;
+    private String motivoMuerte;
+
 
     public int getIdPersona() {
         return idPersona;
@@ -95,19 +99,27 @@ public class Persona {
         this.daysAlive = daysAlive;
     }
 
-    public Rol getRol() {
-        return rol;
+    public String getProfesion() {
+        return profesion;
     }
 
-    public void setRol(Rol rol) {
-        this.rol = rol;
+    public void setProfesion(String profesion) {
+        this.profesion = profesion;
     }
 
-    public Muerte getMuerte() {
-        return muerte;
+    public boolean isMuerto() {
+        return muerto;
     }
 
-    public void setMuerte(Muerte muerte) {
-        this.muerte = muerte;
+    public void setMuerto(boolean muerto) {
+        this.muerto = muerto;
+    }
+
+    public String getMotivoMuerte() {
+        return motivoMuerte;
+    }
+
+    public void setMotivoMuerte(String motivoMuerte) {
+        this.motivoMuerte = motivoMuerte;
     }
 }
