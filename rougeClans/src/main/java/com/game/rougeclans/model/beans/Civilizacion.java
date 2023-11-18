@@ -57,27 +57,5 @@ public class Civilizacion {
         this.daysElapsed = daysElapsed;
     }
 
-    public int getAlimentoTotal() {
-        return alimentoTotal;
-    }
 
-    public void setAlimentoTotal(int alimentoTotal) {
-        this.alimentoTotal = alimentoTotal;
-    }
-
-    public int getPoblacionTotal() {
-        return poblacionTotal;
-    }
-
-    public void setPoblacionTotal(int poblacionTotal) {
-        this.poblacionTotal = poblacionTotal;
-    }
-
-    public int getFuerzaTotal() {
-        return fuerzaTotal;
-    }
-
-    public void setFuerzaTotal(int fuerzaTotal) {
-        this.fuerzaTotal = fuerzaTotal;
-    }
 }

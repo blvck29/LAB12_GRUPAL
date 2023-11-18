@@ -245,8 +245,6 @@ public class CivilizacionDao extends DaoBase{
                     civilizacion.setNombre(rs.getString("nombre"));
                     civilizacion.setTimeElapsed(rs.getInt("time_elapsed"));
                     civilizacion.setDaysElapsed(rs.getInt("days_elapsed"));
-                    civilizacion.setAlimentoTotal(rs.getInt("alimento_total"));
-                    civilizacion.setPoblacionTotal(rs.getInt("poblacion_total"));
                     lista.add(civilizacion);
                 }
 
@@ -259,7 +257,7 @@ public class CivilizacionDao extends DaoBase{
 
     public void alimentarPoblacion(int idCivilizacion){
 
-        int alimentoTotal = obtenerCivilizacion(idCivilizacion).getAlimentoTotal();
+        int alimentoTotal = obtenerAlimentoTotal(idCivilizacion);
 
         PersonaDao personaDao = new PersonaDao();
         //se obtiene una lista de ids de personas
@@ -403,7 +401,7 @@ public class CivilizacionDao extends DaoBase{
                 }
             }
             for(Integer idP:idsVivos){
-                Integer moralP = personaDao.obtenerPersona(idP).getMoral();
+                Integer moralP = personaDao.obtenerMoral(idP);
                 String sql = "update personas set moral = moral - ? where id_personas = ?";
                 try(Connection conn=this.getConnection(); PreparedStatement pstmt= conn.prepareStatement(sql)){
                     pstmt.setInt(1, (int) Math.ceil((moralP*0.5)));//reduce en 50% la moral a cada uno
@@ -413,7 +411,7 @@ public class CivilizacionDao extends DaoBase{
                     throw new RuntimeException(e);
                 }
                 //si moral llega a 0 aplicar la funcion muerte por depresión
-                if(personaDao.obtenerPersona(idP).getMoral()<=0){
+                if(personaDao.obtenerMoral(idP)<=0){
                     personaDao.muertePorDepresion(idP);
                 }
             }
