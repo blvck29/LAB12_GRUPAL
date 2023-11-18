@@ -319,4 +319,85 @@ public class CivilizacionDao extends DaoBase{
         }
     }
 
+    public void subirMoral(int idCivilizacion){
+        int moralTotal = obtenerProduccionMoralCivilizacion(idCivilizacion);
+        PersonaDao personaDao = new PersonaDao();
+        //se obtiene una lista de ids de personas
+        ArrayList<Integer> idPersonas = personaDao.listaIdPersonasXCivilizacion(idCivilizacion);
+
+        Random rd = new Random();
+        while(!idPersonas.isEmpty()){
+
+            int idAleatorio = rd.nextInt(idPersonas.size());//un id aleatorio con la cantidad de idsPersonas
+            int idPersonaAleatoria = idPersonas.get(idAleatorio); //se obtiene el idPersona en base al id(numero aleatorio)
+
+
+            if(!personaDao.obtenerPersona(idPersonaAleatoria).isMuerto()){
+                PersonaDao personaDaoRd = new PersonaDao();
+                switch(personaDaoRd.obtenerPersona(idPersonaAleatoria).getProfesion()){
+                    case "Granjero":
+
+                        break;
+                    case "Constructor":
+
+                        break;
+                    case "Soldado":
+
+                        break;
+                    case "Ninguna":
+
+                        break;
+                }
+
+
+                //se remueve el indice(id) ligado al idPersona de la lista para no volver a escoger a la persona que ha sido alimentada
+                idPersonas.remove(idAleatorio);
+            }else{
+                //se remueve el indice(id) asociado de esa persona muerta
+                idPersonas.remove(idAleatorio);
+            }
+        }
+
+    }
+
+    public int obtenerProduccionMoralCivilizacion(int idCivilizacion){
+        return (obtenerProduccionSoldado(idCivilizacion)+obtenerProduccionConstructor(idCivilizacion));
+    }
+    public int obtenerProduccionConstructor(int idCivilizacion){
+
+        String sql = "select sum(produce) from personas where profesion = ? and id_civilizacion = ?";
+        try (Connection conn=this.getConnection(); PreparedStatement pstmt= conn.prepareStatement(sql)) {
+            pstmt.setString(1,"Constructor");
+            pstmt.setInt(2,idCivilizacion);
+            try(ResultSet rs=pstmt.executeQuery()){
+                if (rs.next()) {
+                    return rs.getInt(1);
+                }else{
+                    return 0;
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+    public int obtenerProduccionSoldado(int idCivilizacion){
+
+        String sql = "select sum(produce) from personas where profesion = ? and id_civilizacion = ?";
+        try (Connection conn=this.getConnection(); PreparedStatement pstmt= conn.prepareStatement(sql)) {
+            pstmt.setString(1,"Soldado");
+            pstmt.setInt(2,idCivilizacion);
+            try(ResultSet rs=pstmt.executeQuery()){
+                if (rs.next()) {
+                    return rs.getInt(1);
+                }else{
+                    return 0;
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+
 }
