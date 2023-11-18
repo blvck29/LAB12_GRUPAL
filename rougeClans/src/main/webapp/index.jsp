@@ -27,20 +27,22 @@
     </div>
 
 
-      <form action="#" method="POST">
-        <div class="auth">
+    <form action="login?action=login" method="POST">
+      <div class="auth">
 
-          <label for="usuario" class="sr-only"></label>
-          <input type="text" id="usuario" class="form-control" placeholder="Usuario" required="">
-          <div style="margin-top: 15px"></div>
-          <label for="contrasena" class="sr-only"></label>
-          <input type="password" id="contrasena" class="form-control" placeholder="Contraseña" required="">
-         </div>
-        <button type="submit" class="btn btn-outline-danger">Acceder</button>
-      </form>
+        <label for="usuario" class="sr-only">Usuario:</label>
+        <input type="text" id="usuario" name="usuario" class="form-control" placeholder="Usuario" required="">
+
+        <div style="margin-top: 15px"></div>
+
+        <label for="contrasena" class="sr-only">Contraseña:</label>
+        <input type="password" id="contrasena" name="contrasena" class="form-control" placeholder="Contraseña" required="">
+      </div>
+      <button type="submit" class="btn btn-outline-danger">Acceder</button>
+    </form>
 
     <p class="register">
-      ¿No tienes cuenta? <a href="#">Registrarse</a>
+      ¿No tienes cuenta? <a href="login?action=register">Registrarse</a>
     </p>
 
   </div>
