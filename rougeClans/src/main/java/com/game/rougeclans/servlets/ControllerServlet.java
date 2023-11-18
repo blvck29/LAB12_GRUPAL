@@ -2,9 +2,8 @@ package com.game.rougeclans.servlets;
 
 import com.game.rougeclans.model.beans.Civilizacion;
 import com.game.rougeclans.model.beans.Jugador;
-import com.game.rougeclans.model.daos.CivilizacionDao;
-import com.game.rougeclans.model.daos.GuerraDao;
-import com.game.rougeclans.model.daos.JugadorDao;
+import com.game.rougeclans.model.beans.Persona;
+import com.game.rougeclans.model.daos.*;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
@@ -17,6 +16,9 @@ public class ControllerServlet extends HttpServlet {
     CivilizacionDao civilizacionDao = new CivilizacionDao();
     JugadorDao jugadorDao = new JugadorDao();
     GuerraDao guerraDao = new GuerraDao();
+    Top10JugadoresDao top10JugadoresDao = new Top10JugadoresDao();
+    PersonaDao personaDao = new PersonaDao();
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
@@ -45,6 +47,10 @@ public class ControllerServlet extends HttpServlet {
                 break;
 
             case "leaderboard":
+
+                String orderBy = request.getParameter("order_by") == null ? "dias_jugados" : request.getParameter("order_by");
+                request.setAttribute("top10", top10JugadoresDao.listarTop10(orderBy));
+                //request.setAttribute("top10", top10JugadoresDao.listarTop10(orderBy));
                 request.getRequestDispatcher("pages/usuario/leaderboard/leaderboard.jsp").forward(request, response);
                 break;
 
@@ -98,6 +104,7 @@ public class ControllerServlet extends HttpServlet {
             case "home":
                 response.sendRedirect("login?action=home");
                 break;
+
         }
 
     }

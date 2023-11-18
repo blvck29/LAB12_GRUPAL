@@ -118,11 +118,9 @@ public class CivilizacionDao extends DaoBase{
         }
     }*/
 
-    public void sumar8horas(int idCivilizacion){
+    public boolean sumar8horas(int idCivilizacion){
 
-        //primero actualizamos time_elapsed y days_elapsed para cerciorarnos que time_elapsed < 24
-        actualizarTimeAndDaysElapsed(idCivilizacion);
-
+        boolean accionPermitida = false;
         String sql = "";
         sql = "select time_elapsed from civilizaciones where id_civilizacion = ?";
         try(Connection conn=this.getConnection(); PreparedStatement pstmt= conn.prepareStatement(sql)){
@@ -130,14 +128,13 @@ public class CivilizacionDao extends DaoBase{
             try(ResultSet rs=pstmt.executeQuery()){
                 if(rs.next()){
                     //Aquí se valida que time_elapsed sea menor o igual a 24 horas
-                    if(rs.getInt(1)<25){
-                        sql = "update civilizaciones set time_elapsed = time_elapsed + 8 where id_civilizacion = ? and time_elapsed<25";
+                    if(rs.getInt(1)<17){
+                        accionPermitida = true;
+                        sql = "update civilizaciones set time_elapsed = time_elapsed + 8 where id_civilizacion = ?"; //Sumamos 8 horas si time_elapsed es <= 16
                         try(Connection conn1=this.getConnection(); PreparedStatement pstmt1= conn1.prepareStatement(sql)){
                             pstmt1.setInt(1,idCivilizacion);
                             pstmt1.executeUpdate();
 
-                            //ahora actualizamos time_elapsed y days_elapsed si time_elapsed > 24 después de sumar las horas
-                            actualizarTimeAndDaysElapsed(idCivilizacion);
                         } catch (SQLException e) {
                             throw new RuntimeException(e);
                         }
@@ -148,12 +145,11 @@ public class CivilizacionDao extends DaoBase{
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+        return accionPermitida;
     }
-    public void sumar2horas(int idCivilizacion){
+    public boolean sumar2horas(int idCivilizacion){
 
-        //primero actualizamos time_elapsed y days_elapsed para cerciorarnos que time_elapsed < 24
-        actualizarTimeAndDaysElapsed(idCivilizacion);
-
+        boolean accionPermitida = false;
         String sql = "";
         sql = "select time_elapsed from civilizaciones where id_civilizacion = ?";
         try(Connection conn=this.getConnection(); PreparedStatement pstmt= conn.prepareStatement(sql)){
@@ -161,14 +157,13 @@ public class CivilizacionDao extends DaoBase{
             try(ResultSet rs=pstmt.executeQuery()){
                 if(rs.next()){
                     //Aquí se valida que time_elapsed sea menor a 24 horas
-                    if(rs.getInt(1)<25){
-                        sql = "update civilizaciones set time_elapsed = time_elapsed + 2 where id_civilizacion = ? and time_elapsed<25";
+                    if(rs.getInt(1)<23){
+                        accionPermitida = true;
+                        sql = "update civilizaciones set time_elapsed = time_elapsed + 2 where id_civilizacion = ?"; //Sumamos 2 horas si time_elapsed es <=22
                         try(Connection conn1=this.getConnection(); PreparedStatement pstmt1= conn1.prepareStatement(sql)){
                             pstmt1.setInt(1,idCivilizacion);
                             pstmt1.executeUpdate();
 
-                            //ahora actualizamos time_elapsed y days_elapsed si time_elapsed > 24 después de sumar las horas
-                            actualizarTimeAndDaysElapsed(idCivilizacion);
                         } catch (SQLException e) {
                             throw new RuntimeException(e);
                         }
@@ -179,17 +174,18 @@ public class CivilizacionDao extends DaoBase{
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+        return accionPermitida;
     }
 
-    public void actualizarTimeAndDaysElapsed(int idCivilizacion){ //usar para actualizar time_elapsed cuando time_elapsed > 24
+    public void actualizarTimeAndDaysElapsed(int idCivilizacion){ //usar para actualizar time_elapsed cuando time_elapsed = 24
 
         Civilizacion civilizacion = obtenerCivilizacion(idCivilizacion); // Ahorrar código
 
-        if(civilizacion.getTimeElapsed()>=24){
+        if(civilizacion.getTimeElapsed()==24){
 
             //dar de comer a todos
-            if(civilizacion.getEstado().equalsIgnoreCase("En guerra"))
-                alimentarPoblacion(idCivilizacion);
+            //if(civilizacion.getEstado().equalsIgnoreCase("En guerra"))
+            alimentarPoblacion(idCivilizacion);
 
             //seguimiento de poblacion
             crecimientoPoblacion(idCivilizacion);
@@ -454,7 +450,6 @@ public class CivilizacionDao extends DaoBase{
     public int obtenerAlimentoTotal(int idCivilizacion){
 
         int cant = 0;
-
         String sql = "select sum(produce) from personas where profesion = ? and id_civilizacion = ?";
 
         try (Connection conn=this.getConnection(); PreparedStatement pstmt = conn.prepareStatement(sql)) {

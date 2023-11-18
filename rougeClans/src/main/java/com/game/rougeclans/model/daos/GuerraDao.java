@@ -171,4 +171,39 @@ public class GuerraDao extends DaoBase {
         }
 
     }
+
+    public void calcularGanador(int idCivilizacionAtacante, int idCivilizacionDefensora){//
+
+        CivilizacionDao civilizacionDao = new CivilizacionDao();
+        Civilizacion civilizacionAtacante = civilizacionDao.obtenerCivilizacion(idCivilizacionAtacante);
+        Civilizacion civilizacionDefensora = civilizacionDao.obtenerCivilizacion(idCivilizacionDefensora);
+
+
+        String sql = "insert into guera (id_civilizacion_atacante,id_civilizacion_defensora,estado_guerra,dia_atacante,dia_defensora) values (?,?,?,?,?)";
+
+        try(Connection conn=this.getConnection(); PreparedStatement pstmt= conn.prepareStatement(sql)){
+
+            //Cálculo:
+            pstmt.setInt(1,idCivilizacionAtacante);
+            pstmt.setInt(2,idCivilizacionDefensora);
+            pstmt.setInt(4,civilizacionAtacante.getDaysElapsed());
+            civilizacionDao.actualizarTimeAndDaysElapsed(civilizacionAtacante.getIdCivilizacion()); //proceso de pasar un día para la civilización atacante
+            pstmt.setInt(5,civilizacionDefensora.getDaysElapsed());
+
+            //OBTENER GANADOR:
+
+            if(civilizacionDao.fuerzaTotalAtacante(idCivilizacionAtacante)>civilizacionDao.fuerzaTotalDefensor(idCivilizacionDefensora)){
+                pstmt.setString(4,"VA");
+            }
+            else{
+                pstmt.setString(4,"VD");
+            }
+
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+
 }
