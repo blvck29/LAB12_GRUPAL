@@ -9,7 +9,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="469d34e7-2add-4849-bd7c-1274aa448bfc" name="Changes" comment="refinación del método crearPersona">
+    <list default="true" id="469d34e7-2add-4849-bd7c-1274aa448bfc" name="Changes" comment="alimentar población 50%">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/game/rougeclans/model/daos/CivilizacionDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/game/rougeclans/model/daos/CivilizacionDao.java" afterDir="false" />
     </list>
@@ -32,6 +32,20 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
+  "lastFilter": {
+    "state": "OPEN",
+    "assignee": "J3anP"
+  }
+}]]></component>
+  <component name="GithubPullRequestsUISettings">
+    <option name="selectedUrlAndAccountId">
+      <UrlAndAccount>
+        <option name="accountId" value="c2e1b8bb-60f2-4a99-82c7-b5482baa5389" />
+        <option name="url" value="https://github.com/blvck29/LAB12_GRUPAL.git" />
+      </UrlAndAccount>
+    </option>
   </component>
   <component name="LogFilters">
     <option name="FILTER_ERRORS" value="false" />
@@ -179,7 +193,7 @@
       <updated>1700098380790</updated>
       <workItem from="1700141394064" duration="13931000" />
       <workItem from="1700159566703" duration="32539000" />
-      <workItem from="1700247475377" duration="4258000" />
+      <workItem from="1700247475377" duration="6567000" />
     </task>
     <task id="LOCAL-00001" summary="a">
       <option name="closed" value="true" />
@@ -269,7 +283,15 @@
       <option name="project" value="LOCAL" />
       <updated>1700202905633</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="alimentar población 50%">
+      <option name="closed" value="true" />
+      <created>1700251933215</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1700251933215</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -296,6 +318,7 @@
     <MESSAGE value="método de exiliar con todas sus validaciones y explicado en comentarios" />
     <MESSAGE value="DTO de los más deprimidos y muertePorDepresion (Falta corregir añadir datos debido a la base de datos)" />
     <MESSAGE value="refinación del método crearPersona" />
-    <option name="LAST_COMMIT_MESSAGE" value="refinación del método crearPersona" />
+    <MESSAGE value="alimentar población 50%" />
+    <option name="LAST_COMMIT_MESSAGE" value="alimentar población 50%" />
   </component>
 </project>
