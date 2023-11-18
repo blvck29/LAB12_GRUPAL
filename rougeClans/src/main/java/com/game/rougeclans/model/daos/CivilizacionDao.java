@@ -240,10 +240,10 @@ public class CivilizacionDao extends DaoBase{
 
         Random rd = new Random();
         while(!idPersonas.isEmpty() && alimentoTotal>=0){
-            //un id aleatorio con la cantidad de idsPersonas
-            int idAleatorio = rd.nextInt(idPersonas.size());
-            //se obtiene el idPersona en base al id(numero aleatorio)
-            int idPersonaAleatoria = idPersonas.get(idAleatorio);
+
+            int idAleatorio = rd.nextInt(idPersonas.size());//un id aleatorio con la cantidad de idsPersonas
+            int idPersonaAleatoria = idPersonas.get(idAleatorio); //se obtiene el idPersona en base al id(numero aleatorio)
+
 
             if(!personaDao.obtenerPersona(idPersonaAleatoria).isMuerto()){
                 //se obtiene el alimento de la persona aleatoria
@@ -274,6 +274,30 @@ public class CivilizacionDao extends DaoBase{
         }
 
 
+    }
+
+    public int fuerzaTotalAtacante(int idCivilizacion){
+        String sql = "select sum(fuerza) from personas where id_civilizacion = ? and profesion = ?";
+        try (Connection conn=this.getConnection(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, idCivilizacion);
+            pstmt.setString(2,"Soldado");
+            try (ResultSet rs = pstmt.executeQuery()) {
+                return rs.getInt(1);
+            }
+        } catch (SQLException ex) {
+            throw new RuntimeException(ex);
+        }
+    }
+    public int fuerzaTotalDefensor(int idCivilizacion){
+        String sql = "select sum(fuerza) from personas where id_civilizacion = ?";
+        try (Connection conn=this.getConnection(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, idCivilizacion);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                return rs.getInt(1);
+            }
+        } catch (SQLException ex) {
+            throw new RuntimeException(ex);
+        }
     }
 
 }
