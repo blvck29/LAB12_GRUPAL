@@ -17,6 +17,7 @@ public class ControllerServlet extends HttpServlet {
     JugadorDao jugadorDao = new JugadorDao();
     GuerraDao guerraDao = new GuerraDao();
     Top10JugadoresDao top10JugadoresDao = new Top10JugadoresDao();
+    HistorialGuerrasDao historialGuerrasDao = new HistorialGuerrasDao();
     PersonaDao personaDao = new PersonaDao();
 
     @Override
@@ -43,6 +44,9 @@ public class ControllerServlet extends HttpServlet {
                 break;
 
             case "guerra":
+                request.setAttribute("historial", historialGuerrasDao.listarHistorial(civilizacion.getIdCivilizacion()));
+                request.setAttribute("oponentes", civilizacionDao.listarCivilizaciones(civilizacion.getIdCivilizacion()));
+                request.setAttribute("puesto", top10JugadoresDao.obtenerPuesto(historialGuerrasDao.listarHistorial(civilizacion.getIdCivilizacion()).get(0).getCivilizacionOponente().getIdCivilizacion(),"fuerza_total"));
                 request.getRequestDispatcher("pages/usuario/gestion_guerra/guerra.jsp").forward(request, response);
                 break;
 
@@ -107,7 +111,14 @@ public class ControllerServlet extends HttpServlet {
             case "home":
                 response.sendRedirect("login?action=home");
                 break;
+            case "create_per":
+                String profesion = request.getParameter("profesion");
+                String genero = request.getParameter("genero");
+                String nombre = request.getParameter("nombre");
 
+                personaDao.crearPersona(civilizacion.getIdCivilizacion(), genero, nombre, profesion);
+                response.sendRedirect("game?action=personas");
+                break;
         }
 
     }

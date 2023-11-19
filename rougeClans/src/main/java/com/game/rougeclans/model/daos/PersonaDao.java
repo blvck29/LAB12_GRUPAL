@@ -463,7 +463,7 @@ public class PersonaDao extends DaoBase{
         int idCivilizacion = civilizacion.getIdCivilizacion();
         ArrayList<PersonaEnLista> listaPersonas = new ArrayList<>();
 
-        String sql = "select * from personas where id_civilizacion = ? and muerto= 0;";
+        String sql = "select * from personas where id_civilizacion = ? and muerto = 0;";
 
         try (Connection conn=this.getConnection(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
 

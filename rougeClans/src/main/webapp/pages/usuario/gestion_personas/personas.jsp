@@ -45,7 +45,7 @@
 
 <% Jugador jugador = (Jugador) session.getAttribute("jugador"); %>
 <% Civilizacion civilizacion = (Civilizacion) session.getAttribute("civilizacion"); %>
-<% ArrayList<PersonaEnLista> listaPersonas = (ArrayList<PersonaEnLista>) session.getAttribute("listaPersonas"); %>
+<% ArrayList<PersonaEnLista> listaPersonas = (ArrayList<PersonaEnLista>) request.getAttribute("listaPersonas"); %>
 
 <!DOCTYPE html>
 <html lang="es">
