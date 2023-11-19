@@ -600,4 +600,16 @@ public class PersonaDao extends DaoBase{
         return muertos;
     }
 
+    public void editarPersona(int idPersona,String nombre){
+        String sql = "update personas set nombre = ? where id_personas = ?";
+        try(Connection conn=this.getConnection(); PreparedStatement pstmt= conn.prepareStatement(sql)){
+            pstmt.setString(1,nombre);
+            pstmt.setInt(2,idPersona);
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+
 }
