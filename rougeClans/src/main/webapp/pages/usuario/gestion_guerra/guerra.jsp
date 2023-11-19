@@ -199,7 +199,7 @@
                                         <tr>
                                             <td><%=i%></td>
                                             <td><%=c.getJugador().getUsuario()%></td>
-                                            <td><%=c.getNombre()%>a</td>
+                                            <td><%=c.getNombre()%></td>
                                             <td><%=c.getDaysElapsed()%> días</td>
                                             <td>
                                                 <form action="<%=request.getContextPath()%>/game?action=declarar_guerra" method="POST">
