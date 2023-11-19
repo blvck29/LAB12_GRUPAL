@@ -206,7 +206,7 @@
                                                     <input type="hidden" name="idDefensor" value="<%=c.getIdCivilizacion()%>">
                                                     <input type="hidden" name="idAtacante" value="<%=civilizacion.getIdCivilizacion()%>">
                                                     <%if (civilizacion.getDaysElapsed() <= c.getDaysElapsed()){%>
-                                                    <button type="submit" class="btn war-btn"><ion-icon style="padding-top: 5px"  name="skull"></ion-icon></button>
+                                                    <button type="submit" class="btn war-btn" onclick="soundWar()"><ion-icon style="padding-top: 5px"  name="skull"></ion-icon></button>
                                                     <%}else{%>
                                                     <button type="submit" class="btn war-btn disabled"><ion-icon style="padding-top: 5px"  name="skull"></ion-icon></button>
                                                     <%};%>

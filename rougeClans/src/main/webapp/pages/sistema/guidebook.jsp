@@ -11,6 +11,7 @@
     <title>Guide | Rouge Clans</title>
 </head>
 <body>
+<audio src="media/theme.mp3" autoplay="autoplay" loop="loop"></audio>
 <section class="guide">
     <div class="guide-content text-light">
         <div>

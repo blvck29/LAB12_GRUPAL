@@ -155,7 +155,6 @@ public class ControllerServlet extends HttpServlet {
                 int idAtacante = Integer.parseInt(request.getParameter("idAtacante"));
                 int idDefensor = Integer.parseInt(request.getParameter("idDefensor"));
                 guerraDao.calcularGanador(idAtacante,idDefensor);
-
                 response.sendRedirect("game?action=guerra");
                 break;
 

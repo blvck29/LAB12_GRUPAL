@@ -172,6 +172,9 @@ public class GuerraDao extends DaoBase {
         if(perdidas != 0 && ganadas != 0){
             winRate = (ganadas/(ganadas+perdidas))*100;
         }
+        if(perdidas == 0 && ganadas != 0){
+            winRate = 100;
+        }
 
         return winRate;
     }
@@ -186,6 +189,8 @@ public class GuerraDao extends DaoBase {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+
+
 
     }
 
@@ -208,17 +213,12 @@ public class GuerraDao extends DaoBase {
             civilizacionDao.pasarLasHoras(idCivilizacionAtacante);
             civilizacionDao.actualizarTimeAndDaysElapsed(idCivilizacionAtacante); //proceso de pasar un día para la civilización atacante
             pstmt.setInt(5,civilizacionDefensora.getDaysElapsed());
-
-            //OBTENER GANADOR:
-
             if(civilizacionDao.fuerzaTotalAtacante(idCivilizacionAtacante)>civilizacionDao.fuerzaTotalDefensor(idCivilizacionDefensora)){
                 pstmt.setString(3,"VA");
                 ganoAtacante = true;
-                //Métodos para aplicar los puntos
             }
             else{
                 pstmt.setString(3,"VD");
-                //Métodos para aplicar los puntos
             }
 
             pstmt.executeUpdate();
@@ -226,6 +226,38 @@ public class GuerraDao extends DaoBase {
             throw new RuntimeException(e);
         }
         return ganoAtacante;
+    }
+
+    public int obtenerUltimoIdGuerra(){
+        int ultimoId = 0;
+
+        String sql = "select max(id_guerra) from guerra;";
+        try (Connection conn = getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            try(ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    ultimoId = rs.getInt(1);
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return ultimoId;
+    }
+
+    public void asignarPuntajes(int idGuerra){
+        Guerra guerra = obtenerGuerra(idGuerra);
+        switch (guerra.getEstadoGuerra()){
+            case "VA":
+                //Falta el método de ganaDefensor
+                pierdeDefensor(guerra.getCivilizacionDefensora().getIdCivilizacion(),idGuerra);
+                break;
+            case "VD":
+                //Falta el método de ganaAtacante
+                pierdeAtacante(guerra.getCivilizacionAtacante().getIdCivilizacion(),idGuerra);
+                break;
+        }
     }
 
     public void pierdeAtacante(int idCivilizacion, int idGuerra){
