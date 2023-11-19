@@ -45,7 +45,7 @@
       Aprende sobre el juego aquí, <a href="login?action=guide_book">Guide Book</a>
     </p>
 
-    <p class="register">
+    <p class="register" style="margin-top: 0">
       ¿No tienes cuenta? <a href="login?action=register">Registrarse</a>
     </p>
 
