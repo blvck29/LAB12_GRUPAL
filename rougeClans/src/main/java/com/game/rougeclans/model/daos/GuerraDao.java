@@ -206,8 +206,19 @@ public class GuerraDao extends DaoBase {
             throw new RuntimeException(e);
         }
 
+    }
 
-
+    public void civilizacionDefensoraGana(int idCivilizacionDefensora, int idGuerra){
+        String vd = obtenerGuerra(idGuerra).getEstadoGuerra();
+        if(vd.equalsIgnoreCase("VD")){
+            String sql = "update personas set produce = cast(produce*1.4 as unsigned) where id_civilizacion = ?";
+            try(Connection conn=this.getConnection(); PreparedStatement pstmt= conn.prepareStatement(sql)){
+                pstmt.setInt(1, idCivilizacionDefensora);
+                pstmt.executeUpdate();
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        }
     }
 
     public boolean calcularGanador(int idCivilizacionAtacante, int idCivilizacionDefensora){//
