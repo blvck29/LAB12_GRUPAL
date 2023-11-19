@@ -9,10 +9,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="469d34e7-2add-4849-bd7c-1274aa448bfc" name="Changes" comment="metodos por corregir">
+    <list default="true" id="469d34e7-2add-4849-bd7c-1274aa448bfc" name="Changes" comment="corrección de civilizacionAtacanteGana">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/game/rougeclans/model/daos/CivilizacionDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/game/rougeclans/model/daos/CivilizacionDao.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/game/rougeclans/model/daos/GuerraDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/game/rougeclans/model/daos/GuerraDao.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/game/rougeclans/model/daos/PersonaDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/game/rougeclans/model/daos/PersonaDao.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -195,7 +195,9 @@
       <workItem from="1700141394064" duration="13931000" />
       <workItem from="1700159566703" duration="32539000" />
       <workItem from="1700247475377" duration="18084000" />
-      <workItem from="1700291722224" duration="17579000" />
+      <workItem from="1700291722224" duration="17954000" />
+      <workItem from="1700354301962" duration="23296000" />
+      <workItem from="1700406730214" duration="2075000" />
     </task>
     <task id="LOCAL-00001" summary="a">
       <option name="closed" value="true" />
@@ -349,7 +351,87 @@
       <option name="project" value="LOCAL" />
       <updated>1700302205275</updated>
     </task>
-    <option name="localTasksCounter" value="20" />
+    <task id="LOCAL-00020" summary="métodos al 94% de la guía">
+      <option name="closed" value="true" />
+      <created>1700309627418</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1700309627419</updated>
+    </task>
+    <task id="LOCAL-00021" summary="ola">
+      <option name="closed" value="true" />
+      <created>1700355382716</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1700355382716</updated>
+    </task>
+    <task id="LOCAL-00022" summary="filtrar campos de register">
+      <option name="closed" value="true" />
+      <created>1700356201490</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1700356201490</updated>
+    </task>
+    <task id="LOCAL-00023" summary="editarPersona">
+      <option name="closed" value="true" />
+      <created>1700363076024</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1700363076024</updated>
+    </task>
+    <task id="LOCAL-00024" summary="Metodos nuevos en GuerraDao :D">
+      <option name="closed" value="true" />
+      <created>1700373250301</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1700373250303</updated>
+    </task>
+    <task id="LOCAL-00025" summary="Linea 167 Niguna to Ninguna new_persona.jsp">
+      <option name="closed" value="true" />
+      <created>1700377066664</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1700377066664</updated>
+    </task>
+    <task id="LOCAL-00026" summary="quité a">
+      <option name="closed" value="true" />
+      <created>1700379088490</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1700379088490</updated>
+    </task>
+    <task id="LOCAL-00027" summary="recuperacion de Daos completo">
+      <option name="closed" value="true" />
+      <created>1700384681697</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1700384681698</updated>
+    </task>
+    <task id="LOCAL-00028" summary="civilizacionDEfensora gana">
+      <option name="closed" value="true" />
+      <created>1700385391737</created>
+      <option name="number" value="00028" />
+      <option name="presentableId" value="LOCAL-00028" />
+      <option name="project" value="LOCAL" />
+      <updated>1700385391738</updated>
+    </task>
+    <task id="LOCAL-00029" summary="corrección de civilizacionAtacanteGana">
+      <option name="closed" value="true" />
+      <created>1700385666088</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1700385666088</updated>
+    </task>
+    <option name="localTasksCounter" value="30" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -368,7 +450,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="a" />
     <MESSAGE value="login design" />
     <MESSAGE value="daos :D" />
     <MESSAGE value="metodos dentro de los daos" />
@@ -384,6 +465,16 @@
     <MESSAGE value="subir Moral a poblacion" />
     <MESSAGE value="subir moral poblacion hecho y agregué cositas a &quot;actualizarTimeAndDaysElapsed&quot;" />
     <MESSAGE value="metodos por corregir" />
-    <option name="LAST_COMMIT_MESSAGE" value="metodos por corregir" />
+    <MESSAGE value="métodos al 94% de la guía" />
+    <MESSAGE value="ola" />
+    <MESSAGE value="filtrar campos de register" />
+    <MESSAGE value="editarPersona" />
+    <MESSAGE value="Metodos nuevos en GuerraDao :D" />
+    <MESSAGE value="Linea 167 Niguna to Ninguna new_persona.jsp" />
+    <MESSAGE value="quité a" />
+    <MESSAGE value="recuperacion de Daos completo" />
+    <MESSAGE value="civilizacionDEfensora gana" />
+    <MESSAGE value="corrección de civilizacionAtacanteGana" />
+    <option name="LAST_COMMIT_MESSAGE" value="corrección de civilizacionAtacanteGana" />
   </component>
 </project>
