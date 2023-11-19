@@ -191,7 +191,7 @@
                                         <tbody>
                                         <!-- Contenido de la tabla -->
 
-                                        <%if(listaPersonas != null){%>
+                                        <%if(!(listaPersonas.isEmpty())){%>
                                         <%int i=1; %>
                                         <% for (PersonaEnLista persona : listaPersonas) {%>
 
