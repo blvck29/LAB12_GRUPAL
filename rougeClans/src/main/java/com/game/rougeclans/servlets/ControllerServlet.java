@@ -127,6 +127,16 @@ public class ControllerServlet extends HttpServlet {
                 personaDao.crearPersona(civilizacion.getIdCivilizacion(), genero, nombre, profesion);
                 response.sendRedirect("game?action=personas");
                 break;
+
+            case "declarar_guerra":
+                int idAtacante = Integer.parseInt(request.getParameter("idAtacante"));
+                int idDefensor = Integer.parseInt(request.getParameter("idDefensor"));
+                guerraDao.calcularGanador(idAtacante,idDefensor);
+
+                response.sendRedirect("game?action=guerra");
+                break;
+
+
         }
 
     }
