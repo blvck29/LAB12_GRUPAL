@@ -250,11 +250,11 @@ public class GuerraDao extends DaoBase {
         Guerra guerra = obtenerGuerra(idGuerra);
         switch (guerra.getEstadoGuerra()){
             case "VA":
-                //Falta el método de ganaDefensor
+                //Falta el método de ganaAtacante
                 pierdeDefensor(guerra.getCivilizacionDefensora().getIdCivilizacion(),idGuerra);
                 break;
             case "VD":
-                //Falta el método de ganaAtacante
+                //Falta el método de ganaDefensor
                 pierdeAtacante(guerra.getCivilizacionAtacante().getIdCivilizacion(),idGuerra);
                 break;
         }
