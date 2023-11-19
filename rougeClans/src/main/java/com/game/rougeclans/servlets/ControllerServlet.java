@@ -1,5 +1,6 @@
 package com.game.rougeclans.servlets;
 
+import com.game.rougeclans.model.Dtos.HistorialGuerras;
 import com.game.rougeclans.model.beans.Civilizacion;
 import com.game.rougeclans.model.beans.Jugador;
 import com.game.rougeclans.model.beans.Persona;
@@ -17,6 +18,7 @@ public class ControllerServlet extends HttpServlet {
     JugadorDao jugadorDao = new JugadorDao();
     GuerraDao guerraDao = new GuerraDao();
     Top10JugadoresDao top10JugadoresDao = new Top10JugadoresDao();
+    HistorialGuerrasDao historialGuerrasDao = new HistorialGuerrasDao();
     PersonaDao personaDao = new PersonaDao();
 
     @Override
@@ -43,7 +45,9 @@ public class ControllerServlet extends HttpServlet {
                 break;
 
             case "guerra":
+                request.setAttribute("historial", historialGuerrasDao.listarHistorial(civilizacion.getIdCivilizacion()));
                 request.setAttribute("oponentes", civilizacionDao.listarCivilizaciones(civilizacion.getIdCivilizacion()));
+                request.setAttribute("puesto", top10JugadoresDao.obtenerPuesto(historialGuerrasDao.listarHistorial(civilizacion.getIdCivilizacion()).get(0).getCivilizacionOponente().getIdCivilizacion(),"fuerza_total"));
                 request.getRequestDispatcher("pages/usuario/gestion_guerra/guerra.jsp").forward(request, response);
                 break;
 
@@ -51,7 +55,6 @@ public class ControllerServlet extends HttpServlet {
 
                 String orderBy = request.getParameter("order_by") == null ? "dias_jugados" : request.getParameter("order_by");
                 request.setAttribute("top10", top10JugadoresDao.listarTop10(orderBy));
-                //request.setAttribute("top10", top10JugadoresDao.listarTop10(orderBy));
                 request.getRequestDispatcher("pages/usuario/leaderboard/leaderboard.jsp").forward(request, response);
                 break;
 

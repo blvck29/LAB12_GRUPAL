@@ -40,7 +40,7 @@ public class GuerraDao extends DaoBase {
         return guerra;
     }
 
-    public int obtenerRolGuerra(int idGuerra, Civilizacion civilizacion){ //1: atacante | 2: defensor
+    public int obtenerRolGuerra(int idGuerra, int  idCivilizacion){ //1: atacante | 2: defensor
 
         int rol = 0; //1: atacante | 2: defensor
         String sql = "select * from guerra where id_guerra = ?";
@@ -50,10 +50,10 @@ public class GuerraDao extends DaoBase {
 
             try(ResultSet rs = pstmt.executeQuery()) {
                 if (rs.next()) {
-                    if(civilizacion.getIdCivilizacion() == rs.getInt("id_civilizacion_atacante")){
+                    if(idCivilizacion == rs.getInt("id_civilizacion_atacante")){
                         rol = 1;
                     }
-                    if(civilizacion.getIdCivilizacion() == rs.getInt("id_civilizacion_defensora")){
+                    if(idCivilizacion == rs.getInt("id_civilizacion_defensora")){
                         rol = 2;
                     };
 
@@ -77,7 +77,7 @@ public class GuerraDao extends DaoBase {
             pstmt.setInt(2,idCivilizacion); // fuimos atacados
 
             try(ResultSet rs = pstmt.executeQuery()) {
-                if (rs.next()) {
+                while (rs.next()) {
                     Guerra guerra = new Guerra();
                     guerra.setIdGuerra(rs.getInt("id_guerra"));
                     guerra.setCivilizacionAtacante(civilizacionDao.obtenerCivilizacion(rs.getInt("id_civilizacion_atacante")));
@@ -102,7 +102,7 @@ public class GuerraDao extends DaoBase {
 
         if(!(lista.isEmpty())){
             for (Guerra guerra: lista){
-                int rol = obtenerRolGuerra(guerra.getIdGuerra(),civilizacion);
+                int rol = obtenerRolGuerra(guerra.getIdGuerra(),civilizacion.getIdCivilizacion());
 
                 if (rol ==1){
                     if(guerra.getEstadoGuerra().equalsIgnoreCase("VA")){
@@ -126,7 +126,7 @@ public class GuerraDao extends DaoBase {
 
         if(!(lista.isEmpty())){
             for (Guerra guerra: lista){
-                int rol = obtenerRolGuerra(guerra.getIdGuerra(),civilizacion);
+                int rol = obtenerRolGuerra(guerra.getIdGuerra(),civilizacion.getIdCivilizacion());
 
                 if (rol ==1){
                     if(guerra.getEstadoGuerra().equalsIgnoreCase("VD")){
