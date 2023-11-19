@@ -320,30 +320,31 @@
         // Aquí un ejemplo simple
         var base = "media/assets"; // Reemplaza con la URL base de tus imágenes
 
+
         // Combinaciones posibles
-        if (profesion === "Ciudadano" && genero === "M") {
+        if (profesion === "Ciudadano" && genero === "Masculino") {
             return base + "ciudadano_masculino.jpg";
-        } else if (profesion === "Ciudadano" && genero === "F") {
+        } else if (profesion === "Ciudadano" && genero === "Femenino") {
             return base + "ciudadana_femenina.jpg";
-        } else if (profesion === "Ciudadano" && genero === "O") {
+        } else if (profesion === "Ciudadano" && genero === "Otro") {
             return base + "ciudadano_otro.jpg";
-        } else if (profesion === "Granjero" && genero === "M") {
+        } else if (profesion === "Granjero" && genero === "Masculino") {
             return base + "granjero_masculino.jpg";
-        } else if (profesion === "Granjero" && genero === "F") {
+        } else if (profesion === "Granjero" && genero === "Femenino") {
             return base + "granjera_femenina.jpg";
-        } else if (profesion === "Granjero" && genero === "O") {
+        } else if (profesion === "Granjero" && genero === "Otro") {
             return base + "granjero_otro.jpg";
-        } else if (profesion === "Constructor" && genero === "M") {
+        } else if (profesion === "Constructor" && genero === "Masculino") {
             return base + "constructor_masculino.jpg";
-        } else if (profesion === "Constructor" && genero === "F") {
+        } else if (profesion === "Constructor" && genero === "Femenino") {
             return base + "constructor_femenina.jpg";
-        } else if (profesion === "Constructor" && genero === "O") {
+        } else if (profesion === "Constructor" && genero === "Otro") {
             return base + "constructor_otro.jpg";
-        } else if (profesion === "Soldado" && genero === "M") {
+        } else if (profesion === "Soldado" && genero === "Masculino") {
             return base + "soldado_masculino.jpg";
-        } else if (profesion === "Soldado" && genero === "F") {
+        } else if (profesion === "Soldado" && genero === "Femenino") {
             return base + "soldado_femenina.jpg";
-        } else if (profesion === "Soldado" && genero === "O") {
+        } else if (profesion === "Soldado" && genero === "Otro") {
             return base + "soldado_otro.jpg";
         }
 

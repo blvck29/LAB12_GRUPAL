@@ -44,6 +44,13 @@ public class ControllerServlet extends HttpServlet {
                 request.getRequestDispatcher("pages/usuario/gestion_personas/new_persona.jsp").forward(request, response);
                 break;
 
+            case "edit_person":
+                String id = request.getParameter("id") == null? "home" : request.getParameter("id");
+                Persona persona = personaDao.obtenerPersona(Integer.parseInt(id));
+                request.setAttribute("persona",persona);
+                request.getRequestDispatcher("pages/usuario/gestion_personas/edit_persona.jsp").forward(request, response);
+                break;
+
             case "recursos":
                 request.getRequestDispatcher("pages/usuario/gestion_recursos/recursos.jsp").forward(request, response);
                 break;
@@ -125,6 +132,14 @@ public class ControllerServlet extends HttpServlet {
                 String nombre = request.getParameter("nombre");
 
                 personaDao.crearPersona(civilizacion.getIdCivilizacion(), genero, nombre, profesion);
+                response.sendRedirect("game?action=personas");
+                break;
+
+            case "edit_per":
+                String id = request.getParameter("id") == null? "home" : request.getParameter("id");
+                String nuevoNombre = request.getParameter("nombre");
+                personaDao.editarPersona(Integer.parseInt(id), nuevoNombre);
+
                 response.sendRedirect("game?action=personas");
                 break;
 

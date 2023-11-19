@@ -1,5 +1,6 @@
 <%@ page import="com.game.rougeclans.model.beans.Jugador" %>
 <%@ page import="com.game.rougeclans.model.beans.Civilizacion" %>
+<%@ page import="com.game.rougeclans.model.beans.Persona" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 
 
@@ -43,7 +44,7 @@
 
 <% Jugador jugador = (Jugador) session.getAttribute("jugador"); %>
 <% Civilizacion civilizacion = (Civilizacion) session.getAttribute("civilizacion"); %>
-
+<% Persona personaEditar = (Persona) request.getAttribute("persona"); %>
 
 <!DOCTYPE html>
 <html lang="es">
@@ -159,18 +160,32 @@
                         <div>No podrás cambiar los atributos y estadísticas de una persona, solo su nombre.</div>
 
 
-                        <form action="game?action=edit_per" method="POST">
+                        <form action="game?action=edit_per&id=<%=personaEditar.getIdPersona()%>" method="POST">
 
                             <div class="create-form">
 
                                 <label for="nombre">Editar el nombre:</label>
-                                <input type="text" id="nombre" name="nombre" placeholder="">
+                                <input type="text" id="nombre" name="nombre" class="text-dark" placeholder="<%=personaEditar.getNombre()%>">
 
                                 <label for="profesion">Profesión:</label>
-                                <input disabled type="text" id="profesion" name="profesion" placeholder="">
+                                <input readonly type="text" id="profesion" name="profesion" placeholder="<%=personaEditar.getProfesion()%>">
 
-                                <label for="genero">Selecciona un Género:</label>
-                                <input disabled type="text" id="genero" name="genero" placeholder="">
+                                <% String genero = "";
+                                    switch (personaEditar.getGenero()){
+                                        case "M":
+                                            genero = "Masculino";
+                                            break;
+                                        case "F":
+                                            genero = "Femenino";
+                                            break;
+                                        case "O":
+                                            genero = "Otro";
+                                            break;
+                                    }%>
+
+
+                                <label for="genero">Género:</label>
+                                <input readonly type="text" id="genero" name="genero" placeholder="<%=genero%>">
 
                             </div>
 
@@ -185,10 +200,10 @@
                                     <div class="col-md-6">
                                         <div class="d-flex justify-content-between">
                                             <div>
-                                                <a href="game?action=personas" class="text-white">Regresar</a>
+                                                <a href="game?action=personas" class="text-white">Cancelar</a>
                                             </div>
                                             <div>
-                                                <button type="submit" class="btn btn-lg war-btn">Crear</button>
+                                                <button type="submit" class="btn btn-lg war-btn">Confirmar</button>
                                             </div>
                                         </div>
                                     </div>
@@ -313,29 +328,29 @@
         var base = "media/assets"; // Reemplaza con la URL base de tus imágenes
 
         // Combinaciones posibles
-        if (profesion === "Ciudadano" && genero === "M") {
+        if (profesion === "Ciudadano" && genero === "Masculino") {
             return base + "ciudadano_masculino.jpg";
-        } else if (profesion === "Ciudadano" && genero === "F") {
+        } else if (profesion === "Ciudadano" && genero === "Femenino") {
             return base + "ciudadana_femenina.jpg";
-        } else if (profesion === "Ciudadano" && genero === "O") {
+        } else if (profesion === "Ciudadano" && genero === "Otro") {
             return base + "ciudadano_otro.jpg";
-        } else if (profesion === "Granjero" && genero === "M") {
+        } else if (profesion === "Granjero" && genero === "Masculino") {
             return base + "granjero_masculino.jpg";
-        } else if (profesion === "Granjero" && genero === "F") {
+        } else if (profesion === "Granjero" && genero === "Femenino") {
             return base + "granjera_femenina.jpg";
-        } else if (profesion === "Granjero" && genero === "O") {
+        } else if (profesion === "Granjero" && genero === "Otro") {
             return base + "granjero_otro.jpg";
-        } else if (profesion === "Constructor" && genero === "M") {
+        } else if (profesion === "Constructor" && genero === "Masculino") {
             return base + "constructor_masculino.jpg";
-        } else if (profesion === "Constructor" && genero === "F") {
+        } else if (profesion === "Constructor" && genero === "Femenino") {
             return base + "constructor_femenina.jpg";
-        } else if (profesion === "Constructor" && genero === "O") {
+        } else if (profesion === "Constructor" && genero === "Otro") {
             return base + "constructor_otro.jpg";
-        } else if (profesion === "Soldado" && genero === "M") {
+        } else if (profesion === "Soldado" && genero === "Masculino") {
             return base + "soldado_masculino.jpg";
-        } else if (profesion === "Soldado" && genero === "F") {
+        } else if (profesion === "Soldado" && genero === "Femenino") {
             return base + "soldado_femenina.jpg";
-        } else if (profesion === "Soldado" && genero === "O") {
+        } else if (profesion === "Soldado" && genero === "Otro") {
             return base + "soldado_otro.jpg";
         }
 

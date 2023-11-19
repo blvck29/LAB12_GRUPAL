@@ -218,9 +218,13 @@
                                             <td><%=persona.getProduce()%></td>
                                             <td><%=persona.getProduce()%></td>
                                             <td>
-                                                <form action="game?action=edit_person&id=<%=persona.getIdPersona()%>" method="POST">
-                                                    <button type="submit" class="btn war-btn"><ion-icon style="padding-top: 5px"  name="pencil"></ion-icon></button>
-                                                </form>
+                                                <div>
+                                                    <button type="button" style="padding-top: 2px" class="btn war-btn">
+                                                        <a href="game?action=edit_person&id=<%=persona.getIdPersona()%>" class="text-white">
+                                                            <ion-icon style="padding-top: 5px"  name="pencil"></ion-icon>
+                                                        </a>
+                                                    </button>
+                                                </div>
                                             </td>
                                         </tr>
 
