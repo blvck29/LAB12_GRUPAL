@@ -1,7 +1,8 @@
 <%@ page import="com.game.rougeclans.model.beans.Jugador" %>
 <%@ page import="com.game.rougeclans.model.beans.Civilizacion" %>
+<%@ page import="java.util.ArrayList" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-
+<jsp:useBean id="oponentes" scope="request" type="ArrayList<com.game.rougeclans.model.beans.Civilizacion>" />
 
 <% if (session.getAttribute("jugador") == null){ %>
 
@@ -174,22 +175,24 @@
                                         </thead>
                                         <tbody>
                                         <!-- Contenido de la tabla -->
-
-                                        <% for(int i=0; i<11; i++){%>
+                                        <%int i = 1;%>
+                                        <% for(Civilizacion c :oponentes){%>
 
                                         <tr>
                                             <td><%=i%></td>
-                                            <td>Aldoradin</td>
-                                            <td>Civilización Maya</td>
-                                            <td>n días</td>
+                                            <td><%=c.getJugador().getUsuario()%></td>
+                                            <td><%=c.getNombre()%>a</td>
+                                            <td><%=c.getDaysElapsed()%> días</td>
                                             <td>
-                                                <form action="#" method="POST">
+                                                <form action="<%=request.getContextPath()%>/game?action=declarar_guerra" method="POST">
+                                                    <input type="hidden" name="idDefensor" value="<%=c.getIdCivilizacion()%>">
+                                                    <input type="hidden" name="idAtacante" value="<%=civilizacion.getIdCivilizacion()%>">
                                                     <button type="submit" class="btn war-btn"><ion-icon style="padding-top: 5px"  name="skull"></ion-icon></button>
                                                 </form>
                                             </td>
                                         </tr>
 
-                                        <%}%>
+                                        <%i++;}%>
 
                                         </tbody>
                                     </table>
@@ -255,10 +258,10 @@
                                         <tbody>
                                         <!-- Contenido de la tabla -->
 
-                                        <% for(int i=0; i<11; i++){%>
+                                        <% for(int j=0; i<11; i++){%>
 
                                         <tr>
-                                            <td><%=i%></td>
+                                            <td><%=j%></td>
                                             <td>Aldoradin</td>
                                             <td>Civilización Maya</td>
                                             <td>Victoria</td>

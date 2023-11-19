@@ -172,14 +172,15 @@ public class GuerraDao extends DaoBase {
 
     }
 
-    public void calcularGanador(int idCivilizacionAtacante, int idCivilizacionDefensora){//
+    public boolean calcularGanador(int idCivilizacionAtacante, int idCivilizacionDefensora){//
 
+        boolean ganoAtacante = false;
         CivilizacionDao civilizacionDao = new CivilizacionDao();
         Civilizacion civilizacionAtacante = civilizacionDao.obtenerCivilizacion(idCivilizacionAtacante);
         Civilizacion civilizacionDefensora = civilizacionDao.obtenerCivilizacion(idCivilizacionDefensora);
 
 
-        String sql = "insert into guera (id_civilizacion_atacante,id_civilizacion_defensora,estado_guerra,dia_atacante,dia_defensora) values (?,?,?,?,?)";
+        String sql = "insert into guerra (id_civilizacion_atacante,id_civilizacion_defensora,estado_guerra,dia_atacante,dia_defensor) values (?,?,?,?,?)";
 
         try(Connection conn=this.getConnection(); PreparedStatement pstmt= conn.prepareStatement(sql)){
 
@@ -187,23 +188,26 @@ public class GuerraDao extends DaoBase {
             pstmt.setInt(1,idCivilizacionAtacante);
             pstmt.setInt(2,idCivilizacionDefensora);
             pstmt.setInt(4,civilizacionAtacante.getDaysElapsed());
-            civilizacionDao.actualizarTimeAndDaysElapsed(civilizacionAtacante.getIdCivilizacion()); //proceso de pasar un día para la civilización atacante
+            civilizacionDao.actualizarTimeAndDaysElapsed(idCivilizacionAtacante); //proceso de pasar un día para la civilización atacante
             pstmt.setInt(5,civilizacionDefensora.getDaysElapsed());
 
             //OBTENER GANADOR:
 
             if(civilizacionDao.fuerzaTotalAtacante(idCivilizacionAtacante)>civilizacionDao.fuerzaTotalDefensor(idCivilizacionDefensora)){
-                pstmt.setString(4,"VA");
+                pstmt.setString(3,"VA");
+                ganoAtacante = true;
+                //Métodos para aplicar los puntos
             }
             else{
-                pstmt.setString(4,"VD");
+                pstmt.setString(3,"VD");
+                //Métodos para aplicar los puntos
             }
 
             pstmt.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-
+        return ganoAtacante;
     }
 
 }

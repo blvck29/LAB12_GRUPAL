@@ -43,6 +43,7 @@ public class ControllerServlet extends HttpServlet {
                 break;
 
             case "guerra":
+                request.setAttribute("oponentes", civilizacionDao.listarCivilizaciones(civilizacion.getIdCivilizacion()));
                 request.getRequestDispatcher("pages/usuario/gestion_guerra/guerra.jsp").forward(request, response);
                 break;
 
@@ -101,11 +102,21 @@ public class ControllerServlet extends HttpServlet {
         HttpSession session = request.getSession(false);
         Jugador jugador = (Jugador) session.getAttribute("jugador");
         Civilizacion civilizacion = (Civilizacion) session.getAttribute("civilizacion");
+        GuerraDao guerraDao = new GuerraDao();
 
         switch (action){
 
             case "home":
                 response.sendRedirect("login?action=home");
+                break;
+
+            case "declarar_guerra":
+
+                int idAtacante = Integer.parseInt(request.getParameter("idAtacante"));
+                int idDefensor = Integer.parseInt(request.getParameter("idDefensor"));
+                guerraDao.calcularGanador(idAtacante,idDefensor);
+
+                response.sendRedirect(request.getContextPath() + "/game?action=guerra");
                 break;
 
         }
