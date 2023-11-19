@@ -75,6 +75,9 @@ public class ControllerServlet extends HttpServlet {
                     request.setAttribute("edadAnciano", edadAnciano);
                     request.setAttribute("produccionAlimento", produccionAlimento);
 
+                    request.setAttribute("top10", top10JugadoresDao.listarTop10("fuerza_total")); //para hallar al usuario más poderoso en fuerza
+                    request.setAttribute("puesto", top10JugadoresDao.obtenerPuesto(civilizacion.getIdCivilizacion(),"fuerza_total"));
+
                     request.getRequestDispatcher("pages/usuario/inicio/civilizacion.jsp").forward(request, response);
 
                 } else {

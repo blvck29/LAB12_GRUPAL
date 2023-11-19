@@ -1,6 +1,8 @@
 <%@ page import="com.game.rougeclans.model.beans.Jugador" %>
 <%@ page import="com.game.rougeclans.model.beans.Civilizacion" %>
+<%@ page import="java.util.ArrayList" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<jsp:useBean id="top10" scope="request" type="ArrayList<com.game.rougeclans.model.Dtos.Top10Jugadores>" />
 
 
 <% if (session.getAttribute("jugador") == null){ %>
@@ -51,6 +53,7 @@
 <% int fuerzaTotal = (int) request.getAttribute("fuerzaTotal");%>
 <% int edadAnciano = (int) request.getAttribute("edadAnciano");%>
 <% int produccionAlimento = (int) request.getAttribute("produccionAlimento");%>
+<% int puesto = (int) request.getAttribute("puesto");%>
 
 <!DOCTYPE html>
 <html lang="es">
@@ -135,8 +138,8 @@
                             <ion-icon style="font-size: 2.4rem; color: #d2d2d2" name="person-circle"></ion-icon>
                         </a>
                         <div class="dropdown-menu dropdown-menu-end" style="padding: 5px">
-                            <p>Nombre de usuario</p>
-                            <p>Correo</p>
+                            <p><%=jugador.getUsuario()%></p>
+                            <p><%=jugador.getCorreo()%></p>
                             <hr class="hr w-100"/>
                             <a href="logout" class="sidebar-link exit" style="font-size: 0.9rem !important; padding: 0 !important;">
                                 Cerrar Sesión
@@ -154,7 +157,7 @@
             <div class="custom_card">
                 <div>
                     <div class="title_card" style="font-weight: bold"><%=civilizacion.getNombre()%></div>
-                    <div class="badge">Puesto #1310</div>
+                    <div class="badge">Puesto #<%=puesto%></div>
                     <hr style="margin-top: 0">
                 </div>
                     <div class="personal_statistics">
@@ -223,7 +226,7 @@
                     <div class="subcard_title">LeaderBoard</div>
                     <hr style="margin-top: 0">
                     <div class="infos">
-                        @USUARIO posee la civilización más poderosa.
+                        @<%=top10.get(0).getCivilizacion().getJugador().getUsuario()%> posee la civilización más poderosa
                         <a href="#" class="access_subcard">
                             <ion-icon name="arrow-forward-circle"></ion-icon>
                         </a>

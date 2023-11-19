@@ -127,8 +127,8 @@
                             <ion-icon style="font-size: 2.4rem; color: #d2d2d2" name="person-circle"></ion-icon>
                         </a>
                         <div class="dropdown-menu dropdown-menu-end" style="padding: 5px">
-                            <p>Nombre de usuario</p>
-                            <p>Correo</p>
+                            <p><%=jugador.getUsuario()%></p>
+                            <p><%=jugador.getCorreo()%></p>
                             <hr class="hr w-100"/>
                             <a href="#" class="sidebar-link exit" style="font-size: 0.9rem !important; padding: 0 !important;">
                                 Cerrar Sesión
