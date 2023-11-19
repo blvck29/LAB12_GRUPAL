@@ -40,7 +40,6 @@ public class ControllerServlet extends HttpServlet {
                 request.getRequestDispatcher("pages/usuario/gestion_personas/personas.jsp").forward(request, response);
                 break;
 
-
             case "create_person":
                 request.getRequestDispatcher("pages/usuario/gestion_personas/new_persona.jsp").forward(request, response);
                 break;
@@ -53,6 +52,18 @@ public class ControllerServlet extends HttpServlet {
                 break;
 
             case "recursos":
+                request.getRequestDispatcher("pages/usuario/gestion_recursos/recursos.jsp").forward(request, response);
+                break;
+
+            case "pass_hours":
+                civilizacionDao.pasarLasHoras(civilizacion.getIdCivilizacion());
+                session.setAttribute("civilizacion",civilizacionDao.obtenerCivilizacion(civilizacion.getIdCivilizacion()));
+                request.getRequestDispatcher("pages/usuario/gestion_recursos/recursos.jsp").forward(request, response);
+                break;
+
+            case "finish_day":
+                civilizacionDao.actualizarTimeAndDaysElapsed(civilizacion.getIdCivilizacion());
+                session.setAttribute("civilizacion",civilizacionDao.obtenerCivilizacion(civilizacion.getIdCivilizacion()));
                 request.getRequestDispatcher("pages/usuario/gestion_recursos/recursos.jsp").forward(request, response);
                 break;
 
@@ -72,6 +83,7 @@ public class ControllerServlet extends HttpServlet {
                 String orderBy = request.getParameter("order_by") == null ? "dias_jugados" : request.getParameter("order_by");
                 request.setAttribute("top10", top10JugadoresDao.listarTop10(orderBy));
                 //request.setAttribute("top10", top10JugadoresDao.listarTop10(orderBy));
+                session.setAttribute("civilizacion",civilizacionDao.obtenerCivilizacion(civilizacion.getIdCivilizacion()));
                 request.getRequestDispatcher("pages/usuario/leaderboard/leaderboard.jsp").forward(request, response);
                 break;
 
@@ -105,10 +117,12 @@ public class ControllerServlet extends HttpServlet {
                         request.setAttribute("puesto_oponente",0);
                     }
 
+                    session.setAttribute("civilizacion",civilizacionDao.obtenerCivilizacion(civilizacion.getIdCivilizacion()));
                     request.getRequestDispatcher("pages/usuario/inicio/civilizacion.jsp").forward(request, response);
 
                 } else {
 
+                    session.setAttribute("civilizacion",civilizacionDao.obtenerCivilizacion(civilizacion.getIdCivilizacion()));
                     request.getRequestDispatcher("pages/sistema/no_session.jsp").forward(request, response);
                 }
 
@@ -140,6 +154,7 @@ public class ControllerServlet extends HttpServlet {
                 String nombre = request.getParameter("nombre");
 
                 personaDao.crearPersona(civilizacion.getIdCivilizacion(), genero, nombre, profesion);
+                session.setAttribute("civilizacion",civilizacionDao.obtenerCivilizacion(civilizacion.getIdCivilizacion()));
                 response.sendRedirect("game?action=personas");
                 break;
 
@@ -147,7 +162,7 @@ public class ControllerServlet extends HttpServlet {
                 String id = request.getParameter("id") == null? "home" : request.getParameter("id");
                 String nuevoNombre = request.getParameter("nombre");
                 personaDao.editarPersona(Integer.parseInt(id), nuevoNombre);
-
+                session.setAttribute("civilizacion",civilizacionDao.obtenerCivilizacion(civilizacion.getIdCivilizacion()));
                 response.sendRedirect("game?action=personas");
                 break;
 
@@ -156,6 +171,7 @@ public class ControllerServlet extends HttpServlet {
                 int idDefensor = Integer.parseInt(request.getParameter("idDefensor"));
                 guerraDao.calcularGanador(idAtacante,idDefensor);
                 guerraDao.asignarPuntajes(guerraDao.obtenerUltimoIdGuerra());
+                session.setAttribute("civilizacion",civilizacionDao.obtenerCivilizacion(civilizacion.getIdCivilizacion()));
                 response.sendRedirect("game?action=guerra");
                 break;
 

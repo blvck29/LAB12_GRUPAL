@@ -168,17 +168,25 @@
                         <div>
                             <div class="d-flex flex-column align-items-center">
                                 <p>Al presionar esta opción el tiempo transcurrirá hasta que comience un día nuevo.</p>
-                                <form action="#" method="POST">
-                                    <button type="submit" class="btn btn-lg btn-custom"> Pasar las horas </button>
-                                </form>
+                                <div>
+                                    <button type="button" style="padding-top: 2px" class="btn btn-lg war-btn"><a href="game?action=pass_hours" class="text-white">Pasar las horas</a></button>
+                                </div>
                             </div>
                         </div>
                         <div>
                             <div class="d-flex flex-column align-items-center">
-                                <p>Solo podrá presionar este botón cuando haya utilizado todas las horas del día.</p>
-                                <form action="#" method="POST">
-                                    <button type="submit" class="btn btn-lg btn-custom"> Terminar el día </button>
-                                </form>
+                                <p>Este botón solo funcionará cuando hayas utilizado todas las horas del día.</p>
+
+                                <%if (civilizacion.getTimeElapsed() == 24){%>
+                                <div>
+                                    <button type="button" style="padding-top: 2px" class="btn btn-lg war-btn"><a href="game?action=finish_day" class="text-white">Acabar el día</a></button>
+                                </div>
+                                <%} else {%>
+                                <div>
+                                    <button type="button" style="padding-top: 2px" class="btn btn-lg war-btn"><a href="#" class="text-white">Acabar el día</a></button>
+                                </div>
+                                <% }%>
+
                             </div>
                         </div>
                     </div>
