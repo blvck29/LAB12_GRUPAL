@@ -5,7 +5,6 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <jsp:useBean id="top10" scope="request" type="ArrayList<com.game.rougeclans.model.Dtos.Top10Jugadores>" />
 
-
 <% if (session.getAttribute("jugador") == null){ %>
 
 <!DOCTYPE html>
@@ -225,7 +224,7 @@
                                 <td><%=dto.getPoblacionTotal()%></td>
                                 <td><%=dto.getMoralTotal()%></td>
                                 <td><%=dto.getGuerrasGanadas()%></td>
-                                <td><%=dto.getWinrate()%>%</td>
+                                <td><%=String.format("%.2f", dto.getWinrate())%>%</td>
                                 <td><%=dto.getFuerzaTotal()%></td>
                                 <td><%=dto.getMaximoDiasPersona()%></td>
                                 <td><%=dto.getProduccionAlimento()%></td>
@@ -239,7 +238,11 @@
                                 <td><%=dto.getPoblacionTotal()%></td>
                                 <td><%=dto.getMoralTotal()%></td>
                                 <td><%=dto.getGuerrasGanadas()%></td>
-                                <td><%=dto.getWinrate()%>%</td>
+                                <%if(dto.getWinrate()==0){%>
+                                <td>N.A.</td>
+                                <%} else {%>
+                                <td><%=String.format("%.2f", dto.getWinrate())%>%</td>
+                                <%};%>
                                 <td><%=dto.getFuerzaTotal()%></td>
                                 <td><%=dto.getMaximoDiasPersona()%></td>
                                 <td><%=dto.getProduccionAlimento()%></td>

@@ -30,8 +30,8 @@ public class Top10JugadoresDao extends DaoBase{
                     top10Jugadores.setCivilizacion(civilizacionDao.obtenerCivilizacion(rs.getInt("id_civilizacion")));
                     top10Jugadores.setPoblacionTotal(civilizacionDao.obtenerPoblacionTotal(rs.getInt("id_civilizacion")));
                     top10Jugadores.setMoralTotal(civilizacionDao.obtenerMoralTotalCivilizacion(rs.getInt("id_civilizacion")));
-                    top10Jugadores.setGuerrasGanadas(guerraDao.calcularGuerrasGanadas(top10Jugadores.getCivilizacion()));
-                    top10Jugadores.setWinrate(guerraDao.obtenerWinRate(top10Jugadores.getCivilizacion()));
+                    top10Jugadores.setGuerrasGanadas(guerraDao.calcularGuerrasGanadas(top10Jugadores.getCivilizacion().getIdCivilizacion()));
+                    top10Jugadores.setWinrate(guerraDao.obtenerWinRate(top10Jugadores.getCivilizacion().getIdCivilizacion()));
                     top10Jugadores.setFuerzaTotal(civilizacionDao.fuerzaTotalDefensor(rs.getInt("id_civilizacion")));
                     top10Jugadores.setMaximoDiasPersona(civilizacionDao.obtenerAncianoDelPueblo(top10Jugadores.getCivilizacion()));
                     top10Jugadores.setProduccionAlimento(civilizacionDao.obtenerAlimentoTotal(rs.getInt("id_civilizacion")));
@@ -108,8 +108,8 @@ public class Top10JugadoresDao extends DaoBase{
                     top10Jugadores.setCivilizacion(civilizacionDao.obtenerCivilizacion(rs.getInt("id_civilizacion")));
                     top10Jugadores.setPoblacionTotal(civilizacionDao.obtenerPoblacionTotal(rs.getInt("id_civilizacion")));
                     top10Jugadores.setMoralTotal(civilizacionDao.obtenerMoralTotalCivilizacion(rs.getInt("id_civilizacion")));
-                    top10Jugadores.setGuerrasGanadas(guerraDao.calcularGuerrasGanadas(top10Jugadores.getCivilizacion()));
-                    top10Jugadores.setWinrate(guerraDao.obtenerWinRate(top10Jugadores.getCivilizacion()));
+                    top10Jugadores.setGuerrasGanadas(guerraDao.calcularGuerrasGanadas(top10Jugadores.getCivilizacion().getIdCivilizacion()));
+                    top10Jugadores.setWinrate(guerraDao.obtenerWinRate(top10Jugadores.getCivilizacion().getIdCivilizacion()));
                     top10Jugadores.setFuerzaTotal(civilizacionDao.fuerzaTotalDefensor(rs.getInt("id_civilizacion")));
                     top10Jugadores.setMaximoDiasPersona(civilizacionDao.obtenerAncianoDelPueblo(top10Jugadores.getCivilizacion()));
                     top10Jugadores.setProduccionAlimento(civilizacionDao.obtenerAlimentoTotal(rs.getInt("id_civilizacion")));

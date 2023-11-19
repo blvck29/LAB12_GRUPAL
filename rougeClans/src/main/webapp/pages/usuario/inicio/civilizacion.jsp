@@ -3,6 +3,7 @@
 <%@ page import="java.util.ArrayList" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <jsp:useBean id="top10" scope="request" type="ArrayList<com.game.rougeclans.model.Dtos.Top10Jugadores>" />
+<jsp:useBean id="ultima_guerra" scope="request" type="com.game.rougeclans.model.Dtos.HistorialGuerras" />
 
 
 <% if (session.getAttribute("jugador") == null){ %>
@@ -54,6 +55,7 @@
 <% int edadAnciano = (int) request.getAttribute("edadAnciano");%>
 <% int produccionAlimento = (int) request.getAttribute("produccionAlimento");%>
 <% int puesto = (int) request.getAttribute("puesto");%>
+<% int puestoOponente = (int) request.getAttribute("puesto_oponente");%>
 
 <!DOCTYPE html>
 <html lang="es">
@@ -175,11 +177,25 @@
 
 
 
-
             <div class="custom_card">
                 <div>
-                    <div class="subtitle_card">Ultimo Conflicto</div>
+                    <div class="subtitle_card">Última Guerra</div>
                     <hr style="margin-top: 0">
+                    <%if (ultima_guerra.getResultado()!=null){%>
+                    <div class="war-statistics">
+                        <div class="infos">Oponente: <%=ultima_guerra.getCivilizacionOponente().getJugador().getUsuario()%></div>
+                        <div class="infos">Puesto: #<%=puestoOponente%></div>
+                        <div class="infos">Civilización: <%=ultima_guerra.getCivilizacionOponente().getNombre()%></div>
+                        <div class="infos">Fecha: Día <%=ultima_guerra.getFecha()%></div>
+                        <div class="infos">Resultado: <%=ultima_guerra.getResultado()%></div>
+                    </div>
+                    <%}else  {%>
+                    <div class="war-statistics">
+                        <div class="infos">NO HAS ESTADO EN UNA GUERRA AÚN</div>
+                    </div>
+                    <%}%>
+
+
                 </div>
             </div>
 
