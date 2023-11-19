@@ -444,7 +444,7 @@ public class PersonaDao extends DaoBase{
     public ArrayList<Integer> listaIdPersonasXCivilizacion(int idCivilizacion){
         ArrayList<Integer> listaIdsPersonas = new ArrayList<>();
 
-        String sql = "select p.id_personas from personas p inner join civilizaciones c on p.id_civilizacion = c.id_civilizacion where c.id_civilizacion = ?";
+        String sql = "select p.id_personas from personas p inner join civilizaciones c on p.id_civilizacion = c.id_civilizacion where c.id_civilizacion = ? and p.muerto = 0";
         try (Connection conn=this.getConnection(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setInt(1, idCivilizacion);
             try (ResultSet rs = pstmt.executeQuery()) {
