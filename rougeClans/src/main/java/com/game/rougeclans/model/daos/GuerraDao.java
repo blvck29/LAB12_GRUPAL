@@ -180,31 +180,28 @@ public class GuerraDao extends DaoBase {
     }
 
 
-    public void civilizacionAtacanteGana(int idCivilizacion, int idGuerra){//No se si se utiliza
+    public void civilizacionAtacanteGana(int idCivilizacionAtacante, int idGuerra){//No se si se utiliza
         String sql = " ";
-        sql = "update guerra set estado_guerra = 'victoria' where id_guerra = ? ";
-        try(Connection conn=this.getConnection(); PreparedStatement pstmt= conn.prepareStatement(sql)){
-            pstmt.setInt(1, idGuerra);
-            pstmt.executeUpdate();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
+        String va = obtenerGuerra(idGuerra).getEstadoGuerra();
+        if(va.equalsIgnoreCase("VA")){
+
+            sql = "update personas set moral = 2*moral, fuerza = cast(1.2*fuerza as unsigned) where profesion='Soldado' and id_civilizacion = ?";
+            try(Connection conn=this.getConnection(); PreparedStatement pstmt= conn.prepareStatement(sql)){
+                pstmt.setInt(1, idCivilizacionAtacante);
+                pstmt.executeUpdate();
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+
+            sql = "update personas set produce = cast(1.2*produce as unsigned) where profesion='Granjero' and id_civilizacion = ?";
+            try(Connection conn=this.getConnection(); PreparedStatement pstmt= conn.prepareStatement(sql)){
+                pstmt.setInt(1, idCivilizacionAtacante);
+                pstmt.executeUpdate();
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
         }
 
-        sql = "update personas set moral = 2*moral, fuerza = cast(1.2*fuerza as unsigned) where profesion='Soldado' and id_civilizacion = ?";
-        try(Connection conn=this.getConnection(); PreparedStatement pstmt= conn.prepareStatement(sql)){
-            pstmt.setInt(1, idCivilizacion);
-            pstmt.executeUpdate();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-
-        sql = "update personas set produce = cast(1.2*produce as unsigned) where profesion='Granjero' and id_civilizacion = ?";
-        try(Connection conn=this.getConnection(); PreparedStatement pstmt= conn.prepareStatement(sql)){
-            pstmt.setInt(1, idCivilizacion);
-            pstmt.executeUpdate();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
 
     }
 
