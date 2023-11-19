@@ -183,7 +183,7 @@
                                 </div>
                                 <%} else {%>
                                 <div>
-                                    <button type="button" style="padding-top: 2px" class="btn btn-lg war-btn"><a href="#" class="text-white">Acabar el día</a></button>
+                                    <button type="button" style="padding-top: 2px" class="btn btn-lg war-btn disabled"><a href="#" class="text-white">Acabar el día</a></button>
                                 </div>
                                 <% }%>
 

@@ -214,7 +214,7 @@
                                 </th>
                                 <th scope="col">
                                     <a href="<%=request.getContextPath()%>/game?action=leaderboard&order_by=anciano_del_pueblo">
-                                        <button type="submit" class="btn war-btn">Anciano del Pueblo</button>
+                                        <button type="submit" class="btn war-btn">Máximo número de días de un ciudadano</button>
                                     </a>
                                 </th>
                                 <th scope="col">
