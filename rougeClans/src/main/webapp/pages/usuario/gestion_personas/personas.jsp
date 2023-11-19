@@ -197,7 +197,20 @@
                                         <tr>
                                             <td><%=i%></td>
                                             <td><%=persona.getNombre()%></td>
-                                            <td><%=persona.getGenero()%></td>
+                                            <td>
+                                                <% String genero = "";
+                                                    switch (persona.getGenero()){
+                                                    case "M":
+                                                        genero = "Masculino";
+                                                        break;
+                                                    case "F":
+                                                        genero = "Femenino";
+                                                        break;
+                                                    case "O":
+                                                        genero = "Otro";
+                                                        break;
+                                                }%>
+                                            </td>
                                             <td><%=persona.getAlimentoDia()%></td>
                                             <td><%=persona.getMoral()%></td>
                                             <td><%=persona.getDaysAlive()%> días</td>
