@@ -1,5 +1,6 @@
 package com.game.rougeclans.servlets;
 
+import com.game.rougeclans.model.Dtos.PersonaEnLista;
 import com.game.rougeclans.model.beans.Civilizacion;
 import com.game.rougeclans.model.beans.Jugador;
 import com.game.rougeclans.model.beans.Persona;
@@ -9,6 +10,7 @@ import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 @WebServlet(name = "ControllerServlet", value = "/game")
 public class ControllerServlet extends HttpServlet {
@@ -32,8 +34,11 @@ public class ControllerServlet extends HttpServlet {
         switch (action){
 
             case "personas":
+                ArrayList<PersonaEnLista> listaPersonas = personaDao.listaPersonasXCivilizacion(civilizacion);
+                request.setAttribute("listaPersonas", listaPersonas);
                 request.getRequestDispatcher("pages/usuario/gestion_personas/personas.jsp").forward(request, response);
                 break;
+
 
             case "create_person":
                 request.getRequestDispatcher("pages/usuario/gestion_personas/new_persona.jsp").forward(request, response);
@@ -56,7 +61,6 @@ public class ControllerServlet extends HttpServlet {
                 break;
 
             case "leaderboard":
-
                 String orderBy = request.getParameter("order_by") == null ? "dias_jugados" : request.getParameter("order_by");
                 request.setAttribute("top10", top10JugadoresDao.listarTop10(orderBy));
                 //request.setAttribute("top10", top10JugadoresDao.listarTop10(orderBy));
@@ -66,7 +70,6 @@ public class ControllerServlet extends HttpServlet {
             case "home":
 
                 if (session.getAttribute("jugador") != null){
-
                     /* Obtención de Estadísticas de la Civilización Logueada */
                     int poblacionTotal = civilizacionDao.obtenerPoblacionTotal(civilizacion.getIdCivilizacion());
                     int moralTotal = civilizacionDao.obtenerMoralTotalCivilizacion(civilizacion.getIdCivilizacion());
