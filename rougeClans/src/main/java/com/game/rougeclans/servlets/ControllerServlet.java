@@ -54,6 +54,8 @@ public class ControllerServlet extends HttpServlet {
             case "del_person":
                 String idP = request.getParameter("id") == null? "home" : request.getParameter("id");
                 personaDao.exiliarPersona(Integer.parseInt(idP), civilizacion.getIdCivilizacion());
+                ArrayList<PersonaEnLista> listaPersonasN = personaDao.listaPersonasXCivilizacion(civilizacion);
+                request.setAttribute("listaPersonas", listaPersonasN);
                 request.getRequestDispatcher("pages/usuario/gestion_personas/personas.jsp").forward(request, response);
                 break;
 
