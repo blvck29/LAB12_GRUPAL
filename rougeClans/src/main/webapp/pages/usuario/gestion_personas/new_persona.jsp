@@ -164,7 +164,7 @@
 
                                 <label for="profesion">Selecciona una profesión:</label>
                                 <select id="profesion" name="profesion">
-                                    <option value="Niguna">Ciudadano</option>
+                                    <option value="Ninguna">Ciudadano</option>
                                     <option value="Granjero">Granjero</option>
                                     <option value="Constructor">Constructor</option>
                                     <option value="Soldado">Soldado</option>
