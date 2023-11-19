@@ -40,7 +40,7 @@ public class GuerraDao extends DaoBase {
         return guerra;
     }
 
-    public int obtenerRolGuerra(int idGuerra, Civilizacion civilizacion){ //1: atacante | 2: defensor
+    public int obtenerRolGuerra(int idGuerra, int  idCivilizacion){ //1: atacante | 2: defensor
 
         int rol = 0; //1: atacante | 2: defensor
         String sql = "select * from guerra where id_guerra = ?";
@@ -50,10 +50,10 @@ public class GuerraDao extends DaoBase {
 
             try(ResultSet rs = pstmt.executeQuery()) {
                 if (rs.next()) {
-                    if(civilizacion.getIdCivilizacion() == rs.getInt("id_civilizacion_atacante")){
+                    if(idCivilizacion == rs.getInt("id_civilizacion_atacante")){
                         rol = 1;
                     }
-                    if(civilizacion.getIdCivilizacion() == rs.getInt("id_civilizacion_defensora")){
+                    if(idCivilizacion == rs.getInt("id_civilizacion_defensora")){
                         rol = 2;
                     };
 
@@ -77,7 +77,7 @@ public class GuerraDao extends DaoBase {
             pstmt.setInt(2,idCivilizacion); // fuimos atacados
 
             try(ResultSet rs = pstmt.executeQuery()) {
-                if (rs.next()) {
+                while (rs.next()) {
                     Guerra guerra = new Guerra();
                     guerra.setIdGuerra(rs.getInt("id_guerra"));
                     guerra.setCivilizacionAtacante(civilizacionDao.obtenerCivilizacion(rs.getInt("id_civilizacion_atacante")));
@@ -102,7 +102,7 @@ public class GuerraDao extends DaoBase {
 
         if(!(lista.isEmpty())){
             for (Guerra guerra: lista){
-                int rol = obtenerRolGuerra(guerra.getIdGuerra(),civilizacion);
+                int rol = obtenerRolGuerra(guerra.getIdGuerra(),civilizacion.getIdCivilizacion());
 
                 if (rol ==1){
                     if(guerra.getEstadoGuerra().equalsIgnoreCase("VA")){
@@ -126,7 +126,7 @@ public class GuerraDao extends DaoBase {
 
         if(!(lista.isEmpty())){
             for (Guerra guerra: lista){
-                int rol = obtenerRolGuerra(guerra.getIdGuerra(),civilizacion);
+                int rol = obtenerRolGuerra(guerra.getIdGuerra(),civilizacion.getIdCivilizacion());
 
                 if (rol ==1){
                     if(guerra.getEstadoGuerra().equalsIgnoreCase("VD")){
@@ -160,7 +160,7 @@ public class GuerraDao extends DaoBase {
     }
 
 
-    public void civilizacionAtacanteGana(int idCivilizacion){
+    public void civilizacionAtacanteGana(int idCivilizacion){//No se si se utiliza
         String sql = " ";
         sql = "update personas set moral = 2*moral, fuerza = cast(1.2*fuerza as unsigned) where profesion='soldado' and id_civilizacion = ?";
         try(Connection conn=this.getConnection(); PreparedStatement pstmt= conn.prepareStatement(sql)){
@@ -172,14 +172,15 @@ public class GuerraDao extends DaoBase {
 
     }
 
-    public void calcularGanador(int idCivilizacionAtacante, int idCivilizacionDefensora){//
+    public boolean calcularGanador(int idCivilizacionAtacante, int idCivilizacionDefensora){//
 
+        boolean ganoAtacante = false;
         CivilizacionDao civilizacionDao = new CivilizacionDao();
         Civilizacion civilizacionAtacante = civilizacionDao.obtenerCivilizacion(idCivilizacionAtacante);
         Civilizacion civilizacionDefensora = civilizacionDao.obtenerCivilizacion(idCivilizacionDefensora);
 
 
-        String sql = "insert into guera (id_civilizacion_atacante,id_civilizacion_defensora,estado_guerra,dia_atacante,dia_defensora) values (?,?,?,?,?)";
+        String sql = "insert into guerra (id_civilizacion_atacante,id_civilizacion_defensora,estado_guerra,dia_atacante,dia_defensor) values (?,?,?,?,?)";
 
         try(Connection conn=this.getConnection(); PreparedStatement pstmt= conn.prepareStatement(sql)){
 
@@ -187,23 +188,26 @@ public class GuerraDao extends DaoBase {
             pstmt.setInt(1,idCivilizacionAtacante);
             pstmt.setInt(2,idCivilizacionDefensora);
             pstmt.setInt(4,civilizacionAtacante.getDaysElapsed());
-            civilizacionDao.actualizarTimeAndDaysElapsed(civilizacionAtacante.getIdCivilizacion()); //proceso de pasar un día para la civilización atacante
+            civilizacionDao.actualizarTimeAndDaysElapsed(idCivilizacionAtacante); //proceso de pasar un día para la civilización atacante
             pstmt.setInt(5,civilizacionDefensora.getDaysElapsed());
 
             //OBTENER GANADOR:
 
             if(civilizacionDao.fuerzaTotalAtacante(idCivilizacionAtacante)>civilizacionDao.fuerzaTotalDefensor(idCivilizacionDefensora)){
-                pstmt.setString(4,"VA");
+                pstmt.setString(3,"VA");
+                ganoAtacante = true;
+                //Métodos para aplicar los puntos
             }
             else{
-                pstmt.setString(4,"VD");
+                pstmt.setString(3,"VD");
+                //Métodos para aplicar los puntos
             }
 
             pstmt.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-
+        return ganoAtacante;
     }
 
 }

@@ -9,11 +9,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="469d34e7-2add-4849-bd7c-1274aa448bfc" name="Changes" comment="subir moral poblacion hecho y agregué cositas a &quot;actualizarTimeAndDaysElapsed&quot;">
+    <list default="true" id="469d34e7-2add-4849-bd7c-1274aa448bfc" name="Changes" comment="metodos por corregir">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/game/rougeclans/model/daos/CivilizacionDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/game/rougeclans/model/daos/CivilizacionDao.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/game/rougeclans/model/daos/GuerraDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/game/rougeclans/model/daos/GuerraDao.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/game/rougeclans/model/daos/PersonaDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/game/rougeclans/model/daos/PersonaDao.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -196,7 +195,7 @@
       <workItem from="1700141394064" duration="13931000" />
       <workItem from="1700159566703" duration="32539000" />
       <workItem from="1700247475377" duration="18084000" />
-      <workItem from="1700291722224" duration="10409000" />
+      <workItem from="1700291722224" duration="17579000" />
     </task>
     <task id="LOCAL-00001" summary="a">
       <option name="closed" value="true" />
@@ -342,7 +341,15 @@
       <option name="project" value="LOCAL" />
       <updated>1700293470837</updated>
     </task>
-    <option name="localTasksCounter" value="19" />
+    <task id="LOCAL-00019" summary="metodos por corregir">
+      <option name="closed" value="true" />
+      <created>1700302205275</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1700302205275</updated>
+    </task>
+    <option name="localTasksCounter" value="20" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -376,6 +383,7 @@
     <MESSAGE value="calculo de fuerzas para la guerra de atacante y defensor" />
     <MESSAGE value="subir Moral a poblacion" />
     <MESSAGE value="subir moral poblacion hecho y agregué cositas a &quot;actualizarTimeAndDaysElapsed&quot;" />
-    <option name="LAST_COMMIT_MESSAGE" value="subir moral poblacion hecho y agregué cositas a &quot;actualizarTimeAndDaysElapsed&quot;" />
+    <MESSAGE value="metodos por corregir" />
+    <option name="LAST_COMMIT_MESSAGE" value="metodos por corregir" />
   </component>
 </project>

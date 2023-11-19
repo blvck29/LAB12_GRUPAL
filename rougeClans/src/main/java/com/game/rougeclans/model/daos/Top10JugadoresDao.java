@@ -158,9 +158,10 @@ public class Top10JugadoresDao extends DaoBase{
                 lista.sort(Comparator.comparingInt(Top10Jugadores::getProduccionAlimento));
                 break;
         }
-        for(int i=lista.size();i>0;i--){
-            if(lista.get(i-1).getCivilizacion().getIdCivilizacion()==idCivilizacion){
-                puesto = i;
+
+        for(int i=0;i<lista.size();i++){
+            if(lista.get(i).getCivilizacion().getIdCivilizacion()==idCivilizacion){
+                puesto = lista.size()-i;
             }
         }
         return puesto;

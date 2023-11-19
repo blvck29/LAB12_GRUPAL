@@ -1,7 +1,10 @@
 <%@ page import="com.game.rougeclans.model.beans.Jugador" %>
 <%@ page import="com.game.rougeclans.model.beans.Civilizacion" %>
+<%@ page import="java.util.ArrayList" %>
+<%@ page import="com.game.rougeclans.model.Dtos.HistorialGuerras" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-
+<jsp:useBean id="oponentes" scope="request" type="ArrayList<com.game.rougeclans.model.beans.Civilizacion>" />
+<jsp:useBean id="historial" scope="request" type="ArrayList<com.game.rougeclans.model.Dtos.HistorialGuerras>" />
 
 <% if (session.getAttribute("jugador") == null){ %>
 
@@ -43,6 +46,7 @@
 
 <% Jugador jugador = (Jugador) session.getAttribute("jugador"); %>
 <% Civilizacion civilizacion = (Civilizacion) session.getAttribute("civilizacion"); %>
+
 
 
 <!DOCTYPE html>
@@ -116,6 +120,7 @@
         </div>
     </aside>
 
+
     <div class="main">
         <nav class="navbar navbar-expand px-3 border-bottom">
             <button class="btn" id="sidebar-toggle" type="button">
@@ -174,22 +179,24 @@
                                         </thead>
                                         <tbody>
                                         <!-- Contenido de la tabla -->
-
-                                        <% for(int i=0; i<11; i++){%>
+                                        <%int i = 1;%>
+                                        <% for(Civilizacion c :oponentes){%>
 
                                         <tr>
                                             <td><%=i%></td>
-                                            <td>Aldoradin</td>
-                                            <td>Civilización Maya</td>
-                                            <td>n días</td>
+                                            <td><%=c.getJugador().getUsuario()%></td>
+                                            <td><%=c.getNombre()%>a</td>
+                                            <td><%=c.getDaysElapsed()%> días</td>
                                             <td>
-                                                <form action="#" method="POST">
+                                                <form action="<%=request.getContextPath()%>/game?action=declarar_guerra" method="POST">
+                                                    <input type="hidden" name="idDefensor" value="<%=c.getIdCivilizacion()%>">
+                                                    <input type="hidden" name="idAtacante" value="<%=civilizacion.getIdCivilizacion()%>">
                                                     <button type="submit" class="btn war-btn"><ion-icon style="padding-top: 5px"  name="skull"></ion-icon></button>
                                                 </form>
                                             </td>
                                         </tr>
 
-                                        <%}%>
+                                        <%i++;}%>
 
                                         </tbody>
                                     </table>
@@ -202,7 +209,7 @@
                 </div>
             </div>
 
-
+            <% int puesto = (int) request.getAttribute("puesto");%>
             <div class="custom_card">
                 <div>
                     <div class="d-flex justify-content-between">
@@ -211,14 +218,20 @@
 
                     <hr style="margin-top: 0">
 
-                    <div class="war-statistics">
-                        <div class="infos">Oponente: Stuardo</div>
-                        <div class="infos">Puesto: #1</div>
-                        <div class="infos">Civilización: Grecia</div>
-                        <div class="infos">Fecha: Hoy</div>
-                        <div class="infos">Resultado: ?</div>
-                    </div>
 
+                    <%if (!historial.isEmpty()){%>
+                    <div class="war-statistics">
+                        <div class="infos">Oponente: <%=historial.get(0).getCivilizacionOponente().getJugador().getUsuario()%></div>
+                        <div class="infos">Puesto: #<%=puesto%></div>
+                        <div class="infos">Civilización: <%=historial.get(0).getCivilizacionOponente().getNombre()%></div>
+                        <div class="infos">Fecha: Día <%=historial.get(0).getFecha()%></div>
+                        <div class="infos">Resultado: <%=historial.get(0).getResultado()%></div>
+                    </div>
+                    <%}else  {%>
+                    <div class="war-statistics">
+                        <div class="infos">NO HAS ESTADO EN UNA GUERRA AÚN</div>
+                    </div>
+                    <%}%>
                 </div>
             </div>
 
@@ -254,18 +267,18 @@
                                         </thead>
                                         <tbody>
                                         <!-- Contenido de la tabla -->
-
-                                        <% for(int i=0; i<11; i++){%>
+                                        <%int j = 1;%>
+                                        <% for(HistorialGuerras guerra: historial){%>
 
                                         <tr>
-                                            <td><%=i%></td>
-                                            <td>Aldoradin</td>
-                                            <td>Civilización Maya</td>
-                                            <td>Victoria</td>
-                                            <td>Día n</td>
+                                            <td><%=j%></td>
+                                            <td><%=guerra.getCivilizacionOponente().getJugador().getUsuario()%></td>
+                                            <td><%=guerra.getCivilizacionOponente().getNombre()%></td>
+                                            <td><%=guerra.getResultado()%></td>
+                                            <td>Día <%=guerra.getFecha()%></td>
                                         </tr>
 
-                                        <%}%>
+                                        <%j++;}%>
 
                                         </tbody>
                                     </table>

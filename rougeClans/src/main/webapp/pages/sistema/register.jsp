@@ -28,7 +28,7 @@
         </div>
 
 
-        <form action="login?action=register" method="POST">
+        <form action="login?action=register" method="POST" onsubmit="return validarFormulario()">
             <div class="auth">
 
                 <label for="nombre" class="sr-only">Ingrese sus Datos:</label>
@@ -82,6 +82,26 @@
     <div class="overlay_layer"></div>
 
 </section>
+
+
+<script>
+    function validarFormulario() {
+        var contrasena = document.getElementById("contrasena").value;
+        var confirmContra = document.getElementById("confirm_contra").value;
+
+        if (contrasena.length < 8) {
+            alert("La contraseña debe tener al menos 8 caracteres.");
+            return false;
+        }
+
+        if (contrasena !== confirmContra) {
+            alert("Las contraseñas no coinciden.");
+            return false;
+        }
+
+        return true;
+    }
+</script>
 
 </body>
 </html>
