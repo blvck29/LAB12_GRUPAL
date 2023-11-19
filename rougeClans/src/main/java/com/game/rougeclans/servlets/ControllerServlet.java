@@ -51,6 +51,12 @@ public class ControllerServlet extends HttpServlet {
                 request.getRequestDispatcher("pages/usuario/gestion_personas/edit_persona.jsp").forward(request, response);
                 break;
 
+            case "del_person":
+                String idP = request.getParameter("id") == null? "home" : request.getParameter("id");
+                personaDao.exiliarPersona(Integer.parseInt(idP), civilizacion.getIdCivilizacion());
+                request.getRequestDispatcher("pages/usuario/gestion_personas/personas.jsp").forward(request, response);
+                break;
+
             case "recursos":
                 request.getRequestDispatcher("pages/usuario/gestion_recursos/recursos.jsp").forward(request, response);
                 break;

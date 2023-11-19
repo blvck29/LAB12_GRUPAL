@@ -198,6 +198,7 @@
                                             <th scope="col">Fuerza</th>
                                             <th scope="col">Produce</th>
                                             <th scope="col">Editar</th>
+                                            <th scope="col">Exiliar</th>
                                         </tr>
                                         </thead>
                                         <tbody>
@@ -250,6 +251,15 @@
                                                     <button type="button" style="padding-top: 2px" class="btn war-btn">
                                                         <a href="game?action=edit_person&id=<%=persona.getIdPersona()%>" class="text-white">
                                                             <ion-icon style="padding-top: 5px"  name="pencil"></ion-icon>
+                                                        </a>
+                                                    </button>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div>
+                                                    <button type="button" style="padding-top: 2px" class="btn war-btn">
+                                                        <a href="game?action=del_person&id=<%=persona.getIdPersona()%>" class="text-white">
+                                                            <ion-icon style="padding-top: 5px"  name="skull"></ion-icon>
                                                         </a>
                                                     </button>
                                                 </div>
