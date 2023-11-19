@@ -183,8 +183,7 @@
                                             <th scope="col">Moral</th>
                                             <th scope="col">Tiempo</th>
                                             <th scope="col">Fuerza</th>
-                                            <th scope="col">Prod. Alimento</th>
-                                            <th scope="col">Prod. Moral</th>
+                                            <th scope="col">Produce</th>
                                             <th scope="col">Editar</th>
                                         </tr>
                                         </thead>
@@ -208,6 +207,21 @@
                                                     break;
                                             }%>
 
+
+                                        <%
+                                            String produce = "Nada";
+
+                                            switch (persona.getProfesion()){
+                                                case "Granjero":
+                                                    produce = "Alimento = " + persona.getProduce();
+                                                    break;
+                                                case "Constructor":
+                                                case "Soldado":
+                                                    produce = "Moral = " + persona.getProduce();
+                                                    break;
+                                            }
+                                        %>
+
                                         <tr>
                                             <td><%=i%></td>
                                             <td><%=persona.getNombre()%></td>
@@ -217,8 +231,7 @@
                                             <td><%=persona.getMoral()%></td>
                                             <td><%=persona.getDaysAlive()%> días</td>
                                             <td><%=persona.getFuerza()%></td>
-                                            <td><%=persona.getProduce()%></td>
-                                            <td><%=persona.getProduce()%></td>
+                                            <td><%=produce%></td>
                                             <td>
                                                 <div>
                                                     <button type="button" style="padding-top: 2px" class="btn war-btn">
@@ -235,7 +248,7 @@
 
                                         <%} else {%>
                                             <tr>
-                                                <td colspan="11">
+                                                <td colspan="10">
                                                     No hay personas creadas...
                                                 </td>
                                             </tr>
