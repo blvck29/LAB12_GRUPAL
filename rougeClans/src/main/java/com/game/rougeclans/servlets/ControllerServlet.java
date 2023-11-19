@@ -46,7 +46,12 @@ public class ControllerServlet extends HttpServlet {
             case "guerra":
                 request.setAttribute("historial", historialGuerrasDao.listarHistorial(civilizacion.getIdCivilizacion()));
                 request.setAttribute("oponentes", civilizacionDao.listarCivilizaciones(civilizacion.getIdCivilizacion()));
-                request.setAttribute("puesto", top10JugadoresDao.obtenerPuesto(historialGuerrasDao.listarHistorial(civilizacion.getIdCivilizacion()).get(0).getCivilizacionOponente().getIdCivilizacion(),"fuerza_total"));
+                if(!historialGuerrasDao.listarHistorial(civilizacion.getIdCivilizacion()).isEmpty()){
+                    request.setAttribute("puesto", top10JugadoresDao.obtenerPuesto(historialGuerrasDao.listarHistorial(civilizacion.getIdCivilizacion()).get(0).getCivilizacionOponente().getIdCivilizacion(),"fuerza_total"));
+                }
+                else{
+                    request.setAttribute("puesto",0);
+                }
                 request.getRequestDispatcher("pages/usuario/gestion_guerra/guerra.jsp").forward(request, response);
                 break;
 
