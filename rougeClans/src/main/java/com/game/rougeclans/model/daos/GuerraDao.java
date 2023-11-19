@@ -160,7 +160,7 @@ public class GuerraDao extends DaoBase {
     }
 
 
-    public void civilizacionAtacanteGana(int idCivilizacion){
+    public void civilizacionAtacanteGana(int idCivilizacion){//No se si se utiliza
         String sql = " ";
         sql = "update personas set moral = 2*moral, fuerza = cast(1.2*fuerza as unsigned) where profesion='soldado' and id_civilizacion = ?";
         try(Connection conn=this.getConnection(); PreparedStatement pstmt= conn.prepareStatement(sql)){
