@@ -485,7 +485,7 @@ public class CivilizacionDao extends DaoBase{
             return 0;//nunca se va a dar, pero es para que no me salga error
         }
     }
-    public Integer produccionAlimento(int idCivilizacion){
+    public int produccionAlimento(int idCivilizacion){
         String sql = "select sum(produce) from personas where profesion = ? and id_civilizacion = ?";
 
         //String sql = "select sum(moral) from personas where id_civilizacion = ?";
@@ -493,23 +493,29 @@ public class CivilizacionDao extends DaoBase{
             pstmt.setString(1, "Granjero");
             pstmt.setInt(2, idCivilizacion);
             try (ResultSet rs = pstmt.executeQuery()) {
-                return rs.getInt(1);
+                if(rs.next()){
+                    return rs.getInt(1);
+                }
             }
         } catch (SQLException ex) {
             throw new RuntimeException(ex);
         }
+        return 0;
     }
-    public Integer obtenerMoralTotalCivilizacion(int idCivilizacion){
+    public int obtenerMoralTotalCivilizacion(int idCivilizacion){
 
         String sql = "select sum(moral) from personas where id_civilizacion = ?";
         try (Connection conn=this.getConnection(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setInt(1,idCivilizacion);
             try (ResultSet rs = pstmt.executeQuery()) {
-                return rs.getInt(1);
+                if(rs.next()){
+                    return rs.getInt(1);
+                }
             }
         } catch (SQLException ex) {
             throw new RuntimeException(ex);
         }
+        return 0;
     }
 
     public int obtenerAncianoDelPueblo (Civilizacion civilizacion) {
