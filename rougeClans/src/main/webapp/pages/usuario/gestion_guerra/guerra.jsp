@@ -191,7 +191,11 @@
                                                 <form action="<%=request.getContextPath()%>/game?action=declarar_guerra" method="POST">
                                                     <input type="hidden" name="idDefensor" value="<%=c.getIdCivilizacion()%>">
                                                     <input type="hidden" name="idAtacante" value="<%=civilizacion.getIdCivilizacion()%>">
+                                                    <%if (civilizacion.getDaysElapsed() <= c.getDaysElapsed()){%>
                                                     <button type="submit" class="btn war-btn"><ion-icon style="padding-top: 5px"  name="skull"></ion-icon></button>
+                                                    <%}else{%>
+                                                    <button type="submit" class="btn war-btn disabled"><ion-icon style="padding-top: 5px"  name="skull"></ion-icon></button>
+                                                    <%};%>
                                                 </form>
                                             </td>
                                         </tr>

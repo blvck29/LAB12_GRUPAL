@@ -8,6 +8,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
@@ -98,62 +99,75 @@ public class GuerraDao extends DaoBase {
         return lista;
     }
 
-    public int calcularGuerrasGanadas(Civilizacion civilizacion){
+    public int calcularGuerrasGanadas(int idCivilizacion){
 
-        ArrayList<Guerra> lista = listarGuerras(civilizacion.getIdCivilizacion());
         int guerrasGanadas = 0;
 
-        if(!(lista.isEmpty())){
-            for (Guerra guerra: lista){
-                int rol = obtenerRolGuerra(guerra.getIdGuerra(),civilizacion.getIdCivilizacion());
+        String sql = "select * from guerra where id_civilizacion_atacante = ? or id_civilizacion_defensora = ?;";
+        try (Connection conn = getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1,idCivilizacion); // atacamos
+            pstmt.setInt(2,idCivilizacion); // fuimos atacados
 
-                if (rol ==1){
-                    if(guerra.getEstadoGuerra().equalsIgnoreCase("VA")){
-                        guerrasGanadas++;
+            try(ResultSet rs = pstmt.executeQuery()) {
+                while (rs.next()) {
+                    if(rs.getInt("id_civilizacion_atacante")==idCivilizacion){
+                        if(rs.getString("estado_guerra").equalsIgnoreCase("VA")){
+                            guerrasGanadas++;
+                        }
                     }
-                }
-                if (rol == 2){
-                    if(guerra.getEstadoGuerra().equalsIgnoreCase("VD")){
-                        guerrasGanadas++;
+                    if(rs.getInt("id_civilizacion_defensora")==idCivilizacion){
+                        if(rs.getString("estado_guerra").equalsIgnoreCase("VD")){
+                            guerrasGanadas++;
+                        }
                     }
                 }
             }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
 
         return guerrasGanadas;
     }
-    public int calcularGuerrasPerdidas(Civilizacion civilizacion){
+    public int calcularGuerrasPerdidas(int idCivilizacion){
 
-        ArrayList<Guerra> lista = listarGuerras(civilizacion.getIdCivilizacion());
+
         int guerrasPerdidas = 0;
 
-        if(!(lista.isEmpty())){
-            for (Guerra guerra: lista){
-                int rol = obtenerRolGuerra(guerra.getIdGuerra(),civilizacion.getIdCivilizacion());
+        String sql = "select * from guerra where id_civilizacion_atacante = ? or id_civilizacion_defensora = ?;";
+        try (Connection conn = getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1,idCivilizacion); // atacamos
+            pstmt.setInt(2,idCivilizacion); // fuimos atacados
 
-                if (rol ==1){
-                    if(guerra.getEstadoGuerra().equalsIgnoreCase("VD")){
-                        guerrasPerdidas++;
+            try(ResultSet rs = pstmt.executeQuery()) {
+                while (rs.next()) {
+                    if(rs.getInt("id_civilizacion_atacante")==idCivilizacion){
+                        if(rs.getString("estado_guerra").equalsIgnoreCase("VD")){
+                            guerrasPerdidas++;
+                        }
                     }
-                }
-                if (rol == 2){
-                    if(guerra.getEstadoGuerra().equalsIgnoreCase("VA")){
-                        guerrasPerdidas++;
+                    if(rs.getInt("id_civilizacion_defensora")==idCivilizacion){
+                        if(rs.getString("estado_guerra").equalsIgnoreCase("VA")){
+                            guerrasPerdidas++;
+                        }
                     }
                 }
             }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
 
         return guerrasPerdidas;
     }
 
 
-    public double obtenerWinRate(Civilizacion civilizacion){
+    public double obtenerWinRate(int idCivilizacion){
 
         double winRate = 0;
 
-        double perdidas = calcularGuerrasPerdidas(civilizacion);
-        double ganadas = calcularGuerrasGanadas(civilizacion);
+        double perdidas = calcularGuerrasPerdidas(idCivilizacion);
+        double ganadas = calcularGuerrasGanadas(idCivilizacion);
 
         if(perdidas != 0 && ganadas != 0){
             winRate = (ganadas/(ganadas+perdidas))*100;
@@ -191,6 +205,7 @@ public class GuerraDao extends DaoBase {
             pstmt.setInt(1,idCivilizacionAtacante);
             pstmt.setInt(2,idCivilizacionDefensora);
             pstmt.setInt(4,civilizacionAtacante.getDaysElapsed());
+            civilizacionDao.pasarLasHoras(idCivilizacionAtacante);
             civilizacionDao.actualizarTimeAndDaysElapsed(idCivilizacionAtacante); //proceso de pasar un día para la civilización atacante
             pstmt.setInt(5,civilizacionDefensora.getDaysElapsed());
 

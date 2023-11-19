@@ -165,7 +165,7 @@ public class PersonaDao extends DaoBase{
 
             try(ResultSet rs = pstmt.executeQuery()) {
                 if (rs.next()) {
-                    alimentoDia = rs.getInt("alimentoDia");
+                    alimentoDia = rs.getInt("alimento_dia");
                 }
             }
         } catch (SQLException e) {

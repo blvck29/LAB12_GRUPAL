@@ -1,6 +1,7 @@
 package com.game.rougeclans.servlets;
 
 import com.game.rougeclans.model.Dtos.PersonaEnLista;
+import com.game.rougeclans.model.Dtos.Top10Jugadores;
 import com.game.rougeclans.model.beans.Civilizacion;
 import com.game.rougeclans.model.beans.Jugador;
 import com.game.rougeclans.model.beans.Persona;
@@ -80,8 +81,8 @@ public class ControllerServlet extends HttpServlet {
                     /* Obtención de Estadísticas de la Civilización Logueada */
                     int poblacionTotal = civilizacionDao.obtenerPoblacionTotal(civilizacion.getIdCivilizacion());
                     int moralTotal = civilizacionDao.obtenerMoralTotalCivilizacion(civilizacion.getIdCivilizacion());
-                    int guerrasGanadas = guerraDao.calcularGuerrasGanadas(civilizacion);
-                    double winRate = guerraDao.obtenerWinRate(civilizacion);
+                    int guerrasGanadas = guerraDao.calcularGuerrasGanadas(civilizacion.getIdCivilizacion());
+                    double winRate = guerraDao.obtenerWinRate(civilizacion.getIdCivilizacion());
                     int fuerzaTotal = civilizacionDao.fuerzaTotalAtacante(civilizacion.getIdCivilizacion());
                     int edadAnciano = civilizacionDao.obtenerAncianoDelPueblo(civilizacion);
                     int produccionAlimento = civilizacionDao.obtenerAlimentoTotal(civilizacion.getIdCivilizacion());
@@ -93,9 +94,16 @@ public class ControllerServlet extends HttpServlet {
                     request.setAttribute("fuerzaTotal", fuerzaTotal);
                     request.setAttribute("edadAnciano", edadAnciano);
                     request.setAttribute("produccionAlimento", produccionAlimento);
+                    request.setAttribute("puesto", top10JugadoresDao.obtenerPuesto(civilizacion.getIdCivilizacion(),"fuerza_total"));
 
                     request.setAttribute("top10", top10JugadoresDao.listarTop10("fuerza_total")); //para hallar al usuario más poderoso en fuerza
-                    request.setAttribute("puesto", top10JugadoresDao.obtenerPuesto(civilizacion.getIdCivilizacion(),"fuerza_total"));
+                    request.setAttribute("ultima_guerra", historialGuerrasDao.obtenerUltimaGuerra(civilizacion.getIdCivilizacion()));
+                    if(historialGuerrasDao.obtenerUltimaGuerra(civilizacion.getIdCivilizacion()).getResultado()!=null){
+                        request.setAttribute("puesto_oponente", top10JugadoresDao.obtenerPuesto(historialGuerrasDao.obtenerUltimaGuerra(civilizacion.getIdCivilizacion()).getCivilizacionOponente().getIdCivilizacion(),"fuerza_total"));
+                    }
+                    else{
+                        request.setAttribute("puesto_oponente",0);
+                    }
 
                     request.getRequestDispatcher("pages/usuario/inicio/civilizacion.jsp").forward(request, response);
 
