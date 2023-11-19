@@ -127,8 +127,8 @@
                             <ion-icon style="font-size: 2.4rem; color: #d2d2d2" name="person-circle"></ion-icon>
                         </a>
                         <div class="dropdown-menu dropdown-menu-end" style="padding: 5px">
-                            <p>Nombre de usuario</p>
-                            <p>Correo</p>
+                            <p><%=jugador.getUsuario()%></p>
+                            <p><%=jugador.getCorreo()%></p>
                             <hr class="hr w-100"/>
                             <a href="#" class="sidebar-link exit" style="font-size: 0.9rem !important; padding: 0 !important;">
                                 Cerrar Sesión
@@ -151,7 +151,9 @@
                             <div class="subtitle_card">Gestión de Personas</div>
                             <div class="badge" style="font-size: 1.4rem">Cantidad: 11</div>
                         </div>
-                        <div><a href="#" class="link-a" style="font-size: 1.5rem">Crear</a></div>
+                        <div>
+                            <button type="button" style="padding-top: 2px" class="btn btn-lg war-btn"><a href="game?action=create_person" class="text-white">Crear</a></button>
+                        </div>
                     </div>
                     <hr style="margin-top: 0">
 
@@ -179,6 +181,7 @@
                                             <th scope="col">Fuerza</th>
                                             <th scope="col">Prod. Alimento</th>
                                             <th scope="col">Prod. Moral</th>
+                                            <th scope="col">Editar</th>
                                         </tr>
                                         </thead>
                                         <tbody>
@@ -196,6 +199,11 @@
                                             <td>1000</td>
                                             <td>120</td>
                                             <td>---</td>
+                                            <td>
+                                                <form action="#" method="POST">
+                                                    <button type="submit" class="btn war-btn"><ion-icon style="padding-top: 5px"  name="pencil"></ion-icon></button>
+                                                </form>
+                                            </td>
                                         </tr>
 
                                         <%}%>
@@ -217,7 +225,9 @@
 
                     <div class="d-flex justify-content-between">
                         <div class="subcard_title">Ciudadano</div>
-                        <div><a href="#" class="link-a">Crear</a></div>
+                        <div>
+                            <button type="button" class="btn war-btn"><a href="game?action=create_person" class="text-white">Crear</a></button>
+                        </div>
                     </div>
 
                     <hr style="margin-top: 0">
@@ -234,7 +244,9 @@
                 <div>
                     <div class="d-flex justify-content-between">
                         <div class="subcard_title">Granjero</div>
-                        <div><a href="#" class="link-a">Crear</a></div>
+                        <div>
+                            <button type="button" class="btn war-btn"><a href="game?action=create_person" class="text-white">Crear</a></button>
+                        </div>
                     </div>
                     <hr style="margin-top: 0">
                     <div class="per_statistics">
@@ -250,7 +262,9 @@
                 <div>
                     <div class="d-flex justify-content-between">
                         <div class="subcard_title">Constructor</div>
-                        <div><a href="#" class="link-a">Crear</a></div>
+                        <div>
+                            <button type="button" class="btn war-btn"><a href="game?action=create_person" class="text-white">Crear</a></button>
+                        </div>
                     </div>
                     <hr style="margin-top: 0">
                     <div class="per_statistics">
@@ -266,7 +280,9 @@
                 <div>
                     <div class="d-flex justify-content-between">
                         <div class="subcard_title">Soldado</div>
-                        <div><a href="#" class="link-a">Crear</a></div>
+                        <div>
+                            <button type="button" class="btn war-btn"><a href="game?action=create_person" class="text-white">Crear</a></button>
+                        </div>
                     </div>
                     <hr style="margin-top: 0">
                     <div class="per_statistics">

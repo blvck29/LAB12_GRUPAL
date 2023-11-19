@@ -1,6 +1,9 @@
 <%@ page import="com.game.rougeclans.model.beans.Jugador" %>
+<%@ page import="java.util.ArrayList" %>
 <%@ page import="com.game.rougeclans.model.beans.Civilizacion" %>
+<%@ page import="com.game.rougeclans.model.Dtos.Top10Jugadores" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<jsp:useBean id="top10" scope="request" type="ArrayList<com.game.rougeclans.model.Dtos.Top10Jugadores>" />
 
 
 <% if (session.getAttribute("jugador") == null){ %>
@@ -130,8 +133,8 @@
                             <ion-icon style="font-size: 2.4rem; color: #d2d2d2" name="person-circle"></ion-icon>
                         </a>
                         <div class="dropdown-menu dropdown-menu-end" style="padding: 5px">
-                            <p>Nombre de usuario</p>
-                            <p>Correo</p>
+                            <p><%=jugador.getUsuario()%></p>
+                            <p><%=jugador.getCorreo()%></p>
                             <hr class="hr w-100"/>
                             <a href="#" class="sidebar-link exit" style="font-size: 0.9rem !important; padding: 0 !important;">
                                 Cerrar Sesión
@@ -168,65 +171,81 @@
                                 <th scope="col">Jugador</th>
 
                                 <th scope="col">
-                                    <form action="#" method="POST">
+                                    <a href="<%=request.getContextPath()%>/game?action=leaderboard&order_by=dias_jugados">
                                         <button type="submit" class="btn war-btn">Días Jugados</button>
-                                    </form>
+                                    </a>
                                 </th>
                                 <th scope="col">
-                                    <form action="#" method="POST">
+                                    <a href="<%=request.getContextPath()%>/game?action=leaderboard&order_by=poblacion_total">
                                         <button type="submit" class="btn war-btn">Población Total</button>
-                                    </form>
+                                    </a>
                                 </th>
                                 <th scope="col">
-                                    <form action="#" method="POST">
+                                    <a href="<%=request.getContextPath()%>/game?action=leaderboard&order_by=moral_total">
                                         <button type="submit" class="btn war-btn">Moral Total</button>
-                                    </form>
+                                    </a>
                                 </th>
                                 <th scope="col">
-                                    <form action="#" method="POST">
+                                    <a href="<%=request.getContextPath()%>/game?action=leaderboard&order_by=guerras_ganadas">
                                         <button type="submit" class="btn war-btn">Guerras Ganadas</button>
-                                    </form>
+                                    </a>
                                 </th>
                                 <th scope="col">
-                                    <form action="#" method="POST">
+                                    <a href="<%=request.getContextPath()%>/game?action=leaderboard&order_by=winrate">
                                         <button type="submit" class="btn war-btn">Win-Rate</button>
-                                    </form>
+                                    </a>
                                 </th>
                                 <th scope="col">
-                                    <form action="#" method="POST">
+                                    <a href="<%=request.getContextPath()%>/game?action=leaderboard&order_by=fuerza_total">
                                         <button type="submit" class="btn war-btn">Fuerza Total</button>
-                                    </form>
+                                    </a>
                                 </th>
                                 <th scope="col">
-                                    <form action="#" method="POST">
+                                    <a href="<%=request.getContextPath()%>/game?action=leaderboard&order_by=anciano_del_pueblo">
                                         <button type="submit" class="btn war-btn">Anciano del Pueblo</button>
-                                    </form>
+                                    </a>
                                 </th>
                                 <th scope="col">
-                                    <form action="#" method="POST">
+                                    <a href="<%=request.getContextPath()%>/game?action=leaderboard&order_by=produccion_de_alimento" method="POST">
                                         <button type="submit" class="btn war-btn">Producción de Alimento</button>
-                                    </form>
+                                    </a>
                                 </th>
                             </tr>
                             </thead>
                             <tbody>
                             <!-- Contenido de la tabla -->
 
-                            <% for(int i=1; i<11; i++){%>
-
-                            <tr>
+                            <% int i = 1;%>
+                            <% for(Top10Jugadores dto: top10){%>
+                            <% if(jugador.getUsuario().equalsIgnoreCase(dto.getCivilizacion().getJugador().getUsuario())){;%>
+                            <tr class="bg-dark">
                                 <td><%=i%></td>
-                                <td>Aldoradin</td>
-                                <td>X</td>
-                                <td>X</td>
-                                <td>X</td>
-                                <td>X</td>
-                                <td>X</td>
-                                <td>X</td>
-                                <td>X</td>
-                                <td>X</td>
+                                <td><%=dto.getCivilizacion().getJugador().getUsuario()%></td>
+                                <td><%=dto.getCivilizacion().getDaysElapsed()%></td>
+                                <td><%=dto.getPoblacionTotal()%></td>
+                                <td><%=dto.getMoralTotal()%></td>
+                                <td><%=dto.getGuerrasGanadas()%></td>
+                                <td><%=dto.getWinrate()%>%</td>
+                                <td><%=dto.getFuerzaTotal()%></td>
+                                <td><%=dto.getMaximoDiasPersona()%></td>
+                                <td><%=dto.getProduccionAlimento()%></td>
                             </tr>
 
+                            <%} else {%>
+                            <tr>
+                                <td><%=i%></td>
+                                <td><%=dto.getCivilizacion().getJugador().getUsuario()%></td>
+                                <td><%=dto.getCivilizacion().getDaysElapsed()%></td>
+                                <td><%=dto.getPoblacionTotal()%></td>
+                                <td><%=dto.getMoralTotal()%></td>
+                                <td><%=dto.getGuerrasGanadas()%></td>
+                                <td><%=dto.getWinrate()%>%</td>
+                                <td><%=dto.getFuerzaTotal()%></td>
+                                <td><%=dto.getMaximoDiasPersona()%></td>
+                                <td><%=dto.getProduccionAlimento()%></td>
+                            </tr>
+                            <% };%>
+                            <% i++;%>
                             <%}%>
 
                             </tbody>

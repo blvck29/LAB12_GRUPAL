@@ -447,53 +447,49 @@ html[data-bs-theme="light"] .theme-toggle .fa-sun {
 }
 
 
+/* New Persona */
 
-@media screen and (max-width: 1099px){
+.prof-table {
+    padding-right: 10px;
+    display: grid;
+    gap: 10px;
+    grid-template-columns: 100%;
+    grid-template-rows: repeat(4, 1fr);
+}
 
-    .content-personas {
-        width: 100%;
-        padding: 20px 50px 20px 30px;
-        display: grid;
-        gap: 10px;
-        grid-template-columns: 50% 50%;
-        grid-template-rows: 3fr 1fr 1fr 1fr;
-    }
+.infos-form {
+    background-color: rgba(28, 28, 28, 0.6);
+    border-radius: 2px;
+    font-size: 0.9rem;
+    padding: 15px;
+}
 
-    .content-personas > div:first-child {
-        grid-column-start: span 2;
-    }
+.content-newper {
+    width: 100%;
+    padding: 20px 50px 20px 30px;
+    display: grid;
+    gap: 10px;
+    grid-template-columns: repeat(3,1fr);
+    grid-template-rows: 3fr 1fr;
+}
 
-    .content-personas > div:nth-child(2) {
-        grid-row-start: span 1;
-    }
+.content-newper > div:first-child {
+    grid-column-start: span 2;
+}
 
-    .content-personas > div:nth-child(3) {
-        grid-row-start: span 1;
-    }
-
-    .content-personas > div:nth-child(4) {
-        grid-row-start: span 1;
-    }
-
-    .content-personas > div:nth-child(5) {
-        grid-row-start: span 1;
-    }
+.content-newper > div:nth-child(2) {
+    grid-column-start: span 1;
 }
 
 
-.table.table-dark.table-hover {
-    background-color: rgba(28, 28, 28, 0.4) !important;}
-
-.table.table-dark.table-hover thead th {
-    background-color: rgba(28, 28, 28, 0.7) !important;}
-
-.table.table-dark.table-hover tbody td {
-    background-color: rgba(28, 28, 28, 0.4) !important;}
-
-.table-dark {
-    --bs-table-hover-bg: rgba(0, 0, 0, 0.47) !important; /* Nuevo valor para la variable --bs-table-hover-bg */
+.create-form {
+    width: 100%;
+    padding: 20px 50px 20px 30px;
+    display: grid;
+    gap: 10px;
+    grid-template-columns: 100%;
+    grid-template-rows: repeat(3,1fr);
 }
-
 
 /* Gestión de Recursos */
 
@@ -632,20 +628,34 @@ html[data-bs-theme="light"] .theme-toggle .fa-sun {
     grid-column-start: span 1;
 }
 
+.table.table-dark.table-hover {
+    background-color: rgba(28, 28, 28, 0.4) !important;}
+
+.table.table-dark.table-hover thead th {
+    background-color: rgba(28, 28, 28, 0.7) !important;}
+
+.table.table-dark.table-hover tbody td {
+    background-color: rgba(28, 28, 28, 0.4) !important;}
+
+.table-dark {
+    --bs-table-hover-bg: rgba(0, 0, 0, 0.47) !important; /* Nuevo valor para la variable --bs-table-hover-bg */
+}
+
+
 
 .red-table.table.table-dark.table-hover {
-    background-color: rgba(87, 6, 6, 0.6) !important;}
+    background-color: rgba(87, 6, 6, 0.4) !important;}
 
 .red-table.table.table-dark.table-hover thead th {
-    background-color: rgba(87, 6, 6, 0.6) !important;}
+    background-color: rgba(56, 4, 4, 0.5) !important;}
 
 .red-table.table.table-dark.table-hover tbody td {
-    background-color: rgba(87, 6, 6, 0.6) !important;}
+    background-color: rgba(87, 6, 6, 0.4) !important;}
 
 .red-table.table.table-dark{
     border-color: #d2d2d2 !important;
 }
 .red-table.table-dark {
     font-size: 1rem;
-    --bs-table-hover-bg: rgba(128, 0, 0, 0.6) !important; /* Nuevo valor para la variable --bs-table-hover-bg */
+    --bs-table-hover-bg: rgba(128, 0, 0, 0.4) !important; /* Nuevo valor para la variable --bs-table-hover-bg */
 }

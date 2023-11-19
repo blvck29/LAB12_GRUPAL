@@ -1,6 +1,8 @@
 <%@ page import="com.game.rougeclans.model.beans.Jugador" %>
 <%@ page import="com.game.rougeclans.model.beans.Civilizacion" %>
+<%@ page import="java.util.ArrayList" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<jsp:useBean id="top10" scope="request" type="ArrayList<com.game.rougeclans.model.Dtos.Top10Jugadores>" />
 
 
 <% if (session.getAttribute("jugador") == null){ %>
@@ -43,6 +45,15 @@
 
 <% Jugador jugador = (Jugador) session.getAttribute("jugador"); %>
 <% Civilizacion civilizacion = (Civilizacion) session.getAttribute("civilizacion"); %>
+
+<% int poblacionTotal = (int) request.getAttribute("poblacionTotal");%>
+<% int moralTotal = (int) request.getAttribute("moralTotal");%>
+<% int guerrasGanadas = (int) request.getAttribute("guerrasGanadas");%>
+<% double winRate = (double) request.getAttribute("winRate");%>
+<% int fuerzaTotal = (int) request.getAttribute("fuerzaTotal");%>
+<% int edadAnciano = (int) request.getAttribute("edadAnciano");%>
+<% int produccionAlimento = (int) request.getAttribute("produccionAlimento");%>
+<% int puesto = (int) request.getAttribute("puesto");%>
 
 <!DOCTYPE html>
 <html lang="es">
@@ -127,8 +138,8 @@
                             <ion-icon style="font-size: 2.4rem; color: #d2d2d2" name="person-circle"></ion-icon>
                         </a>
                         <div class="dropdown-menu dropdown-menu-end" style="padding: 5px">
-                            <p>Nombre de usuario</p>
-                            <p>Correo</p>
+                            <p><%=jugador.getUsuario()%></p>
+                            <p><%=jugador.getCorreo()%></p>
                             <hr class="hr w-100"/>
                             <a href="logout" class="sidebar-link exit" style="font-size: 0.9rem !important; padding: 0 !important;">
                                 Cerrar Sesión
@@ -146,19 +157,19 @@
             <div class="custom_card">
                 <div>
                     <div class="title_card" style="font-weight: bold"><%=civilizacion.getNombre()%></div>
-                    <div class="badge">Puesto #1310</div>
+                    <div class="badge">Puesto #<%=puesto%></div>
                     <hr style="margin-top: 0">
                 </div>
                     <div class="personal_statistics">
-                        <div class="infos">Dias Jugados:</div>
-                        <div class="infos">Población Total:</div>
-                        <div class="infos">Moral Total:</div>
-                        <div class="infos">Guerras Ganadas:</div>
+                        <div class="infos">Dias Jugados: <%=civilizacion.getDaysElapsed()%></div>
+                        <div class="infos">Población Total: <%=poblacionTotal%></div>
+                        <div class="infos">Moral Total: <%=moralTotal%></div>
+                        <div class="infos">Guerras Ganadas: <%=guerrasGanadas%></div>
 
-                        <div class="infos">Win Rate:</div>
-                        <div class="infos">Fuerza Total:</div>
-                        <div class="infos">Anciano del Pueblo:</div>
-                        <div class="infos">Producción de Alimento:</div>
+                        <div class="infos">Win Rate: <%=guerrasGanadas%></div>
+                        <div class="infos">Fuerza Total: <%=fuerzaTotal%></div>
+                        <div class="infos">Anciano del Pueblo: <%=edadAnciano%></div>
+                        <div class="infos">Producción de Alimento: <%=produccionAlimento%></div>
                     </div>
             </div>
 
@@ -215,7 +226,7 @@
                     <div class="subcard_title">LeaderBoard</div>
                     <hr style="margin-top: 0">
                     <div class="infos">
-                        @USUARIO posee la civilización más poderosa.
+                        @<%=top10.get(0).getCivilizacion().getJugador().getUsuario()%> posee la civilización más poderosa
                         <a href="#" class="access_subcard">
                             <ion-icon name="arrow-forward-circle"></ion-icon>
                         </a>

@@ -4,7 +4,6 @@ import com.game.rougeclans.model.SHA256;
 import com.game.rougeclans.model.beans.Civilizacion;
 import com.game.rougeclans.model.beans.Jugador;
 import com.game.rougeclans.model.beans.Persona;
-import com.game.rougeclans.model.beans.Guerra;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -119,11 +118,9 @@ public class CivilizacionDao extends DaoBase{
         }
     }*/
 
-    public void sumar8horas(int idCivilizacion){
+    public boolean sumar8horas(int idCivilizacion){
 
-        //primero actualizamos time_elapsed y days_elapsed para cerciorarnos que time_elapsed < 24
-        actualizarTimeAndDaysElapsed(idCivilizacion);
-
+        boolean accionPermitida = false;
         String sql = "";
         sql = "select time_elapsed from civilizaciones where id_civilizacion = ?";
         try(Connection conn=this.getConnection(); PreparedStatement pstmt= conn.prepareStatement(sql)){
@@ -131,14 +128,13 @@ public class CivilizacionDao extends DaoBase{
             try(ResultSet rs=pstmt.executeQuery()){
                 if(rs.next()){
                     //Aquí se valida que time_elapsed sea menor o igual a 24 horas
-                    if(rs.getInt(1)<25){
-                        sql = "update civilizaciones set time_elapsed = time_elapsed + 8 where id_civilizacion = ? and time_elapsed<25";
+                    if(rs.getInt(1)<17){
+                        accionPermitida = true;
+                        sql = "update civilizaciones set time_elapsed = time_elapsed + 8 where id_civilizacion = ?"; //Sumamos 8 horas si time_elapsed es <= 16
                         try(Connection conn1=this.getConnection(); PreparedStatement pstmt1= conn1.prepareStatement(sql)){
                             pstmt1.setInt(1,idCivilizacion);
                             pstmt1.executeUpdate();
 
-                            //ahora actualizamos time_elapsed y days_elapsed si time_elapsed > 24 después de sumar las horas
-                            actualizarTimeAndDaysElapsed(idCivilizacion);
                         } catch (SQLException e) {
                             throw new RuntimeException(e);
                         }
@@ -149,12 +145,11 @@ public class CivilizacionDao extends DaoBase{
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+        return accionPermitida;
     }
-    public void sumar2horas(int idCivilizacion){
+    public boolean sumar2horas(int idCivilizacion){
 
-        //primero actualizamos time_elapsed y days_elapsed para cerciorarnos que time_elapsed < 24
-        actualizarTimeAndDaysElapsed(idCivilizacion);
-
+        boolean accionPermitida = false;
         String sql = "";
         sql = "select time_elapsed from civilizaciones where id_civilizacion = ?";
         try(Connection conn=this.getConnection(); PreparedStatement pstmt= conn.prepareStatement(sql)){
@@ -162,14 +157,13 @@ public class CivilizacionDao extends DaoBase{
             try(ResultSet rs=pstmt.executeQuery()){
                 if(rs.next()){
                     //Aquí se valida que time_elapsed sea menor a 24 horas
-                    if(rs.getInt(1)<25){
-                        sql = "update civilizaciones set time_elapsed = time_elapsed + 2 where id_civilizacion = ? and time_elapsed<25";
+                    if(rs.getInt(1)<23){
+                        accionPermitida = true;
+                        sql = "update civilizaciones set time_elapsed = time_elapsed + 2 where id_civilizacion = ?"; //Sumamos 2 horas si time_elapsed es <=22
                         try(Connection conn1=this.getConnection(); PreparedStatement pstmt1= conn1.prepareStatement(sql)){
                             pstmt1.setInt(1,idCivilizacion);
                             pstmt1.executeUpdate();
 
-                            //ahora actualizamos time_elapsed y days_elapsed si time_elapsed > 24 después de sumar las horas
-                            actualizarTimeAndDaysElapsed(idCivilizacion);
                         } catch (SQLException e) {
                             throw new RuntimeException(e);
                         }
@@ -180,15 +174,17 @@ public class CivilizacionDao extends DaoBase{
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+        return accionPermitida;
     }
 
-    public void actualizarTimeAndDaysElapsed(int idCivilizacion){ //usar para actualizar time_elapsed cuando time_elapsed > 24
+    public void actualizarTimeAndDaysElapsed(int idCivilizacion){ //usar para actualizar time_elapsed cuando time_elapsed = 24
 
         Civilizacion civilizacion = obtenerCivilizacion(idCivilizacion); // Ahorrar código
 
-        if(civilizacion.getTimeElapsed()>=24){
+        if(civilizacion.getTimeElapsed()==24){
 
             //dar de comer a todos
+            //if(civilizacion.getEstado().equalsIgnoreCase("En guerra"))
             alimentarPoblacion(idCivilizacion);
 
             //seguimiento de poblacion
@@ -247,6 +243,7 @@ public class CivilizacionDao extends DaoBase{
                     civilizacion.setDaysElapsed(rs.getInt("days_elapsed"));
                     lista.add(civilizacion);
                 }
+
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -300,27 +297,39 @@ public class CivilizacionDao extends DaoBase{
     }
 
     public int fuerzaTotalAtacante(int idCivilizacion){
+
+        int fuerza = 0;
+
         String sql = "select sum(fuerza) from personas where id_civilizacion = ? and profesion = ?";
         try (Connection conn=this.getConnection(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setInt(1, idCivilizacion);
             pstmt.setString(2,"Soldado");
             try (ResultSet rs = pstmt.executeQuery()) {
-                return rs.getInt(1);
+                if(rs.next()){
+                    fuerza = rs.getInt(1);
+                }
             }
         } catch (SQLException ex) {
             throw new RuntimeException(ex);
         }
+        return fuerza;
     }
     public int fuerzaTotalDefensor(int idCivilizacion){
+
+        int fuerza = 0;
+
         String sql = "select sum(fuerza) from personas where id_civilizacion = ?";
         try (Connection conn=this.getConnection(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setInt(1, idCivilizacion);
             try (ResultSet rs = pstmt.executeQuery()) {
-                return rs.getInt(1);
+                if(rs.next()){
+                    fuerza = rs.getInt(1);
+                }
             }
         } catch (SQLException ex) {
             throw new RuntimeException(ex);
         }
+        return fuerza;
     }
 
     public void subirMoral(int idCivilizacion){
@@ -418,132 +427,78 @@ public class CivilizacionDao extends DaoBase{
 
     }
     public int obtenerPoblacionTotal(int idCivilizacion){
+
+        int cant = 0;
+
         String sql = "select count(id_personas) as cantPoblacion from personas where id_civilizacion = ?";
 
         try (Connection conn=this.getConnection(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setInt(1, idCivilizacion);
+
             try (ResultSet rs = pstmt.executeQuery()) {
-                return rs.getInt(1);
+                if(rs.next()) {
+                    cant = rs.getInt(1);
+                }
             }
         } catch (SQLException ex) {
             throw new RuntimeException(ex);
         }
+
+        return cant;
     }
 
     public int obtenerAlimentoTotal(int idCivilizacion){
 
-        if(obtenerCivilizacion(idCivilizacion).getEstado().equalsIgnoreCase("En paz")){
-            return produccionAlimento(idCivilizacion);
-        }else{
-            int A = 0;
-            int B = 0;
-            GuerraDao guerraDao = new GuerraDao();
-            for(Integer idG:guerraDao.listaIdGuerra()){
-                boolean validarGuerraActual = guerraDao.obtenerGuerra(idG).getDiaAtacante() == obtenerCivilizacion(idCivilizacion).getDaysElapsed();
-                boolean validarQueEsAtacante = guerraDao.obtenerGuerra(idG).getCivilizacionAtacante().getIdCivilizacion()==idCivilizacion;
-                if( validarQueEsAtacante && validarGuerraActual){
-                    if(guerraDao.obtenerGuerra(idG).getEstadoGuerra().equalsIgnoreCase("victoria")){//se compara el estado de guerram
-
-                        A = produccionAlimento(idCivilizacion);
-
-                        String sql = "select sum(produce) from personas where profesion = ? and id_civilizacion = ?";
-                        try (Connection conn=this.getConnection(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
-                            pstmt.setString(1, "Granjero");
-                            pstmt.setInt(2, guerraDao.obtenerGuerra(idG).getCivilizacionDefensora().getIdCivilizacion());
-                            try (ResultSet rs = pstmt.executeQuery()) {
-                                B =  rs.getInt(1);
-                            }
-                        } catch (SQLException ex) {
-                            throw new RuntimeException(ex);
-                        }
-                        return A+B;//devuelve lo que el produce mas quien derrotó
-                    }else{
-                        return produccionAlimento(idCivilizacion);
-                    }
-                }else{
-                    return produccionAlimento(idCivilizacion);
-                }
-            }
-            return 0;//nunca se va a dar, pero es para que no me salga error
-        }
-
-    }
-
-    public Integer obtenerMoralTotalCivilizacion(int idCivilizacion){
-
-        String sql = "select sum(moral) from personas where id_civilizacion = ?";
-        try (Connection conn=this.getConnection(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setInt(1, idCivilizacion);
-            try (ResultSet rs = pstmt.executeQuery()) {
-                return rs.getInt(1);
-            }
-        } catch (SQLException ex) {
-            throw new RuntimeException(ex);
-        }
-    }
-    public Integer fuerzaCivilizacion(int idCivilizacion){//para Leaderboard
-            return fuerzaTotalConstructor(idCivilizacion)+fuerzaTotalSoldado(idCivilizacion);
-    }
-    public Integer fuerzaTotalConstructor(int idCivilizacion){
-        String sql = "select sum(fuerza) from personas where profesion ='Constructor' and id_civilizacion = ?";
-        try (Connection conn=this.getConnection(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setInt(1, idCivilizacion);
-            try (ResultSet rs = pstmt.executeQuery()) {
-                return rs.getInt(1);
-            }
-        } catch (SQLException ex) {
-            throw new RuntimeException(ex);
-        }
-    }
-    public Integer fuerzaTotalSoldado(int idCivilizacion){
-        String sql = "select sum(fuerza) from personas where profesion ='Soldado' and id_civilizacion = ?";
-        try (Connection conn=this.getConnection(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setInt(1, idCivilizacion);
-            try (ResultSet rs = pstmt.executeQuery()) {
-                return rs.getInt(1);
-            }
-        } catch (SQLException ex) {
-            throw new RuntimeException(ex);
-        }
-    }
-    public Integer maximoDiasCiudadano(int idCivilizacion){
-        ArrayList<Integer> listaDiasVivo = new ArrayList<>();
-        String sql = "select days_alive, muerto from personas where id_civilizacion = ?";
-        try (Connection conn = getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setInt(1,idCivilizacion);
-
-            try(ResultSet rs = pstmt.executeQuery()) {
-                while (rs.next()) {
-                    if(!rs.getBoolean(2)){
-                        listaDiasVivo.add(rs.getInt(1));
-                    }
-                }
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        //obtener el mayor día dentro de la lista de días
-        int diaMax = 0;
-        for(Integer dia:listaDiasVivo){
-            if(diaMax<dia){
-                diaMax = dia;
-            }
-        }
-        return diaMax;
-    }
-    public Integer produccionAlimento(int idCivilizacion){
+        int cant = 0;
         String sql = "select sum(produce) from personas where profesion = ? and id_civilizacion = ?";
 
         try (Connection conn=this.getConnection(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, "Granjero");
             pstmt.setInt(2, idCivilizacion);
             try (ResultSet rs = pstmt.executeQuery()) {
-                return rs.getInt(1);
+                if(rs.next()){
+                    cant = rs.getInt(1);
+                }
             }
         } catch (SQLException ex) {
             throw new RuntimeException(ex);
         }
+        return cant;
     }
 
+    public Integer obtenerMoralTotalCivilizacion(int idCivilizacion){
+
+        int cant = 0;
+
+        String sql = "select sum(moral) from personas where id_civilizacion = ?";
+        try (Connection conn=this.getConnection(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, idCivilizacion);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if(rs.next()){
+                    cant = rs.getInt(1);
+                }
+            }
+        } catch (SQLException ex) {
+            throw new RuntimeException(ex);
+        }
+        return cant;
+    }
+
+    public int obtenerAncianoDelPueblo (Civilizacion civilizacion) {
+
+        int cant = 0;
+
+        String sql = "select * from personas where id_civilizacion = ? order by days_alive desc limit 1;";
+        try (Connection conn=this.getConnection(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, civilizacion.getIdCivilizacion());
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if(rs.next()){
+                    cant = rs.getInt(9);
+                }
+            }
+        } catch (SQLException ex) {
+            throw new RuntimeException(ex);
+        }
+        return cant;
+    }
 }
