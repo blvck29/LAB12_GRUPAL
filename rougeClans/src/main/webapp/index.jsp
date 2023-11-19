@@ -20,7 +20,7 @@
   <div class="login text-light">
 
     <div>
-      <img src="media/logo_image.png" width="650px" height="auto" alt="logo">
+      <img src="media/loco_image.png" width="650px" height="auto" alt="logo">
     </div>
     <div>
       <h5 class="display-7" style="margin-top: -10px; margin-bottom: 5%">CONQUISTA EL MUNDO</h5>

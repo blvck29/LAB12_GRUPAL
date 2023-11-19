@@ -14,7 +14,7 @@
 <section class="login_form">
     <div class="login text-light">
         <div>
-            <img src="media/logo_image.png" width="650px" height="auto" alt="logo">
+            <img src="media/loco_image.png" width="300px" height="auto" alt="logo">
         </div>
         <div>
             <h5 class="display-7" style="margin-top: -10px; margin-bottom: 5%">CONQUISTA EL MUNDO</h5>
@@ -40,7 +40,7 @@
 
     </div>
     <video muted autoplay loop>
-        <source src="media/guidebook.mp4" type="video/mp4">
+        <source src="media/guidebook_back.mp4" type="video/mp4">
     </video>
     <div class="color_layer"></div>
     <div class="overlay_layer"></div>

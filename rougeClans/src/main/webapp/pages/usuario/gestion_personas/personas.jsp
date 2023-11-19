@@ -177,6 +177,7 @@
                                         <tr>
                                             <th scope="col">ID</th>
                                             <th scope="col">Nombre</th>
+                                            <th scope="col">Profesión</th>
                                             <th scope="col">Genero</th>
                                             <th scope="col">Alimento</th>
                                             <th scope="col">Moral</th>
@@ -210,6 +211,7 @@
                                         <tr>
                                             <td><%=i%></td>
                                             <td><%=persona.getNombre()%></td>
+                                            <td><%=persona.getProfesion()%></td>
                                             <td><%=genero%></td>
                                             <td><%=persona.getAlimentoDia()%></td>
                                             <td><%=persona.getMoral()%></td>
