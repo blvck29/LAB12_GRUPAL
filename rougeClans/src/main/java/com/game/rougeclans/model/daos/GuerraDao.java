@@ -2,12 +2,15 @@ package com.game.rougeclans.model.daos;
 
 import com.game.rougeclans.model.beans.Civilizacion;
 import com.game.rougeclans.model.beans.Guerra;
+import com.game.rougeclans.model.beans.Persona;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Random;
 
 public class GuerraDao extends DaoBase {
 
@@ -209,5 +212,128 @@ public class GuerraDao extends DaoBase {
         }
         return ganoAtacante;
     }
+
+    public void pierdeAtacante(int idCivilizacion, int idGuerra){
+        PersonaDao personaDao  = new PersonaDao();
+        int idCivilOponent = obtenerGuerra(idGuerra).getCivilizacionDefensora().getIdCivilizacion();
+        int[] probabilidad = {1,1,1,1,1,1,2,2,2,3};
+        //1:soldado muere
+        //2:sobrevive pero pierde moral
+        //3:se una al enemigo
+        Random rd = new Random();
+        int indAleatorio = rd.nextInt(probabilidad.length);
+        int numProb = probabilidad[indAleatorio];
+        if(obtenerGuerra(idGuerra).getEstadoGuerra().equalsIgnoreCase("VD")){
+            for(Integer idPer:personaDao.listaIdPersonasXCivilizacion(idCivilizacion)){
+                switch (numProb){
+                    case 1:
+                        muerePersona(idPer,"Soldado");//se muere el soldado
+                        //los demás sufren depresión por muerte
+                        personaDao.muertePorDepresion(idPer);
+                        break;
+                    case 2:
+                        pierdeMitadMoralPersona(idPer,"Soldado");//
+                        break;
+                    case 3:
+                        personaCambiaBando(idPer,idCivilOponent,"Soldado");//soldado cambia bando
+                        break;
+
+                }
+            }
+
+        }
+
+    }
+
+    public void pierdeDefensor(int idCivilizacion, int idGuerra){
+        PersonaDao personaDao  = new PersonaDao();
+        int idCivilOponent = obtenerGuerra(idGuerra).getCivilizacionDefensora().getIdCivilizacion();
+        int[] probabilidad = {1,1,1,1,1,1,2,2,2,3};
+        //1:soldado muere
+        //2:sobrevive pero pierde moral
+        //3:se una al enemigo
+        Random rd = new Random();
+        int indAleatorio = rd.nextInt(probabilidad.length);
+        int numProb = probabilidad[indAleatorio];
+        if(obtenerGuerra(idGuerra).getEstadoGuerra().equalsIgnoreCase("VA")){
+            for(Integer idPer:personaDao.listaIdPersonasXCivilizacion(idCivilizacion)){
+                switch (numProb){
+                    case 1:
+                        muerePersona(idPer,"Constructor");//se muere el soldado
+                        //los demás sufren depresión por muerte
+                        personaDao.muertePorDepresion(idPer);
+                        break;
+                    case 2:
+                        pierdeMitadMoralPersona(idPer,"Constructor");//
+                        break;
+                    case 3:
+                        personaCambiaBando(idPer,idCivilOponent,"Constructor");//soldado cambia bando
+                        break;
+
+                }
+            }
+            PersonaDao pDao = new PersonaDao();//solo lo instancio para acceder a la funcion random
+            int moralPerd = pDao.randomNum(20,80);
+            double moralPerc = 1-moralPerd*0.01;
+
+            //Los demás pobladores pierden moral
+            //Soldado
+            perderMoralRandom(moralPerc,"Soldado",idCivilizacion);
+            //Granjero
+            perderMoralRandom(moralPerc,"Granjero",idCivilizacion);
+            //Ninguna
+            perderMoralRandom(moralPerc,"Ninguna",idCivilizacion);
+
+        }
+    }
+
+    public void muerePersona(int idPersona, String profesion){
+        String sql = "update personas set muerto = 1 where profesion = ? and id_personas = ?";
+        try(Connection conn=this.getConnection(); PreparedStatement pstmt= conn.prepareStatement(sql)){
+            pstmt.setString(1, profesion);
+            pstmt.setInt(2, idPersona);
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    public void pierdeMitadMoralPersona(int idPersona, String profesion){
+        String sql = "update personas set moral = cast(0.5*moral as unsigned) where profesion = ? and id_personas = ?";
+        try(Connection conn=this.getConnection(); PreparedStatement pstmt= conn.prepareStatement(sql)){
+            pstmt.setString(1, profesion);
+            pstmt.setInt(2, idPersona);
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+    public void personaCambiaBando(int idPersona, int idCivilizacion, String profesion){
+
+        String sql = "update personas set id_civilizacion = ? where profesion = ? and id_personas = ?";
+        try(Connection conn=this.getConnection(); PreparedStatement pstmt= conn.prepareStatement(sql)){
+            pstmt.setInt(1, idCivilizacion);
+            pstmt.setString(2, profesion);
+            pstmt.setInt(3,idPersona);
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+
+    public void perderMoralRandom(Double moralPer, String profesion,int idCivilizacion){
+        String sql = "update personas set moral = cast(moral*? as unsigned) where profesion=? and id_civilizacion = ?";
+        try(Connection conn=this.getConnection(); PreparedStatement pstmt= conn.prepareStatement(sql)){
+            pstmt.setDouble(1, moralPer);
+            pstmt.setString(2, profesion);
+            pstmt.setInt(3, idCivilizacion);
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+
 
 }
