@@ -138,3 +138,13 @@ button {
     opacity: 0.7;
     mix-blend-mode: overlay;
 }
+
+/* Guide Book */
+
+.guide-book {
+    padding: 20px 10px 10px 20px;
+    display: grid;
+    gap: 10px;
+    grid-template-rows: 2fr 1fr;
+    grid-template-columns: repeat(3, 1fr);
+}

@@ -34,6 +34,10 @@ public class LoginServlet extends HttpServlet {
             case "login":
                 request.getRequestDispatcher("index.jsp").forward(request, response);
                 break;
+
+            case "guide_book":
+                request.getRequestDispatcher("pages/sistema/guidebook.jsp").forward(request, response);
+                break;
         }
 
     }
