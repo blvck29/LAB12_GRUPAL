@@ -389,9 +389,9 @@ public class PersonaDao extends DaoBase{
 
     //No hice cambio aquí
     public void muertePorDepresion(int idPersona){
-        Persona persona = obtenerPersona(idPersona); //se obtiene una persona en base al id
+
         if(obtenerMoral(idPersona)<=0){
-            //falta update del campo "vivo o muerto"
+
             String sql = "update personas set moral = 0,muerto = 1, motivoMuerte = ?, dia_muerte = ? where id_personas = ?"; //puede que se de el caso de que la moral llega a negativo
             try(Connection conn=this.getConnection(); PreparedStatement pstmt = conn.prepareStatement(sql)){
 
@@ -411,13 +411,12 @@ public class PersonaDao extends DaoBase{
             ArrayList<Integer> listaIdPersonas = listaIdPersonasXCivilizacion(idCivilPersonaMuerta);
             for(int idP:listaIdPersonas){
 
-                //Falta validar que se considere las Id de las personas que estan vivas
-                //Se debe a que falta el campo de "vivo o muerto"
+
                 int tiempoDelVivo = obtenerPersona(idP).getDaysAlive(); //Se obtiene el tiempoDeVida de la persona
                 randomRed = randomNum(0,tiempoDelQueMurio+tiempoDelVivo); //Random de (0 , X)
 
                 //Aca actualiza de manera aleatoria para cada persona
-                String sqlUpd = "update personas set moral = moral - ? where id_personas = ?";
+                String sqlUpd = "update personas set moral = moral - ? where id_personas = ? and muerto = 0";
 
                 try(Connection conn=this.getConnection(); PreparedStatement pstmt = conn.prepareStatement(sqlUpd)){
 
@@ -427,6 +426,18 @@ public class PersonaDao extends DaoBase{
 
                 } catch (SQLException e) {
                     throw new RuntimeException(e);
+                }
+
+                if(obtenerMoral(idP)<=0){
+                    String sqlU = "update personas set moral = 0 and muerto = 1 where id_personas = ?";
+                    try(Connection conn=this.getConnection(); PreparedStatement pstmt = conn.prepareStatement(sqlU)){
+
+                        pstmt.setInt(1,idP);
+                        pstmt.executeUpdate();
+
+                    } catch (SQLException e) {
+                        throw new RuntimeException(e);
+                    }
                 }
             }
 

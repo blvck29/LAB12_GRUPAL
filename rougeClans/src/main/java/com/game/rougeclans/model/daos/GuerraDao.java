@@ -300,7 +300,41 @@ public class GuerraDao extends DaoBase {
                     case 1:
                         muerePersona(idPer,"Soldado");//se muere el soldado
                         //los demás sufren depresión por muerte
-                        personaDao.muertePorDepresion(idPer);
+                        int tiempoDelQueMurio = personaDao.obtenerPersona(idPer).getDaysAlive();//tiempo del muerto
+                        int randomRed = 0;//Inicializo la variable reduccion
+                        int idCivilPersonaMuerta = personaDao.obtenerPersona(idPer).getCivilizacion().getIdCivilizacion();//idCivilizacion a la que pertenece el muerto
+
+                        ArrayList<Integer> listaIdPersonas = personaDao.listaIdPersonasXCivilizacion(idCivilPersonaMuerta);
+                        for(int idP:listaIdPersonas){
+
+                            int tiempoDelVivo = personaDao.obtenerPersona(idP).getDaysAlive(); //Se obtiene el tiempoDeVida de la persona
+                            randomRed = personaDao.randomNum(0,tiempoDelQueMurio+tiempoDelVivo); //Random de (0 , X)
+
+                            //Aca actualiza de manera aleatoria para cada persona
+                            String sqlUpd = "update personas set moral = moral - ? where id_personas = ? and  muerto = 0";
+
+                            try(Connection conn=this.getConnection(); PreparedStatement pstmt = conn.prepareStatement(sqlUpd)){
+
+                                pstmt.setInt(1,randomRed);
+                                pstmt.setInt(2,idP);
+                                pstmt.executeUpdate();
+
+                            } catch (SQLException e) {
+                                throw new RuntimeException(e);
+                            }
+
+                            if(personaDao.obtenerMoral(idP)<=0){
+                                String sqlU = "update personas set moral = 0 and muerto = 1 where id_personas = ?";
+                                try(Connection conn=this.getConnection(); PreparedStatement pstmt = conn.prepareStatement(sqlU)){
+
+                                    pstmt.setInt(1,idP);
+                                    pstmt.executeUpdate();
+
+                                } catch (SQLException e) {
+                                    throw new RuntimeException(e);
+                                }
+                            }
+                        }
                         break;
                     case 2:
                         pierdeMitadMoralPersona(idPer,"Soldado");//
@@ -355,11 +389,23 @@ public class GuerraDao extends DaoBase {
             //Ninguna
             perderMoralRandom(moralPerc,"Ninguna",idCivilizacion);
 
+            for(Integer id: pDao.listaIdPersonasXCivilizacion(idCivilizacion)){
+                if(pDao.obtenerMoral(id)<=0){
+                    String sql = "update personas set moral = 0, muerto = 1 where id_personas = ?";
+                    try(Connection conn=this.getConnection(); PreparedStatement pstmt= conn.prepareStatement(sql)){
+                        pstmt.setInt(1, id);
+                        pstmt.executeUpdate();
+                    } catch (SQLException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+            }
+
         }
     }
 
     public void muerePersona(int idPersona, String profesion){
-        String sql = "update personas set muerto = 1 where profesion = ? and id_personas = ?";
+        String sql = "update personas set moral = 0, muerto = 1 where profesion = ? and id_personas = ?";
         try(Connection conn=this.getConnection(); PreparedStatement pstmt= conn.prepareStatement(sql)){
             pstmt.setString(1, profesion);
             pstmt.setInt(2, idPersona);
