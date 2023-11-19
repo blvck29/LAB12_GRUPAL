@@ -70,6 +70,19 @@
 
             <ul class="sidebar-nav">
                 <li class="sidebar-header">
+                    Reloj del Juego
+                </li>
+                <hr class="hr w-100" style="margin-top: -5px"/>
+                <li class="sidebar-item">
+                    <a href="game?action=home" class="sidebar-link">
+                        <ion-icon name="hourglass"></ion-icon>
+                        <%=civilizacion.getDaysElapsed()%> Días | <%=civilizacion.getTimeElapsed()%> Horas
+                    </a>
+                </li>
+            </ul>
+
+            <ul class="sidebar-nav">
+                <li class="sidebar-header">
                     Menú de Juego
                 </li>
                 <hr class="hr w-100" style="margin-top: -5px"/>

@@ -79,6 +79,21 @@
                 <a href="game"><img src="media/logo_text.png" width="220px" height="auto" alt="ROUGE CLANS"></a>
             </div>
 
+
+            <ul class="sidebar-nav">
+                <li class="sidebar-header">
+                    Reloj del Juego
+                </li>
+                <hr class="hr w-100" style="margin-top: -5px"/>
+                <li class="sidebar-item">
+                    <a href="game?action=home" class="sidebar-link">
+                        <ion-icon name="hourglass"></ion-icon>
+                        <%=civilizacion.getDaysElapsed()%> Días | <%=civilizacion.getTimeElapsed()%> Horas
+                    </a>
+                </li>
+            </ul>
+
+
             <ul class="sidebar-nav">
                 <li class="sidebar-header">
                     Menú de Juego
@@ -168,7 +183,11 @@
                         <div class="infos">Moral Total: <%=moralTotal%></div>
                         <div class="infos">Guerras Ganadas: <%=guerrasGanadas%></div>
 
-                        <div class="infos">Win Rate: <%=guerrasGanadas%></div>
+                        <%if(winRate==0){%>
+                        <div class="infos">Win Rate: N.A.</div>
+                        <%} else {%>
+                        <div class="infos">Win Rate:  <%=String.format("%.2f", winRate)%>%</div>
+                        <%};%>
                         <div class="infos">Fuerza Total: <%=fuerzaTotal%></div>
                         <div class="infos">Anciano del Pueblo: <%=edadAnciano%></div>
                         <div class="infos">Producción de Alimento: <%=produccionAlimento%></div>
