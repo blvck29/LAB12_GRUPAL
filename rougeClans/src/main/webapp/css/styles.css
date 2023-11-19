@@ -650,13 +650,13 @@ html[data-bs-theme="light"] .theme-toggle .fa-sun {
 
 
 .red-table.table.table-dark.table-hover {
-    background-color: rgba(87, 6, 6, 0.4) !important;}
+    background-color: rgba(127, 5, 5, 0.4) !important;}
 
 .red-table.table.table-dark.table-hover thead th {
-    background-color: rgba(56, 4, 4, 0.5) !important;}
+    background-color: rgba(105, 3, 3, 0.5) !important;}
 
 .red-table.table.table-dark.table-hover tbody td {
-    background-color: rgba(87, 6, 6, 0.4) !important;}
+    background-color: rgba(141, 0, 0, 0.4) !important;}
 
 .red-table.table.table-dark{
     border-color: #d2d2d2 !important;
