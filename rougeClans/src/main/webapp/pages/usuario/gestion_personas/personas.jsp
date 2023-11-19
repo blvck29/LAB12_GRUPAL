@@ -1,5 +1,7 @@
 <%@ page import="com.game.rougeclans.model.beans.Jugador" %>
 <%@ page import="com.game.rougeclans.model.beans.Civilizacion" %>
+<%@ page import="java.util.ArrayList" %>
+<%@ page import="com.game.rougeclans.model.Dtos.PersonaEnLista" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 
 
@@ -43,6 +45,7 @@
 
 <% Jugador jugador = (Jugador) session.getAttribute("jugador"); %>
 <% Civilizacion civilizacion = (Civilizacion) session.getAttribute("civilizacion"); %>
+<% ArrayList<PersonaEnLista> listaPersonas = (ArrayList<PersonaEnLista>) session.getAttribute("listaPersonas"); %>
 
 <!DOCTYPE html>
 <html lang="es">
@@ -187,18 +190,20 @@
                                         <tbody>
                                         <!-- Contenido de la tabla -->
 
-                                        <% for(int i=0; i<11; i++){%>
+                                        <%if(listaPersonas != null){%>
+                                        <%int i=1; %>
+                                        <% for (PersonaEnLista persona : listaPersonas) {%>
 
                                         <tr>
                                             <td><%=i%></td>
-                                            <td>Alvaro</td>
-                                            <td>Masculino</td>
-                                            <td>20</td>
-                                            <td>90</td>
-                                            <td><%=i%> días</td>
-                                            <td>1000</td>
-                                            <td>120</td>
-                                            <td>---</td>
+                                            <td><%=persona.getNombre()%></td>
+                                            <td><%=persona.getGenero()%></td>
+                                            <td><%=persona.getAlimentoDia()%></td>
+                                            <td><%=persona.getMoral()%></td>
+                                            <td><%=persona.getDaysAlive()%> días</td>
+                                            <td><%=persona.getFuerza()%></td>
+                                            <td><%=persona.getProduce()%></td>
+                                            <td><%=persona.getProduce()%></td>
                                             <td>
                                                 <form action="#" method="POST">
                                                     <button type="submit" class="btn war-btn"><ion-icon style="padding-top: 5px"  name="pencil"></ion-icon></button>
@@ -206,7 +211,19 @@
                                             </td>
                                         </tr>
 
+                                        <%i++;%>
                                         <%}%>
+
+                                        <%} else {%>
+                                            <tr>
+                                                <td colspan="10">
+                                                    No hay personas creadas...
+                                                </td>
+                                            </tr>
+                                        <% } %>
+
+
+
 
                                         </tbody>
                                     </table>

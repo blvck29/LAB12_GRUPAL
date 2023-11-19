@@ -84,16 +84,16 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `rojo`.`Guerra` (
   `id_guerra` INT NOT NULL AUTO_INCREMENT,
-  `id_civilzacion_atacante` INT NOT NULL,
+  `id_civilizacion_atacante` INT NOT NULL,
   `id_civilizacion_defensora` INT NOT NULL,
   `estado_guerra` VARCHAR(2) NOT NULL,
   `dia_atacante` INT NOT NULL,
   `dia_defensor` INT NOT NULL,
   PRIMARY KEY (`id_guerra`),
-  INDEX `fk_Guerra_civilizaciones1_idx` (`id_civilzacion_atacante` ASC) VISIBLE,
+  INDEX `fk_Guerra_civilizaciones1_idx` (`id_civilizacion_atacante` ASC) VISIBLE,
   INDEX `fk_Guerra_civilizaciones2_idx` (`id_civilizacion_defensora` ASC) VISIBLE,
   CONSTRAINT `fk_Guerra_civilizaciones1`
-    FOREIGN KEY (`id_civilzacion_atacante`)
+    FOREIGN KEY (`id_civilizacion_atacante`)
     REFERENCES `rojo`.`civilizaciones` (`id_civilizacion`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,

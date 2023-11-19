@@ -1,5 +1,6 @@
 package com.game.rougeclans.servlets;
 
+import com.game.rougeclans.model.Dtos.PersonaEnLista;
 import com.game.rougeclans.model.beans.Civilizacion;
 import com.game.rougeclans.model.beans.Jugador;
 import com.game.rougeclans.model.beans.Persona;
@@ -9,6 +10,7 @@ import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 @WebServlet(name = "ControllerServlet", value = "/game")
 public class ControllerServlet extends HttpServlet {
@@ -31,6 +33,8 @@ public class ControllerServlet extends HttpServlet {
         switch (action){
 
             case "personas":
+                ArrayList<PersonaEnLista> listaPersonas = personaDao.listaPersonasXCivilizacion(civilizacion);
+                request.setAttribute("listaPersonas", listaPersonas);
                 request.getRequestDispatcher("pages/usuario/gestion_personas/personas.jsp").forward(request, response);
                 break;
 
@@ -105,7 +109,15 @@ public class ControllerServlet extends HttpServlet {
         switch (action){
 
             case "home":
-                response.sendRedirect("login?action=home");
+                response.sendRedirect("game");
+                break;
+            case "create_per":
+                String profesion = request.getParameter("profesion");
+                String genero = request.getParameter("genero");
+                String nombre = request.getParameter("nombre");
+
+                personaDao.crearPersona(civilizacion.getIdCivilizacion(), genero, nombre, profesion);
+                response.sendRedirect("game?action=personas");
                 break;
 
         }

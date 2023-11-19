@@ -1,5 +1,6 @@
 package com.game.rougeclans.model.daos;
 
+import com.game.rougeclans.model.Dtos.PersonaEnLista;
 import com.game.rougeclans.model.beans.Civilizacion;
 import com.game.rougeclans.model.beans.Persona;
 import com.game.rougeclans.model.beans.Constructor;
@@ -443,7 +444,7 @@ public class PersonaDao extends DaoBase{
     public ArrayList<Integer> listaIdPersonasXCivilizacion(int idCivilizacion){
         ArrayList<Integer> listaIdsPersonas = new ArrayList<>();
 
-        String sql = "select p.id_personas from personas p inner join civilizacion c on p.id_civilizacion = c.id_civilizacion where c.id_civilizacion = ?";
+        String sql = "select p.id_personas from personas p inner join civilizaciones c on p.id_civilizacion = c.id_civilizacion where c.id_civilizacion = ?";
         try (Connection conn=this.getConnection(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setInt(1, idCivilizacion);
             try (ResultSet rs = pstmt.executeQuery()) {
@@ -455,6 +456,43 @@ public class PersonaDao extends DaoBase{
         } catch (SQLException ex) {
             throw new RuntimeException(ex);
         }
+    }
+
+    public ArrayList<PersonaEnLista> listaPersonasXCivilizacion(Civilizacion civilizacion){
+
+        int idCivilizacion = civilizacion.getIdCivilizacion();
+        ArrayList<PersonaEnLista> listaPersonas = new ArrayList<>();
+
+        String sql = "select * from personas where id_civilizacion = ? and muerto= 0;";
+
+        try (Connection conn=this.getConnection(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setInt(1, idCivilizacion);
+
+            try (ResultSet rs = pstmt.executeQuery()) {
+                while (rs.next()) {
+
+                    PersonaEnLista personaEnLista = new PersonaEnLista();
+
+                    personaEnLista.setIdPersona(rs.getInt("id_personas"));
+                    personaEnLista.setCivilizacion(civilizacion);
+                    personaEnLista.setGenero(rs.getString("genero"));
+                    personaEnLista.setAlimentoDia(rs.getInt("alimento_dia"));
+                    personaEnLista.setMoral(rs.getInt("moral"));
+                    personaEnLista.setFuerza(rs.getInt("fuerza"));
+                    personaEnLista.setProduce(rs.getInt("produce"));
+                    personaEnLista.setAlimentado(rs.getBoolean("alimentado"));
+                    personaEnLista.setDaysAlive(rs.getInt("days_alive"));
+                    personaEnLista.setNombre(rs.getString("nombre"));
+                    personaEnLista.setProfesion(rs.getString("profesion"));
+
+                    listaPersonas.add(personaEnLista);
+                }
+            }
+        } catch (SQLException ex) {
+            throw new RuntimeException(ex);
+        }
+        return listaPersonas;
     }
 
     public void muertePorHambre(int idPersona){
