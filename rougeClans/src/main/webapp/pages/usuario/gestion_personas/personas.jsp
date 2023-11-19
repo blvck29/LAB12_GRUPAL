@@ -218,7 +218,7 @@
                                             <td><%=persona.getProduce()%></td>
                                             <td><%=persona.getProduce()%></td>
                                             <td>
-                                                <form action="#" method="POST">
+                                                <form action="game?action=edit_person&id=<%=persona.getIdPersona()%>" method="POST">
                                                     <button type="submit" class="btn war-btn"><ion-icon style="padding-top: 5px"  name="pencil"></ion-icon></button>
                                                 </form>
                                             </td>
