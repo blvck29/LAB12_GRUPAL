@@ -590,7 +590,7 @@ public class CivilizacionDao extends DaoBase{
 
     public Integer contarPersonasProfesionCivilizacion(int idCivilizacion, String profesion){ //cuenta la cantidad de personas por profesion
         Integer cantPersonas = 0;
-        String sql ="select count(id_personas) from personas where profesion=? and id_civilizacion = ?";
+        String sql ="select count(id_personas) from personas where muerto = 0 and profesion=? and id_civilizacion = ?";
         try (Connection conn = getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1,profesion);
@@ -610,7 +610,7 @@ public class CivilizacionDao extends DaoBase{
 
     public Integer obtenerFuerzaTotalProfesionCivilizacion(int idCivilizacion, String profesion){
         Integer cantFuerza = 0;
-        String sql ="select sum(fuerza) from personas where profesion=? and id_civilizacion = ?";
+        String sql ="select sum(fuerza) from personas where muerto = 0 and profesion=? and id_civilizacion = ?";
         try (Connection conn = getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1,profesion);
