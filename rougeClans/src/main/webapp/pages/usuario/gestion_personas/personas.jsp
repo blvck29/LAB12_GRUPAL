@@ -152,7 +152,7 @@
                     <div class="d-flex justify-content-between">
                         <div>
                             <div class="subtitle_card">Gestión de Personas</div>
-                            <div class="badge" style="font-size: 1.4rem">Cantidad: 11</div>
+                            <div class="badge" style="font-size: 1.4rem">Cantidad: <%=listaPersonas.size()%></div>
                         </div>
                         <div>
                             <button type="button" style="padding-top: 2px" class="btn btn-lg war-btn"><a href="game?action=create_person" class="text-white">Crear</a></button>
@@ -194,23 +194,23 @@
                                         <%int i=1; %>
                                         <% for (PersonaEnLista persona : listaPersonas) {%>
 
+                                        <% String genero = "";
+                                            switch (persona.getGenero()){
+                                                case "M":
+                                                    genero = "Masculino";
+                                                    break;
+                                                case "F":
+                                                    genero = "Femenino";
+                                                    break;
+                                                case "O":
+                                                    genero = "Otro";
+                                                    break;
+                                            }%>
+
                                         <tr>
                                             <td><%=i%></td>
                                             <td><%=persona.getNombre()%></td>
-                                            <td>
-                                                <% String genero = "";
-                                                    switch (persona.getGenero()){
-                                                    case "M":
-                                                        genero = "Masculino";
-                                                        break;
-                                                    case "F":
-                                                        genero = "Femenino";
-                                                        break;
-                                                    case "O":
-                                                        genero = "Otro";
-                                                        break;
-                                                }%>
-                                            </td>
+                                            <td><%=genero%></td>
                                             <td><%=persona.getAlimentoDia()%></td>
                                             <td><%=persona.getMoral()%></td>
                                             <td><%=persona.getDaysAlive()%> días</td>
