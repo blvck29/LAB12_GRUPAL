@@ -626,7 +626,7 @@ public class CivilizacionDao extends DaoBase{
 
     }
 
-    public Integer obtenerFuerzaTotalProfesionCivilizacion(int idCivilizacion, String profesion){
+    public Integer obtenerFuerzaTotalProfesionCivilizacion(int idCivilizacion, String profesion){ //se valido que las personas estan vivas
         Integer cantFuerza = 0;
         String sql ="select sum(fuerza) from personas where profesion=? and id_civilizacion = ? and muerto = 0";
         try (Connection conn = getConnection();
