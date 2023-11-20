@@ -2,6 +2,7 @@ package com.game.rougeclans.model.daos;
 
 import com.game.rougeclans.model.SHA256;
 import com.game.rougeclans.model.beans.Civilizacion;
+import com.game.rougeclans.model.beans.Guerra;
 import com.game.rougeclans.model.beans.Jugador;
 import com.game.rougeclans.model.beans.Persona;
 
@@ -205,8 +206,17 @@ public class CivilizacionDao extends DaoBase{
             }
 
             //actualizar alimentado a 0
-            String sql1 = "update personas set alimentado = 0 where id_civilizacion = ?";
+            String sql1 = "update personas set alimentado = 0 where id_civilizacion = ? and muerto = 0";
             try(Connection conn=getConnection(); PreparedStatement pstmt= conn.prepareStatement(sql1)){
+                pstmt.setInt(1,idCivilizacion);
+                pstmt.executeUpdate();
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+
+            //actualizar los días de las personas
+            String sql3 = "update personas set days_alive = days_alive + 1 where id_civilizacion = ? and muerto = 0";
+            try(Connection conn=getConnection(); PreparedStatement pstmt= conn.prepareStatement(sql3)){
                 pstmt.setInt(1,idCivilizacion);
                 pstmt.executeUpdate();
             } catch (SQLException e) {
@@ -300,7 +310,7 @@ public class CivilizacionDao extends DaoBase{
 
         int fuerza = 0;
 
-        String sql = "select sum(fuerza) from personas where id_civilizacion = ? and profesion = ?";
+        String sql = "select sum(fuerza) from personas where id_civilizacion = ? and profesion = ? and muerto = 0";
         try (Connection conn=this.getConnection(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setInt(1, idCivilizacion);
             pstmt.setString(2,"Soldado");
@@ -318,7 +328,7 @@ public class CivilizacionDao extends DaoBase{
 
         int fuerza = 0;
 
-        String sql = "select sum(fuerza) from personas where id_civilizacion = ?";
+        String sql = "select sum(fuerza) from personas where id_civilizacion = ? and muerto = 0";
         try (Connection conn=this.getConnection(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setInt(1, idCivilizacion);
             try (ResultSet rs = pstmt.executeQuery()) {
@@ -343,17 +353,18 @@ public class CivilizacionDao extends DaoBase{
                 idPersonasVivas.add(id);
             }
         }
-        int moralParcial = moralTotal/idPersonasVivas.size();
-        String sql = "update personas set moral = moral + ? where id_civilizacion = ?";
-        try(Connection conn=this.getConnection(); PreparedStatement pstmt= conn.prepareStatement(sql)){
-            pstmt.setInt(1, moralParcial);
-            pstmt.setInt(2,idCivilizacion);
+        if(!idPersonasVivas.isEmpty()){
+            int moralParcial = moralTotal/idPersonasVivas.size();
+            String sql = "update personas set moral = moral + ? where id_civilizacion = ? and muerto = 0";
+            try(Connection conn=this.getConnection(); PreparedStatement pstmt= conn.prepareStatement(sql)){
+                pstmt.setInt(1, moralParcial);
+                pstmt.setInt(2,idCivilizacion);
 
-            pstmt.executeUpdate();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
+                pstmt.executeUpdate();
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
         }
-
     }
 
     public int obtenerProduccionMoralCivilizacion(int idCivilizacion){
@@ -361,7 +372,7 @@ public class CivilizacionDao extends DaoBase{
     }
     public int obtenerProduccionConstructor(int idCivilizacion){
 
-        String sql = "select sum(produce) from personas where profesion = ? and id_civilizacion = ?";
+        String sql = "select sum(produce) from personas where profesion = ? and id_civilizacion = ? and muerto = 0";
         try (Connection conn=this.getConnection(); PreparedStatement pstmt= conn.prepareStatement(sql)) {
             pstmt.setString(1,"Constructor");
             pstmt.setInt(2,idCivilizacion);
@@ -379,7 +390,7 @@ public class CivilizacionDao extends DaoBase{
     }
     public int obtenerProduccionSoldado(int idCivilizacion){
 
-        String sql = "select sum(produce) from personas where profesion = ? and id_civilizacion = ?";
+        String sql = "select sum(produce) from personas where profesion = ? and id_civilizacion = ? and muerto = 0";
         try (Connection conn=this.getConnection(); PreparedStatement pstmt= conn.prepareStatement(sql)) {
             pstmt.setString(1,"Soldado");
             pstmt.setInt(2,idCivilizacion);
@@ -405,14 +416,17 @@ public class CivilizacionDao extends DaoBase{
             ArrayList<Integer> idsVivos = new ArrayList<>();
             for(Integer id:idsPersonas){
                 if(!(personaDao.obtenerPersona(id).isMuerto())){
+                    System.out.println(personaDao.obtenerPersona(id).isMuerto());
                     idsVivos.add(id);
                 }
             }
             for(Integer idP:idsVivos){
                 Integer moralP = personaDao.obtenerMoral(idP);
-                String sql = "update personas set moral = moral - ? where id_personas = ?";
+                String sql = "update personas set moral = moral - ? where id_personas = ? and muerto = 0";
                 try(Connection conn=this.getConnection(); PreparedStatement pstmt= conn.prepareStatement(sql)){
                     pstmt.setInt(1, (int) Math.ceil((moralP*0.5)));//reduce en 50% la moral a cada uno
+                    System.out.println(moralP);
+                    System.out.println((int) Math.ceil((moralP*0.5)));
                     pstmt.setInt(2,idCivilizacion);
                     pstmt.executeUpdate();
                 } catch (SQLException e) {
@@ -430,7 +444,7 @@ public class CivilizacionDao extends DaoBase{
 
         int cant = 0;
 
-        String sql = "select count(id_personas) as cantPoblacion from personas where id_civilizacion = ?";
+        String sql = "select count(id_personas) as cantPoblacion from personas where id_civilizacion = ? and muerto = 0";
 
         try (Connection conn=this.getConnection(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setInt(1, idCivilizacion);
@@ -464,7 +478,7 @@ public class CivilizacionDao extends DaoBase{
 
                         A = produccionAlimento(idCivilizacion);
 
-                        String sql = "select sum(produce) from personas where profesion = ? and id_civilizacion = ?";
+                        String sql = "select sum(produce) from personas where profesion = ? and id_civilizacion = ? and muerto = 0";
                         try (Connection conn=this.getConnection(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
                             pstmt.setString(1, "Granjero");
                             pstmt.setInt(2, guerraDao.obtenerGuerra(idG).getCivilizacionDefensora().getIdCivilizacion());
@@ -486,7 +500,7 @@ public class CivilizacionDao extends DaoBase{
         }
     }
     public int produccionAlimento(int idCivilizacion){
-        String sql = "select sum(produce) from personas where profesion = ? and id_civilizacion = ?";
+        String sql = "select sum(produce) from personas where profesion = ? and id_civilizacion = ? and muerto = 0";
 
         //String sql = "select sum(moral) from personas where id_civilizacion = ?";
         try (Connection conn=this.getConnection(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -504,7 +518,7 @@ public class CivilizacionDao extends DaoBase{
     }
     public int obtenerMoralTotalCivilizacion(int idCivilizacion){
 
-        String sql = "select sum(moral) from personas where id_civilizacion = ?";
+        String sql = "select sum(moral) from personas where id_civilizacion = ? and muerto = 0";
         try (Connection conn=this.getConnection(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setInt(1,idCivilizacion);
             try (ResultSet rs = pstmt.executeQuery()) {
@@ -522,7 +536,7 @@ public class CivilizacionDao extends DaoBase{
 
         int cant = 0;
 
-        String sql = "select * from personas where id_civilizacion = ? order by days_alive desc limit 1;";
+        String sql = "select * from personas where id_civilizacion = ? and muerto = 0 order by days_alive desc limit 1;";
         try (Connection conn=this.getConnection(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setInt(1, civilizacion.getIdCivilizacion());
             try (ResultSet rs = pstmt.executeQuery()) {
@@ -561,26 +575,30 @@ public class CivilizacionDao extends DaoBase{
         return diaMax;
     }
     public Integer fuerzaTotalConstructor(int idCivilizacion){
-        String sql = "select sum(fuerza) from personas where profesion ='Constructor' and id_civilizacion = ?";
+        String sql = "select sum(fuerza) from personas where profesion ='Constructor' and id_civilizacion = ? and muerto = 0";
         try (Connection conn=this.getConnection(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setInt(1, idCivilizacion);
             try (ResultSet rs = pstmt.executeQuery()) {
-                return rs.getInt(1);
+                if(rs.next()){
+                return rs.getInt(1);}
             }
         } catch (SQLException ex) {
             throw new RuntimeException(ex);
         }
+        return 0;
     }
     public Integer fuerzaTotalSoldado(int idCivilizacion){
-        String sql = "select sum(fuerza) from personas where profesion ='Soldado' and id_civilizacion = ?";
+        String sql = "select sum(fuerza) from personas where profesion ='Soldado' and id_civilizacion = ? and muerto = 0";
         try (Connection conn=this.getConnection(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setInt(1, idCivilizacion);
             try (ResultSet rs = pstmt.executeQuery()) {
-                return rs.getInt(1);
+                if(rs.next()){
+                    return rs.getInt(1);}
             }
         } catch (SQLException ex) {
             throw new RuntimeException(ex);
         }
+        return 0;
     }
 
 
@@ -590,7 +608,7 @@ public class CivilizacionDao extends DaoBase{
 
     public Integer contarPersonasProfesionCivilizacion(int idCivilizacion, String profesion){ //cuenta la cantidad de personas por profesion
         Integer cantPersonas = 0;
-        String sql ="select count(id_personas) from personas where muerto = 0 and profesion=? and id_civilizacion = ?";
+        String sql ="select count(id_personas) from personas where profesion=? and id_civilizacion = ? and muerto = 0";
         try (Connection conn = getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1,profesion);
@@ -610,7 +628,7 @@ public class CivilizacionDao extends DaoBase{
 
     public Integer obtenerFuerzaTotalProfesionCivilizacion(int idCivilizacion, String profesion){
         Integer cantFuerza = 0;
-        String sql ="select sum(fuerza) from personas where muerto = 0 and profesion=? and id_civilizacion = ?";
+        String sql ="select sum(fuerza) from personas where profesion=? and id_civilizacion = ? and muerto = 0";
         try (Connection conn = getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1,profesion);
@@ -625,6 +643,32 @@ public class CivilizacionDao extends DaoBase{
             throw new RuntimeException(e);
         }
         return cantFuerza;
+    }
+
+    public ArrayList<Persona> listarPersonasMuertasUltimoDia(int idCivilizacion){
+
+        ArrayList<Persona> lista= new ArrayList<>();
+        PersonaDao personaDao = new PersonaDao();
+        Civilizacion civilizacion= obtenerCivilizacion(idCivilizacion);
+
+        String sql = "select * from personas where id_civilizacion = ? and muerto = 1 and dia_muerte = ?;";
+        try (Connection conn = getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1,idCivilizacion);
+            pstmt.setInt(2,civilizacion.getDaysElapsed()-1); //Muertos del día anterior
+
+            try(ResultSet rs = pstmt.executeQuery()) {
+                while (rs.next()) {
+                    Persona persona = new Persona();
+                    persona = personaDao.obtenerPersona(rs.getInt("id_personas"));
+                    lista.add(persona);
+                }
+
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return lista;
     }
 
 }

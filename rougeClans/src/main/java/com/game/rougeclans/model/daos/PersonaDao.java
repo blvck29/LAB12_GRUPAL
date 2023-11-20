@@ -345,6 +345,39 @@ public class PersonaDao extends DaoBase{
         int moralExiliado = obtenerMoral(idPersona);
 
         String sql = "";
+
+
+        //Un update de moral a todas las personas que son de la misma civilizacion que el exiliado
+
+        sql = "update personas set moral = moral - ? where id_civilizacion = ? and id_personas != ?";
+
+        //Se obtiene un rango aleatorio entre 0 y moralExiliado/2
+        int reducMoral = randomNum(0, moralExiliado / 2);
+        try (Connection conn = this.getConnection(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setInt(1, reducMoral);
+            pstmt.setInt(2, idCivilizacion);
+            pstmt.setInt(3,idPersona);
+            pstmt.executeUpdate();
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+
+        //cambiar el estado a muerte de la persona si su moral llega a 0
+        int diaCivil = obtenerPersona(idPersona).getCivilizacion().getDaysElapsed();
+        sql = "update personas set muerto=1, motivoMuerte='Muerte por depresion', dia_muerte = ? where moral <= 0 and id_civilizacion = ?";
+        try (Connection conn = this.getConnection(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setInt(1,diaCivil);
+            pstmt.setInt(2, idCivilizacion);
+            pstmt.executeUpdate();
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
         //Aquí se exilia a la persona (elimina)
         sql = "DELETE FROM personas WHERE id_personas = ? and id_civilizacion = ?";
         try (Connection conn = this.getConnection(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -356,35 +389,9 @@ public class PersonaDao extends DaoBase{
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-
-        //Un update de moral a todas las personas que son de la misma civilizacion que el exiliado
-
-        sql = "update personas set moral = moral - ? where id_civilizacion = ?";
-
-        //Se obtiene un rango aleatorio entre 0 y moralExiliado/2
-        int reducMoral = randomNum(0, moralExiliado / 2);
-        try (Connection conn = this.getConnection(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
-
-            pstmt.setInt(1, reducMoral);
-            pstmt.setInt(2, idCivilizacion);
-            pstmt.executeUpdate();
-
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        //cambiar el estado a muerte de la persona si su moral llega a 0
-        int diaCivil = obtenerPersona(idPersona).getCivilizacion().getDaysElapsed();
-        sql = "update personas set muerto=1, motivoMuerte='Muerte por depresion', dia_muerte = ? where moral = 0 and id_civilizacion = ?";
-        try (Connection conn = this.getConnection(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
-
-            pstmt.setInt(1,diaCivil);
-            pstmt.setInt(2, idCivilizacion);
-            pstmt.executeUpdate();
-
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
     }
+
+
 
 
     //No hice cambio aquí
